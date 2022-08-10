@@ -8,6 +8,8 @@ fi
 #######################################################################################
 ##### ZSH CONFIGURATION #####
 #######################################################################################
+ME=$(whoami)
+
 
 # If you come from bash you might have to change your $PATH.
 # export PATH=$HOME/bin:/usr/local/bin:$PATH
@@ -19,7 +21,7 @@ export EDITOR=nano
 export LESS="-FXR"
 
 # Path to your oh-my-zsh installation.
-export ZSH="/Users/eric/.oh-my-zsh"
+export ZSH="/Users/$ME/.oh-my-zsh"
 
 # Set name of the theme to load --- if set to "random", it will
 # load a random theme each time oh-my-zsh is loaded, in which case,
@@ -53,7 +55,7 @@ source $ZSH/oh-my-zsh.sh
 #######################################################################################
 
 source <(cat ~/.on_load/*)
-source ~/.ixis-env
+source ~/.private-env
 
 # To customize prompt, run `p10k configure` or edit ~/.p10k.zsh.
 [[ ! -f ~/.p10k.zsh ]] || source ~/.p10k.zsh
