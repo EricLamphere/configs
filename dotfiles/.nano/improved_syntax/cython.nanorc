@@ -30,4 +30,4 @@ color cyan start=""""[^"]" end=""""" start="'''[^']" end="'''"
 color brightblue "#.*$"
 
 ## Trailing spaces
-color ,green "[[:space:]]+$"
+# color ,green "[[:space:]]+$"

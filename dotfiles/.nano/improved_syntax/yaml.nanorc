@@ -21,4 +21,4 @@ color brightwhite ":(\s|\t|$)"
 color brightblue "(^|[[:space:]])#.*$"
 
 # Trailing whitespace
-color ,red "[[:space:]]+$"
+# color ,red "[[:space:]]+$"

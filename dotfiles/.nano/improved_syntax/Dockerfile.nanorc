@@ -14,7 +14,7 @@ color brightmagenta "&&"
 icolor cyan "^[[:space:]]*#.*$"
 
 ## Blank space at EOL
-color ,green "[[:space:]]+$"
+# color ,green "[[:space:]]+$"
 
 ## Strings, single-quoted
 color brightwhite "'([^']|(\\'))*'" "%[qw]\{[^}]*\}" "%[qw]\([^)]*\)" "%[qw]<[^>]*>" "%[qw]\[[^]]*\]" "%[qw]\$[^$]*\$" "%[qw]\^[^^]*\^" "%[qw]![^!]*!"

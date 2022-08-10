@@ -19,4 +19,4 @@ color magenta "@param [a-zA-Z_][a-z0-9A-Z_]+"
 color magenta "@return"
 color magenta "@author.*"
 
-color ,green "[[:space:]]+$"
+# color ,green "[[:space:]]+$"

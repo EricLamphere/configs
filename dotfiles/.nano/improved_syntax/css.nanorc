@@ -10,4 +10,4 @@ color brightblue    start="\/\*" end="\*\/"
 color green         ";|:|\{|\}"
 
 ## Trailing spaces
-color ,green "[[:space:]]+$"
+# color ,green "[[:space:]]+$"

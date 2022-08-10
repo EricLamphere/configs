@@ -35,7 +35,7 @@ color brightgreen "[[:space:]]((end)?if|(end)?for|in|not|(end)?block)[[:space:]]
 color green start="<!--" end="-->"
 
 ## Trailing spaces
-color ,green "[[:space:]]+$"
+#color ,green "[[:space:]]+$"
 
 ## Reminders
 color brightwhite,yellow "(FIXME|TODO|XXX)"

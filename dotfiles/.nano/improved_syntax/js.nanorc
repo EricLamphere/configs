@@ -46,7 +46,7 @@ color brightcyan "L?`(\`|[^`])*`"
 color brightwhite,blue start="\$\{" end="\}"
 
 ## Trailing spaces
-color ,green "[[:space:]]+$"
+# color ,green "[[:space:]]+$"
 
 ## Escapes
 color red "\\[0-7][0-7]?[0-7]?|\\x[0-9a-fA-F]+|\\[bfnrt'"\?\\]"
