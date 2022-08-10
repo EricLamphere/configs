@@ -1,0 +1,15 @@
+bind M-, prevword main
+bind M-. nextword main
+
+include ~/.nano/improved_syntax/*.nanorc
+
+set tabsize 4
+set tabstospaces
+set autoindent
+set trimblanks
+# set linenumbers
+set constantshow
+set titlecolor white,gray
+set keycolor cyan
+set functioncolor gray
+set numbercolor gray

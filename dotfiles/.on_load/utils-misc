@@ -1,0 +1,73 @@
+
+### HELPERS ###
+
+# open finder to a specific candidate
+find_candidate() {
+  JOB_SHORT=$1
+  NAME=$2
+  
+  if [ $JOB_SHORT = "DA" ]; then
+    JOB="Data Analyst"
+  elif [ $JOB_SHORT = "DAE" ]; then
+    JOB="Data Analytics Engineer"
+  else 
+    exit "DAE and DA are the only supported positions right now"
+  fi
+  
+  echo "Opening finder to $LightBlue$JOB$Default candidate $LightBlue$NAME$Default"
+  
+  cd ~
+  open "IXIS/Hiring/$JOB/Code Challenges/$NAME"
+}
+
+
+
+ropen() {
+    PROJ=$1
+    FILE=$(find ~/Projects -type f -name "$PROJ.Rproj")
+    if [ -z $FILE ]; then
+        echo "$Red$PROJ.Rproj$Default not found"
+    else
+        echo "Opening $Cyan$FILE$Default" && open "$FILE"
+    fi
+}
+
+
+
+
+### ALIASES ###
+alias chrome="open -a 'Google Chrome'"
+alias youtube="open -a 'Google Chrome' --new --args --incognito 'https://www.youtube.com/'"
+alias finder="open -a Finder"
+alias rstudio="open -a RStudio"
+alias spotify="open -a Spotify"
+alias slack="open -a Slack"
+alias zoom="open -a zoom.us"
+alias c="clear"
+alias n="nano"
+
+
+
+
+
+### NOTES ###
+sync_notes() {
+  # curdir=$(pwd)
+
+  cd ~/vaults/notes
+  git add -A
+  git commit -m "syncing notes"
+  git push
+
+  # cd $curdir
+  cd -  
+}
+
+notes() {
+  cd ~/vaults/notes
+}
+
+todo() {
+  nano ~/vaults/notes/IXIS/TODO.md $@
+}
+

@@ -1,0 +1,8 @@
+### sls ###
+
+slsloadenv() {
+	rm ./.env
+	sls export-env  --seed true --stage $STAGE
+	export $(grep -v '^#' .env | xargs)
+}
+
