@@ -54,7 +54,7 @@ color brightyellow "https?://[^ )>]+"
 color yellow   "`[^`]*`|^ {12}[^-+*].*"
 
 # code blocks
-color yellow start="^```$" end="^```$"
+color yellow start="^```.*$" end="^```$"
 color yellow "^```$"
 
 # Trailing spaces
