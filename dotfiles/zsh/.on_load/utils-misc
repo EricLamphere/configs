@@ -25,7 +25,7 @@ find_candidate() {
 
 ropen() {
     PROJ=$1
-    FILE=$(find ~/Projects -type f -name "$PROJ.Rproj")
+    FILE=$(find ~/Projects -maxdepth 3 -type f -name "$PROJ.Rproj")
     if [ -z $FILE ]; then
         echo "$Red$PROJ.Rproj$Default not found"
     else
@@ -34,11 +34,32 @@ ropen() {
 }
 
 
+vsopen() {
+    PROJ=$1
+    FOLDER=$(find ~/Projects -maxdepth 2 -type d -name "$PROJ")
+    if [ -z $FOLDER ]; then
+        echo "$Red$PROJ$Default folder not found"
+    else
+        echo "Opening $Cyan$FOLDER$Default" && code "$FOLDER"
+    fi
+}
+
+
+
+dbt() {
+    if [ "$1" = "open" ]; then
+        cd ~/Projects/IXIS/ds-data-refinery/src/dbt/
+    else
+        command dbt "$@"
+    fi
+}
+
 
 
 ### ALIASES ###
 alias chrome="open -a 'Google Chrome'"
-alias youtube="open -a 'Google Chrome' --new --args --incognito 'https://www.youtube.com/'"
+alias tube="open -a 'Google Chrome' --new --args --incognito 'https://www.youtube.com/'"
+alias twitch="open -a 'Google Chrome' --new --args --incognito 'https://www.twitch.tv/'"
 alias finder="open -a Finder"
 alias rstudio="open -a RStudio"
 alias spotify="open -a Spotify"
@@ -72,3 +93,6 @@ todo() {
   nano ~/vaults/notes/IXIS/TODO.md $@
 }
 
+catodo() {
+  mdcat ~/vaults/notes/IXIS/TODO.md $@
+}

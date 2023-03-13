@@ -13,6 +13,8 @@ ME=$(whoami)
 
 # If you come from bash you might have to change your $PATH.
 # export PATH=$HOME/bin:/usr/local/bin:$PATH
+export PYTHON_PATH="/opt/homebrew/bin/python3.9"
+export PATH="$PATH:$PYTHON_PATH"
 
 export VISUAL=nano
 export EDITOR=nano
@@ -57,5 +59,12 @@ source $ZSH/oh-my-zsh.sh
 source <(cat ~/.on_load/*)
 source ~/.private-env
 
+### p10k
 # To customize prompt, run `p10k configure` or edit ~/.p10k.zsh.
 [[ ! -f ~/.p10k.zsh ]] || source ~/.p10k.zsh
+
+
+# don't show warning due to cat message below
+typeset -g POWERLEVEL9K_INSTANT_PROMPT=quiet
+# print out todo list
+catodo

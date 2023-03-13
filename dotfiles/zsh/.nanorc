@@ -13,3 +13,5 @@ set titlecolor white,gray
 set keycolor cyan
 set functioncolor gray
 set numbercolor gray
+set softwrap
+set cutfromcursor
