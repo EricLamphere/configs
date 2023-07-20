@@ -17,6 +17,11 @@ s3_list() {
 	aws s3 ls $full_path --recursive --human-readable --summarize
 }
 
+ecr_login() {
+    IMAGE=$1
+    aws ecr get-login-password --region us-east-1 | docker login --username AWS --password-stdin $IMAGE
+}
+
 # ssh into an EC2 R session with RStudio
 ssh.ec2.rstudio() {
 	EC2_DNS=$1

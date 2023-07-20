@@ -59,7 +59,8 @@ dbt() {
 ### ALIASES ###
 alias chrome="open -a 'Google Chrome'"
 alias tube="open -a 'Google Chrome' --new --args --incognito 'https://www.youtube.com/'"
-alias twitch="open -a 'Google Chrome' --new --args --incognito 'https://www.twitch.tv/'"
+alias twit="open -a 'Google Chrome' --new --args --incognito 'https://www.twitch.tv/'"
+alias kick="open -a 'Google Chrome' --new --args --incognito 'https://kick.com/'"
 alias finder="open -a Finder"
 alias rstudio="open -a RStudio"
 alias spotify="open -a Spotify"
@@ -80,6 +81,7 @@ sync_notes() {
   git add -A
   git commit -m "syncing notes"
   git push
+  git push personal
 
   # cd $curdir
   cd -  
@@ -90,9 +92,13 @@ notes() {
 }
 
 todo() {
-  nano ~/vaults/notes/IXIS/TODO.md $@
+  nano ~/vaults/notes/IXIS/Urgent\ TODO.md $@
 }
 
 catodo() {
-  mdcat ~/vaults/notes/IXIS/TODO.md $@
+    file=~/vaults/notes/IXIS/Urgent\ TODO.md
+
+    if grep -q "\\* \\[ \\]" $file; then
+        mdcat $file $@
+    fi  
 }

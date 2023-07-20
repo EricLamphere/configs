@@ -8,6 +8,12 @@ docker_debug_shell() {
     docker exec -it $CONTAINER_ID /bin/bash
 }
 
+docker_clean() {
+    docker kill $(docker ps -q)
+    docker container prune -f
+    docker image prune -f
+}
+
 
 # Run a fargate image locally
 # Need to run the following before this function will work
@@ -15,7 +21,7 @@ docker_debug_shell() {
 # docker-compose build <job name>
 fargatelocal() {
     RUN_IMAGE=$1
-
+    
     # echo "Pulling ${LightBlue}$RUN_IMAGE${White}"
     # docker pull $RUN_IMAGE
 
@@ -39,3 +45,24 @@ fargatelocal() {
 }
 
 
+fargatelocal_term() {
+    RUN_IMAGE=$1
+    shift
+
+    docker run -it --rm --entrypoint bash \
+        -v $HOME/.aws/:/home/rstudio/.aws/ \
+        -v $HOME/.aws/:/srv/shiny-server/.aws/ \
+        -v $HOME/.aws/:/home/shiny/.aws/ \
+        -v $HOME/.aws/:/home/.aws/ \
+        -e STAGE=$STAGE \
+        -e ACCESS=$ACCESS \
+        -e REGION=$REGION \
+        -e AWS_DEFAULT_REGION=$AWS_DEFAULT_REGION \
+        -e AWS_ACCOUNT_ID=$AWS_ACCOUNT_ID \
+        -e AWS_DEFAULT_PROFILE=$AWS_DEFAULT_PROFILE \
+        -e AWS_PROFILE=$AWS_PROFILE -e AWS_DEFAULT_REGION=$AWS_DEFAULT_REGION \
+        -e AWS_SDK_LOAD_CONFIG=$AWS_SDK_LOAD_CONFIG \
+        -e PASSWORD="1234" \
+        $@ \
+        $RUN_IMAGE
+}

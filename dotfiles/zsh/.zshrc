@@ -68,3 +68,4 @@ source ~/.private-env
 typeset -g POWERLEVEL9K_INSTANT_PROMPT=quiet
 # print out todo list
 catodo
+
