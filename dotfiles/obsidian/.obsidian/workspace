@@ -1,0 +1,113 @@
+{
+  "main": {
+    "id": "f1ca72239fc82801",
+    "type": "split",
+    "children": [
+      {
+        "id": "fcdb7b0db37dc5e9",
+        "type": "leaf",
+        "state": {
+          "type": "markdown",
+          "state": {
+            "file": "journal/2022/November/2022-11-15 Tue.md",
+            "mode": "source",
+            "source": false
+          }
+        }
+      }
+    ],
+    "direction": "vertical"
+  },
+  "left": {
+    "id": "a9cd594a9dfa8dff",
+    "type": "split",
+    "children": [
+      {
+        "id": "013352c0e7c2c96a",
+        "type": "tabs",
+        "children": [
+          {
+            "id": "3719046a0743896e",
+            "type": "leaf",
+            "state": {
+              "type": "file-explorer",
+              "state": {}
+            }
+          },
+          {
+            "id": "d47275d2b48f25e0",
+            "type": "leaf",
+            "state": {
+              "type": "search",
+              "state": {
+                "query": "",
+                "matchingCase": false,
+                "explainSearch": false,
+                "collapseAll": false,
+                "extraContext": false,
+                "sortOrder": "alphabetical"
+              }
+            }
+          }
+        ]
+      }
+    ],
+    "direction": "horizontal",
+    "width": 284.0036315917969
+  },
+  "right": {
+    "id": "3286ff195cbcba03",
+    "type": "split",
+    "children": [
+      {
+        "id": "98189cfdf2d6e616",
+        "type": "tabs",
+        "children": [
+          {
+            "id": "a804ccfabd66755a",
+            "type": "leaf",
+            "state": {
+              "type": "backlink",
+              "state": {
+                "file": "journal/2022/November/2022-11-15 Tue.md",
+                "collapseAll": false,
+                "extraContext": true,
+                "sortOrder": "alphabetical",
+                "showSearch": false,
+                "searchQuery": "",
+                "backlinkCollapsed": true,
+                "unlinkedCollapsed": true
+              }
+            }
+          },
+          {
+            "id": "ab8fdd0f55d8e329",
+            "type": "leaf",
+            "state": {
+              "type": "outline",
+              "state": {
+                "file": "journal/2022/November/2022-11-15 Tue.md"
+              }
+            }
+          }
+        ],
+        "currentTab": 1
+      }
+    ],
+    "direction": "horizontal",
+    "width": 242.92730712890625
+  },
+  "active": "fcdb7b0db37dc5e9",
+  "lastOpenFiles": [
+    "Projects/Atlas/Processes/ds_models Local Development.md",
+    "journal/2022/November/2022-11-14 Mon.md",
+    "Code/Software/Apache.md",
+    "journal/2022/July/2022-07-11.md",
+    "Code/Software/Databricks.md",
+    "journal/2022/August/2022-08-26 Fri.md",
+    "journal/2022/August/2022-08-25 Thu.md",
+    "journal/2022/August/2022-08-23 Tue.md",
+    "journal/2022/August/2022-08-22 Mon.md",
+    "journal/2022/August/2022-08-16 Tue.md"
+  ]
+}

@@ -1,0 +1,13 @@
+{
+  "baseFontSize": 14,
+  "cssTheme": "Blue Topaz",
+  "translucency": false,
+  "theme": "obsidian",
+  "enabledCssSnippets": [
+    "set-font",
+    "font"
+  ],
+  "accentColor": "",
+  "interfaceFontFamily": "Arial",
+  "textFontFamily": "Inter"
+}

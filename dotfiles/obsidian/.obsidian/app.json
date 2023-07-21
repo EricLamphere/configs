@@ -1,0 +1,19 @@
+{
+  "legacyEditor": false,
+  "readableLineLength": false,
+  "lineWrap": true,
+  "tabSize": 4,
+  "foldHeading": true,
+  "foldIndent": true,
+  "spellcheck": true,
+  "autoPairMarkdown": false,
+  "promptDelete": false,
+  "showUnsupportedFiles": true,
+  "attachmentFolderPath": "obsidian/figures",
+  "alwaysUpdateLinks": true,
+  "showLineNumber": true,
+  "communityThemeSortOrder": "download",
+  "fileSortOrder": "alphabetical",
+  "newFileLocation": "current",
+  "useMarkdownLinks": false
+}
