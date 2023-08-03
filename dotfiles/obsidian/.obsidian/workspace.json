@@ -46,6 +46,14 @@
               },
               "pinned": true
             }
+          },
+          {
+            "id": "4811f694d6588792",
+            "type": "leaf",
+            "state": {
+              "type": "empty",
+              "state": {}
+            }
           }
         ],
         "currentTab": 2
@@ -191,6 +199,10 @@
   },
   "active": "e03c468db74807f8",
   "lastOpenFiles": [
+    "configs/git/gitignore_global",
+    "configs/git/gitconfig",
+    "configs/git",
+    "configs/nano",
     "IXIS/Kanban.md",
     "IXIS/Release.md",
     "journal/2023/07 - July/2023-07-20 Thu.md",
@@ -218,8 +230,7 @@
     "journal/2023/04 - April/2023-04-24 Mon.md",
     "IXIS/Projects/Atlas/Permissions",
     "journal/2023/04 - April/2023-04-13 Thu.md",
-    "journal/2023/04 - April/2023-04-10 Mon.md",
-    "config",
+    "configs",
     "obsidian/figures/obsidian-app-icon.png",
     "obsidian/figures/iar_iperceptions_projects.png.png",
     "obsidian/figures/local-mail-screenshot.png",
@@ -227,9 +238,6 @@
     "2023/July",
     "2023/June",
     "2023",
-    "IXIS/Kanban Notes",
-    "IXIS/Ideas",
-    "journal/2023/07 - July",
-    "IXIS/Projects/Atlas/Airbyte"
+    "IXIS/Kanban Notes"
   ]
 }

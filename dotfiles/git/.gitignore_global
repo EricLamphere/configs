@@ -1,16 +1,2 @@
-[includeIf "gitdir:~/Personal/"]
-    path = ~/.gitconfig-personal
-[includeIf "gitdir:~/Projects/"]
-    path = ~/.gitconfig-work
-[includeIf "gitdir:~/vaults/"]
-    path = ~/.gitconfig-work
-[core]
-    excludesfile = /Users/eric/.gitignore_global
-[alias]
-	br = branch
-	ad = add
-	cm = commit -m
-	lg = log --graph --decorate --oneline --all
-	rb = rebase
-	st = status
-	sw = switch
+.DS_Store
+
