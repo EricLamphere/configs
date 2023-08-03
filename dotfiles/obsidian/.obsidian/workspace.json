@@ -34,18 +34,21 @@
             }
           },
           {
-            "id": "be4c1cb7c2543a37",
+            "id": "e03c468db74807f8",
             "type": "leaf",
+            "pinned": true,
             "state": {
               "type": "markdown",
               "state": {
-                "file": "journal/2023/04 - April/2023-04-24 Mon.md",
+                "file": "IXIS/Release.md",
                 "mode": "source",
                 "source": false
-              }
+              },
+              "pinned": true
             }
           }
-        ]
+        ],
+        "currentTab": 2
       }
     ],
     "direction": "vertical"
@@ -119,7 +122,7 @@
             "state": {
               "type": "backlink",
               "state": {
-                "file": "IXIS/Kanban.md",
+                "file": "IXIS/Release.md",
                 "collapseAll": false,
                 "extraContext": true,
                 "sortOrder": "alphabetical",
@@ -136,7 +139,7 @@
             "state": {
               "type": "outline",
               "state": {
-                "file": "IXIS/Kanban.md"
+                "file": "IXIS/Release.md"
               }
             }
           },
@@ -186,35 +189,37 @@
       "table-editor-obsidian:Advanced Tables Toolbar": false
     }
   },
-  "active": "8e0db7725fae49f9",
+  "active": "e03c468db74807f8",
   "lastOpenFiles": [
+    "IXIS/Kanban.md",
+    "IXIS/Release.md",
+    "journal/2023/07 - July/2023-07-20 Thu.md",
+    "journal/2023/07 - July/2023-07-21 Fri.md",
+    "journal/2023/07 - July/2023-07-22 Sat.md",
+    "journal/2023/07 - July/2023-07-24 Mon.md",
+    "journal/2023/07 - July/2023-07-25 Tue.md",
+    "IXIS/Urgent TODO.md",
+    "IXIS/Projects/Atlas/ixis_dsmodels.md",
+    "journal/2023/08 - August/2023-08-01 Tue.md",
+    "journal/2023/07 - July/2023-07-31 Mon.md",
+    "IXIS/Private/Meetings/Checkins/2023-07-24 - Erik.md",
+    "IXIS/Private/Meetings/Checkins/2023-06-21 - Kurt.md",
+    "IXIS/Private/Meetings/Checkins/2022-10-19 - Dani.md",
+    "journal/2023/07 - July/2023-07-28 Fri.md",
+    "journal/2023/08 - August",
+    "journal/2023/07 - July/2023-07-27 Thu.md",
+    "journal/2023/07 - July/2023-07-26 Wed.md",
+    "Code/General.md",
+    "IXIS/Kanban Notes/Epic level priorities we want to put in the mix for Q3 roadmapping (second week of July at the earliest).md",
+    "IXIS/Projects/Atlas/Airbyte/General.md",
+    "IXIS/Projects/Atlas/Airbyte/TSC Klaviyo.md",
+    "IXIS/Projects/Atlas/Airbyte/S3.md",
+    "IXIS/Projects/Atlas/Permissions/Atlas Permissions.md",
     "journal/2023/04 - April/2023-04-24 Mon.md",
+    "IXIS/Projects/Atlas/Permissions",
     "journal/2023/04 - April/2023-04-13 Thu.md",
     "journal/2023/04 - April/2023-04-10 Mon.md",
-    "journal/2023/04 - April/2023-04-03 Mon.md",
-    "journal/2022/11 - November/2022-11-30 Wed.md",
-    "journal/2022/11 - November/2022-11-28 Mon.md",
-    "journal/2022/11 - November/2022-11-22 Tue.md",
-    "journal/2022/11 - November/2022-11-21 Mon.md",
-    "journal/2022/11 - November/2022-11-16 Wed.md",
-    "journal/2022/11 - November/2022-11-15 Tue.md",
-    "journal/2022/11 - November/2022-11-02 Wed.md",
-    "journal/2022/11 - November/2022-11-14 Mon.md",
-    "journal/2022/10 - October/2022-10-12 Wed.md",
-    "journal/2022/10 - October/2022-10-10 Mon.md",
-    "IXIS/Kanban Notes/Epic level priorities we want to put in the mix for Q3 roadmapping (second week of July at the earliest).md",
-    "IXIS/Kanban.md",
-    "IXIS/Urgent TODO.md",
-    "journal/2023/07 - July/2023-07-22 Sat.md",
-    "IXIS/Kanban Notes/Approve Charlie's MR.md",
-    "IXIS/Trainings/DAE.md",
-    "README.md",
     "config",
-    "Code/General.md",
-    "Code/Software/dbt.md",
-    "Code/Software/AWS.md",
-    "Code/Software/Databricks.md",
-    "Code/Software/Apache.md",
     "obsidian/figures/obsidian-app-icon.png",
     "obsidian/figures/iar_iperceptions_projects.png.png",
     "obsidian/figures/local-mail-screenshot.png",
@@ -225,8 +230,6 @@
     "IXIS/Kanban Notes",
     "IXIS/Ideas",
     "journal/2023/07 - July",
-    "IXIS/Projects/Atlas/Airbyte",
-    "IXIS/Private/Meetings/Checkins",
-    "IXIS/Projects/Atlas/DIS"
+    "IXIS/Projects/Atlas/Airbyte"
   ]
 }

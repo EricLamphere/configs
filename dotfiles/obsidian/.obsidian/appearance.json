@@ -7,7 +7,7 @@
     "set-font",
     "font"
   ],
-  "accentColor": "",
+  "accentColor": "#00eeff",
   "interfaceFontFamily": "Arial",
   "textFontFamily": "Inter"
 }
