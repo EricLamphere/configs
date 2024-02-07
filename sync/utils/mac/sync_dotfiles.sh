@@ -1,6 +1,5 @@
 ### Script to sync all relevant dotfiles
-
-update_config_files() {
+update_config_files__personal() {
     echo "Syncing .on_load/ files"
     rm -rf ~/Personal/configs/dotfiles/zsh/.on_load/
     cp -r ~/.on_load/ ~/Personal/configs/dotfiles/zsh/.on_load/
@@ -34,7 +33,7 @@ update_config_files() {
 
 # Now cd into git repo and sync with git
 sync_dotfiles() {
-    update_config_files
+    update_config_files__personal
 
     cd ~/Personal/configs
 

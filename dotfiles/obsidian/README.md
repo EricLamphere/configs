@@ -60,7 +60,7 @@ Use Cron to automatically sync notes every night:
 ###############################################################
 
 # sync obsidian notes, dotfiles, and other configs at 5:00pm
-0 17 * * * ~/Personal/configs/sync/sync_mac.sh
+0 17 * * * source ~/Personal/configs/sync/sync_mac.sh
 ```
 
 - **You may need to give crontab access to your shell script**. Do so with `chmod +x <path to your sync_notes script>` 
