@@ -1,6 +1,6 @@
 
 
 setup_obsidian() {
-    mkdir -r ~/vaults/notes
-    cp -r ~/Personal/configs/dotfiles/obsidian/ ~/test_folder/
+    mkdir -p ~/vaults/notes
+    cp -r ~/Personal/configs/dotfiles/obsidian/ ~/vaults/notes/
 }
