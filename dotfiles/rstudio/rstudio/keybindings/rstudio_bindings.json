@@ -1,0 +1,9 @@
+{
+    "quartoRenderDocument": "Shift+Cmd+K",
+    "devtoolsLoadAll": "Shift+Cmd+L",
+    "executeCurrentChunk": "Shift+Cmd+Enter",
+    "runDocumentFromServerDotR": "Shift+Cmd+K",
+    "sourceActiveDocumentWithEcho": "",
+    "commentUncomment": "Cmd+/",
+    "restartR": "Shift+Cmd+R"
+}

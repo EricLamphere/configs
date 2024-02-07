@@ -8,3 +8,5 @@ To put all of the relevant files in this repo where they belong on a new machine
   * `git clone git@github.com:EricLamphere/configs.git`
   * `cd configs`
 * Run `source setup/setup_mac.sh`
+
+## TODO

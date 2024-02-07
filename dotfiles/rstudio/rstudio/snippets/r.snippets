@@ -1,0 +1,55 @@
+snippet ixtall
+	remotes::install_gitlab(paste0(Sys.getenv("GL_DS_PATH"), "${1:package}"))
+
+snippet gl_ds
+	`r paste(Sys.getenv("GL_DS_PATH"))`
+
+snippet desc
+	`r paste("# DESCRIPTION ####")`
+	`r paste("# -- Descrip: ${1:description}")`
+	`r paste("# -- Author:  Eric Lamphere (eric@ixisdigital.com)")`
+	`r paste("# -- Contrib: Eric Lamphere (eric@ixisdigital.com)")`
+	`r paste("# -- Created:", date())`
+	`r paste("# -- Jira:    ${2:TICKET-NUMBER}\n\n")`	
+	
+snippet mini_desc
+	`r paste("# Title:   ${1:title}")`
+	`r paste("# Descrip: ${2:description}")`
+
+snippet notes
+	`r paste("# Note: ")`
+	`r paste("### 1) ")`
+
+snippet todo
+	`r paste("# TODO: ")`
+
+snippet fixme
+	`r paste("# FIXME: ")`
+
+snippet ts
+	`r paste("#", date(), "------------------------------\n")`
+
+snippet shinyapp
+	library(shiny)
+	
+	ui <- fluidPage(
+	  ${0}
+	)
+	
+	server <- function(input, output, session) {
+	  
+	}
+	
+	shinyApp(ui, server)
+
+snippet shinymod
+	${1:name}_UI <- function(id) {
+	  ns <- NS(id)
+	  tagList(
+		${0}
+	  )
+	}
+	
+	${1:name} <- function(input, output, session) {
+	  
+	}

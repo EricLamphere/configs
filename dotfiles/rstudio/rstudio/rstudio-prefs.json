@@ -1,0 +1,53 @@
+{
+    "initial_working_directory": "~",
+    "editor_theme": "Cobalt",
+    "posix_terminal_shell": "zsh",
+    "python_type": "system",
+    "python_version": "3.11.4",
+    "python_path": "/opt/homebrew/bin/python3",
+    "default_project_location": "~/Projects/IXIS",
+    "show_hidden_files": true,
+    "save_workspace": "never",
+    "load_workspace": false,
+    "highlight_selected_line": true,
+    "highlight_r_function_calls": true,
+    "rainbow_parentheses": true,
+    "continue_comments_on_newline": true,
+    "source_with_echo": true,
+    "code_completion_characters": 2,
+    "jobs_tab_visibility": "shown",
+    "syntax_color_console": true,
+    "console_double_click_select": true,
+    "insert_native_pipe_operator": true,
+    "document_author": "Eric Lamphere",
+    "num_spaces_for_tab": 4,
+    "panes": {
+        "quadrants": [
+            "Source",
+            "Console",
+            "TabSet1",
+            "TabSet2"
+        ],
+        "tabSet1": [
+            "Environment",
+            "History",
+            "Connections",
+            "Build",
+            "VCS",
+            "Tutorial",
+            "Presentation"
+        ],
+        "tabSet2": [
+            "Files",
+            "Plots",
+            "Packages",
+            "Help",
+            "Viewer",
+            "Presentations"
+        ],
+        "hiddenTabSet": [],
+        "console_left_on_top": false,
+        "console_right_on_top": true,
+        "additional_source_columns": 0
+    }
+}

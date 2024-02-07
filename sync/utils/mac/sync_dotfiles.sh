@@ -11,8 +11,10 @@ update_config_files__personal() {
     echo "Syncing .gitconfig files"
     rm -f ~/Personal/configs/dotfiles/git/.gitconfig
     rm -f ~/Personal/configs/dotfiles/git/.gitconfig-personal
+    rm -f ~/Personal/configs/dotfiles/git/.gitconfig-work
     cp ~/.gitconfig ~/Personal/configs/dotfiles/git/.gitconfig
     cp ~/.gitconfig-personal ~/Personal/configs/dotfiles/git/.gitconfig-personal
+    cp ~/.gitconfig-work ~/Personal/configs/dotfiles/git/.gitconfig-work
 
     echo "Syncing .gitignore_global file"
     rm -f ~/Personal/configs/dotfiles/git/.gitignore_global
@@ -29,6 +31,10 @@ update_config_files__personal() {
     echo "Syncing .obsidian folder"
     rm -rf ~/Personal/configs/dotfiles/obsidian/.obsidian
     cp -r ~/vaults/notes/.obsidian ~/Personal/configs/dotfiles/obsidian/
+
+    echo "Syncing rstudio config folder"
+    rm -rf ~/Personal/configs/dotfiles/rstudio/rstudio
+    cp -r ~/.config/rstudio ~/Personal/configs/dotfiles/rstudio/rstudio
 }
 
 # Now cd into git repo and sync with git
