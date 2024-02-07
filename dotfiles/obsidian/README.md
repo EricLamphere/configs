@@ -78,15 +78,15 @@ sync_notes
 0 17 * * * ~/cron_scripts/sync_notes.sh
 
 # sync zsh config to obsidian notes at 4:50
-50 16 * * * ~/cron_scripts/sync_zsh_config.sh
+50 16 * * * ~/cron_scripts/sync_dotfiles.sh
 ```
 - **You may need to give crontab access to your shell script**. Do so with `chmod +x <path to your sync_notes script>` 
 	- If that doesn't work, try `chmod 4755 /usr/bin/crontab`
 - You can consult the [crontab guru](https://crontab.guru/) to sync notes whenever you need. Mine is set up to sync at 5:00pm every day
 - **Crontab Notes:** 
 	- Local cron jobs don't run while your machine is sleeping or off, so your notes will only sync when your machine is awake during the scheduled cron job
-	- When the cronjob runs (successfully or otherwise) you will receive mail to your local machines mail folder. You can access and read this mail with the `mail` command. You can step through your mail using the `return` key and quit out of mail by typing `q` then hitting `return` as shown below:
-![image|500](local-mail-screenshot.png)
+	- When the cronjob runs (successfully or otherwise) you will receive mail to your local machines mail folder. You can access and read this mail with the `mail` command. You can step through your mail using the `return` key and quit out of mail by typing `q` then hitting `return`
+
 
 ### 4) Realize the Greatness
 ---
