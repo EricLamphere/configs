@@ -11,5 +11,3 @@ sync_notes() {
 	cd $curdir
 }
 
-# git config --file ~/.gitconfig-work
-sync_notes
