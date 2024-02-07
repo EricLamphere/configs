@@ -38,21 +38,6 @@ Connect your Obsidian vault with Git:
 Use Cron to automatically sync notes every night:
 1. Install cron with `brew install cron`
 2. Create a shell script to sync your notes (see `sync/utils/mac/sync_notes.sh`)
-```sh
-sync_notes() {
-	curdir=$(pwd)
-	
-	cd ~/vaults/notes
-	git add -A
-	git commit -m "syncing notes"
-	git push
-	
-	cd $curdir
-}
-
-sync_notes
-```
-
 3. Use `crontab -e` to create a cronjob
 ```cron
 #--------------------------------------------------
@@ -74,7 +59,7 @@ sync_notes
 ##### CRON JOBS ####
 ###############################################################
 
-# sync obsidian notes to gitlab at 5:00
+# sync obsidian notes, dotfiles, and other configs at 5:00pm
 0 17 * * * ~/Personal/configs/sync/sync_mac.sh
 ```
 
