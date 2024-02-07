@@ -1,0 +1,3 @@
+# this file is sourced in ~/.zshrc
+# placeholder for non-personal, work related environment variables and configurations
+export WORK_CONFIG=~/.private-env

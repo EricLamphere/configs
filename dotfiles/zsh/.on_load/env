@@ -4,6 +4,8 @@
 
 ### PATHS ###
 # CDPATH=.:~:~/Projects
+export PYTHONPYCACHEPREFIX="$HOME/.cache/cpython/"
+
 
 ### COLORS ###
 export Default='\e[0m'
@@ -23,6 +25,8 @@ export Cyan='\033[0;36m'
 export LightCyan='\033[1;36m'
 export LightGray='\033[0;37m'
 export White='\033[1;37m'
+
+
 
 
 ### FUNCTIONS ###

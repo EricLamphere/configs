@@ -14,7 +14,7 @@ cb() {
 
 # list branches
 lb() {
-  git branch -al
+  git branch -a --list $@
 }
 
 # delete branch that still exists in origin

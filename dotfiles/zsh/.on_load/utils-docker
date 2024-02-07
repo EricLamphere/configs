@@ -17,7 +17,7 @@ docker_clean() {
 
 # Run a fargate image locally
 # Need to run the following before this function will work
-# aws ecr get-login-password --region us-east-1 | docker login --username AWS --password-stdin 042160483821.dkr.ecr.us-east-1.amazonaws.com
+# aws ecr get-login-password --region $REGION | docker login --username AWS --password-stdin ${AWS_ACCOUNT_ID}.dkr.ecr.${REGION}.amazonaws.com
 # docker-compose build <job name>
 fargatelocal() {
     RUN_IMAGE=$1

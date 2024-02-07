@@ -1,3 +1,5 @@
+#!/bin/bash
+
 build_with_pats() {
   PATH=$1
   NAME=$2
@@ -15,8 +17,8 @@ docker_aws() {
     # get args
     while getopts ":i:e:p:n:" opt; do
         case $opt in
-            i) IMAGE="$OPTARG"
-            ;;
+            # i) IMAGE="$OPTARG"
+            # ;;
             e) ENTRYPOINT="$OPTARG"
             ;;
             p) AWS_PATH="$OPTARG"
@@ -35,9 +37,11 @@ docker_aws() {
     done
 
     # fix args if not provided
-    if [[ -z "$IMAGE" ]]
-    then echo "No image provided"
-    fi
+    # if [[ -z "$IMAGE" ]]
+    # then echo "No image provided"
+    # fi
+    IMAGE = $1
+    echo $IMAGE
 
     if [[ -z "$ENTRYPOINT" ]]
     then ENTRYPOINT="sh"
@@ -62,3 +66,7 @@ docker_aws() {
         -e AWS_SDK_LOAD_CONFIG=$AWS_SDK_LOAD_CONFIG \
         -it $NAME_COMMAND $IMAGE
 }
+
+
+# declare -f docker_aws
+# declare -f build_with_pats

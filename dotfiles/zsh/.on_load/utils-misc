@@ -44,16 +44,24 @@ vsopen() {
     fi
 }
 
-
-
-dbt() {
-    if [ "$1" = "open" ]; then
-        cd ~/Projects/IXIS/ds-data-refinery/src/dbt/
-    else
-        command dbt "$@"
-    fi
+workspace() {
+    WS=$1
+    cd ~/Projects/IXIS/workspaces/
+    echo "Opening vscode workspace $Cyan$WS$Default"
+    open ${WS}.code-workspace
+    cd -
 }
 
+
+cwd() {
+    PROJ=$1
+    FOLDER=$(find ~/Projects -maxdepth 2 -type d -name "$PROJ")
+    if [ -z $FOLDER ]; then
+        echo "$Red$PROJ$Default folder not found"
+    else
+        echo "Changing working directory to  $Cyan$FOLDER$Default" && cd "$FOLDER"
+    fi
+}
 
 
 ### ALIASES ###
@@ -68,7 +76,7 @@ alias slack="open -a Slack"
 alias zoom="open -a zoom.us"
 alias c="clear"
 alias n="nano"
-
+alias rm-pycache='find ./Projects/ | grep -E "(/__pycache__$|\.pyc$|\.pyo$)" | xargs rm -rf'
 
 
 
@@ -78,6 +86,7 @@ sync_notes() {
   # curdir=$(pwd)
 
   cd ~/vaults/notes
+  git diff origin/main --name-status
   git add -A
   git commit -m "syncing notes"
   git push
