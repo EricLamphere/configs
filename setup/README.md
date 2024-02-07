@@ -10,3 +10,4 @@ To put all of the relevant files in this repo where they belong on a new machine
 * Run `source setup/setup_mac.sh`
 
 ## TODO
+* parameterize paths

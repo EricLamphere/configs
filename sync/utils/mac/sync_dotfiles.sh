@@ -30,7 +30,9 @@ update_config_files__personal() {
 
     echo "Syncing .obsidian folder"
     rm -rf ~/Personal/configs/dotfiles/obsidian/.obsidian
+    rm -f ~/Personal/configs/dotfiles/obsidian/.gitconfig
     cp -r ~/vaults/notes/.obsidian ~/Personal/configs/dotfiles/obsidian/
+    cp ~/vaults/notes/.gitconfig ~/Personal/configs/dotfiles/obsidian/
 
     echo "Syncing rstudio config folder"
     rm -rf ~/Personal/configs/dotfiles/rstudio/rstudio

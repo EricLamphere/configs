@@ -1,4 +1,4 @@
 
 setup_git() {
-    cp ${PERSONAL_CONFIGS_REPO_PATH}/* ~/
+    cp -r ~/Personal/configs/dotfiles/git/ ~/test_folder/
 }
