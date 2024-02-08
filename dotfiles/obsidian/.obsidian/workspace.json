@@ -48,31 +48,19 @@
             }
           },
           {
-            "id": "ca143fc446dd1a91",
+            "id": "5f69601bc9511a65",
             "type": "leaf",
             "state": {
               "type": "markdown",
               "state": {
-                "file": "journal/2024/02 - February/2024-02-07 Wed.md",
+                "file": "Code/General.md",
                 "mode": "source",
                 "source": false
               }
             }
-          },
-          {
-            "id": "27fb5f6dc544dcd5",
-            "type": "leaf",
-            "state": {
-              "type": "markdown",
-              "state": {
-                "file": "IXIS/Projects/Atlas/Repos/Metrics Database/Media Dash > Clickstream.md",
-                "mode": "source",
-                "source": true
-              }
-            }
           }
         ],
-        "currentTab": 2
+        "currentTab": 3
       }
     ],
     "direction": "vertical"
@@ -130,7 +118,7 @@
       }
     ],
     "direction": "horizontal",
-    "width": 241.50247192382812
+    "width": 293.5024719238281
   },
   "right": {
     "id": "3286ff195cbcba03",
@@ -146,7 +134,7 @@
             "state": {
               "type": "backlink",
               "state": {
-                "file": "IXIS/DAE Release.md",
+                "file": "Code/General.md",
                 "collapseAll": false,
                 "extraContext": true,
                 "sortOrder": "alphabetical",
@@ -163,7 +151,7 @@
             "state": {
               "type": "outline",
               "state": {
-                "file": "IXIS/DAE Release.md"
+                "file": "Code/General.md"
               }
             }
           },
@@ -213,19 +201,35 @@
       "table-editor-obsidian:Advanced Tables Toolbar": false
     }
   },
-  "active": "e03c468db74807f8",
+  "active": "5f69601bc9511a65",
   "lastOpenFiles": [
-    "IXIS/Projects/Atlas/Repos/Metrics Database/Media Dash > Clickstream.md",
-    "journal/2024/02 - February/2024-02-07 Wed.md",
+    "zzPersonal/zzAppointments.md",
+    "IXIS/Projects/Atlas/Lambda Tests.md",
+    "IXIS/Projects/Atlas/How-To/Develop a Shiny App for Atlas.md",
+    "IXIS/Projects/Atlas/Shiny/Posit Next-Steps.md",
+    "IXIS/Projects/Atlas/Shiny/Initial Architecture.md",
+    "IXIS/Projects/Atlas/Trainings/Gray Cross-Training.md",
+    "IXIS/Projects/Atlas/Trainings/ixis_dsmodels.md",
+    "IXIS/Projects/Atlas/Trainings/Middleware.md",
+    "IXIS/Projects/Atlas/Trainings/Serverless.md",
+    "IXIS/Projects/Atlas/Repos/DIS/JSON Processor.md",
+    "IXIS/Projects/Atlas/How-To/Grant Permissions in Atlas.md",
+    "IXIS/Projects/Atlas/How-To/Add A New Dataset.md",
+    "IXIS/Projects/Atlas/How-To/Airbyte/S3.md",
+    "IXIS/Projects/Atlas/How-To/Airbyte/General.md",
     "IXIS/DAE Release.md",
-    "IXIS/Kanban.md",
-    "IXIS/Urgent TODO.md",
-    "journal/2024/02 - February/2024-02-06 Tue.md",
-    "IXIS/Projects/Atlas/Repos/dsmodels/ixis_dsmodels.md",
-    "journal/2024/02 - February/2024-02-05 Mon.md",
-    "journal/2024/02 - February/2024-02-02 Fri.md",
+    "IXIS/Projects/Atlas/Airbyte/TSC GA.md",
+    "IXIS/Projects/Atlas/Airbyte/TSC Klaviyo.md",
+    "IXIS/Projects/AoA/How-To/Query Audi's Inventory Endpoint.md",
+    "IXIS/Projects/AoA/How-To/Update IAR Targets Data.md",
+    "journal/2024/02 - February/2024-02-08 Thu.md",
+    "IXIS/Projects/AoA/How-To",
+    "IXIS/Projects/AoA/Data Sources.md",
+    "IXIS/Projects/Atlas/Repos/Metrics Database/Media Dash > Clickstream.md",
     "journal/2024/02 - February/2024-02-01 Thu.md",
-    "journal/2024/02 - February/Untitled.md",
+    "journal/2024/01 - January/2024-01-29 Mon.md",
+    "journal/2024/01 - January/2024-01-26 Fri.md",
+    "journal/2024/01 - January/2024-01-25 Thu.md",
     "configs/nano/nano/improved_syntax/Dockerfile.nanorc",
     "configs/nano/nano/improved_syntax/java.nanorc",
     "configs/nano/nano/improved_syntax/json.nanorc",
@@ -233,26 +237,10 @@
     "configs/nano/nano/improved_syntax/yaml.nanorc",
     "configs/nano/nano/improved_syntax/zsh.nanorc",
     "configs/nano/nano/improved_syntax/csv.nanorc",
-    "configs/nano/nano/README.md",
     "journal/2024/02 - February",
-    "obsidian/templates/Notes/Release.md",
-    "journal/2024/01 - January/2024-01-29 Mon.md",
-    "journal/2024/01 - January/2024-01-26 Fri.md",
-    "journal/2024/01 - January/2024-01-24 Wed.md",
-    "journal/2024/01 - January/2024-01-25 Thu.md",
-    "journal/2024/01 - January/2024-01-17 Wed.md",
     "obsidian/figures/Pasted image 20240117160432.png",
     "obsidian/figures/Pasted image 20240117155055.png",
-    "journal/2024/01 - January/2024-01-16 Tue.md",
-    "journal/2024/01 - January/2024-01-15 Mon.md",
-    "IXIS/Projects/Atlas/Shiny/Posit Next-Steps.md",
-    "journal/2024/01 - January/2024-01-12 Fri.md",
-    "journal/2024/01 - January/2024-01-10 Wed.md",
-    "journal/2024/01 - January/2024-01-09 Tue.md",
-    "journal/2024/01 - January/2024-01-08 Mon.md",
-    "IXIS/Projects/Atlas/Shiny/Initial Architecture.md",
     "IXIS/Projects/Atlas/Shiny",
-    "journal/2024/01 - January",
     "obsidian/figures/Pasted image 20231129132829.png",
     "obsidian/figures/obsidian-app-icon.png",
     "obsidian/figures/iar_iperceptions_projects.png.png",
