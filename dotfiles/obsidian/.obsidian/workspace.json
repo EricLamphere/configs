@@ -53,7 +53,7 @@
             "state": {
               "type": "markdown",
               "state": {
-                "file": "journal/2024/02 - February/2024-02-12 Mon.md",
+                "file": "README.md",
                 "mode": "source",
                 "source": false
               }
@@ -134,7 +134,7 @@
             "state": {
               "type": "backlink",
               "state": {
-                "file": "journal/2024/02 - February/2024-02-12 Mon.md",
+                "file": "README.md",
                 "collapseAll": false,
                 "extraContext": true,
                 "sortOrder": "alphabetical",
@@ -151,7 +151,7 @@
             "state": {
               "type": "outline",
               "state": {
-                "file": "journal/2024/02 - February/2024-02-12 Mon.md"
+                "file": "README.md"
               }
             }
           },
@@ -203,8 +203,8 @@
   },
   "active": "f323db1891cfb797",
   "lastOpenFiles": [
-    "journal/2024/02 - February/2024-02-09 Fri.md",
     "journal/2024/02 - February/2024-02-12 Mon.md",
+    "journal/2024/02 - February/2024-02-09 Fri.md",
     "IXIS/DAE Release.md",
     "journal/2024/02 - February/2024-02-07 Wed.md",
     "journal/2024/02 - February/2024-02-08 Thu.md",

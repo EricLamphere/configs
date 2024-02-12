@@ -24,3 +24,5 @@
 	ui = auto
 [branch]
 	sort = -committerdate
+[push]
+	default = current
