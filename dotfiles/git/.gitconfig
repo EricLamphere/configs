@@ -8,9 +8,19 @@
     excludesfile = /Users/eric/.gitignore_global
 [alias]
 	br = branch
-	ad = add
-	cm = commit -m
-	lg = log --graph --decorate --oneline --all
-	rb = rebase
 	st = status
 	sw = switch
+	ad = add
+	add = add -A
+	cm = commit -m
+	lg = log --graph --decorate --oneline --all
+	lb = branch -a --list
+	reb = rebase
+	dif = diff --name-status
+	stash = stash --all
+	pruneremote = remote prune origin
+	pullnoreb = pull --no-rebase
+[column]
+	ui = auto
+[branch]
+	sort = -committerdate

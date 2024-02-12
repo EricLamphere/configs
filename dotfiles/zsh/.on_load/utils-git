@@ -7,16 +7,6 @@ parse_git_branch() {
     git branch 2> /dev/null | sed -n -e 's/^\* \(.*\)/\1/p'
 }
 
-# change branch 
-cb() {
-  git switch $1
-}
-
-# list branches
-lb() {
-  git branch -a --list $@
-}
-
 # delete branch that still exists in origin
 db() {
   git branch -D $1
@@ -28,12 +18,6 @@ pb() {
   git branch -D $1
   git remote prune origin
 }
-
-
-# open browser to specific branch
-#gitopen() {
-#  git open -s $(git branch --show-current)
-#}
 
 
 # git newb - create a new branch and push it to origin
