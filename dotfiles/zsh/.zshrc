@@ -56,7 +56,7 @@ source $ZSH/oh-my-zsh.sh
 ##### SOURCE UTIL CONFIG FILES #####
 #######################################################################################
 
-source <(cat ~/.on_load/*)
+source <(cat ~/.on_load/utils-*)
 source ~/.private-env
 
 ### p10k

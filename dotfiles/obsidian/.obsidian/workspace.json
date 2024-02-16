@@ -48,12 +48,24 @@
             }
           },
           {
-            "id": "f323db1891cfb797",
+            "id": "5371f47f90c0c9e7",
             "type": "leaf",
             "state": {
               "type": "markdown",
               "state": {
-                "file": "README.md",
+                "file": "journal/2024/02 - February/2024-02-16 Fri.md",
+                "mode": "source",
+                "source": false
+              }
+            }
+          },
+          {
+            "id": "dddda65113c04054",
+            "type": "leaf",
+            "state": {
+              "type": "markdown",
+              "state": {
+                "file": "IXIS/Projects/Atlas/Repos/dsmodels/ixis_dsmodels.md",
                 "mode": "source",
                 "source": false
               }
@@ -134,7 +146,7 @@
             "state": {
               "type": "backlink",
               "state": {
-                "file": "README.md",
+                "file": "journal/2024/02 - February/2024-02-16 Fri.md",
                 "collapseAll": false,
                 "extraContext": true,
                 "sortOrder": "alphabetical",
@@ -151,7 +163,7 @@
             "state": {
               "type": "outline",
               "state": {
-                "file": "README.md"
+                "file": "journal/2024/02 - February/2024-02-16 Fri.md"
               }
             }
           },
@@ -201,11 +213,18 @@
       "table-editor-obsidian:Advanced Tables Toolbar": false
     }
   },
-  "active": "f323db1891cfb797",
+  "active": "5371f47f90c0c9e7",
   "lastOpenFiles": [
-    "journal/2024/02 - February/2024-02-12 Mon.md",
-    "journal/2024/02 - February/2024-02-09 Fri.md",
+    "journal/2024/02 - February/2024-02-14 Wed.md",
+    "journal/2024/02 - February/2024-02-16 Fri.md",
+    "IXIS/Projects/Atlas/Repos/dsmodels/ixis_dsmodels.md",
     "IXIS/DAE Release.md",
+    "IXIS/Urgent TODO.md",
+    "IXIS/Kanban.md",
+    "journal/2024/02 - February/2024-02-13 Tue.md",
+    "journal/2024/02 - February/2024-02-12 Mon.md",
+    "README.md",
+    "journal/2024/02 - February/2024-02-09 Fri.md",
     "journal/2024/02 - February/2024-02-07 Wed.md",
     "journal/2024/02 - February/2024-02-08 Thu.md",
     "Code/General.md",
@@ -222,14 +241,7 @@
     "IXIS/Projects/Atlas/How-To/Grant Permissions in Atlas.md",
     "IXIS/Projects/Atlas/How-To/Add A New Dataset.md",
     "IXIS/Projects/Atlas/How-To/Airbyte/S3.md",
-    "IXIS/Projects/Atlas/How-To/Airbyte/General.md",
-    "IXIS/Projects/Atlas/Airbyte/TSC GA.md",
-    "IXIS/Projects/Atlas/Airbyte/TSC Klaviyo.md",
-    "IXIS/Projects/AoA/How-To/Query Audi's Inventory Endpoint.md",
-    "IXIS/Projects/AoA/How-To/Update IAR Targets Data.md",
     "IXIS/Projects/AoA/How-To",
-    "IXIS/Projects/AoA/Data Sources.md",
-    "IXIS/Projects/Atlas/Repos/Metrics Database/Media Dash > Clickstream.md",
     "configs/nano/nano/improved_syntax/Dockerfile.nanorc",
     "configs/nano/nano/improved_syntax/java.nanorc",
     "configs/nano/nano/improved_syntax/json.nanorc",

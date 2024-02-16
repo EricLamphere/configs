@@ -7,27 +7,34 @@ parse_git_branch() {
     git branch 2> /dev/null | sed -n -e 's/^\* \(.*\)/\1/p'
 }
 
+
+
+
+
+
+
+#### ALL BELOW MOVED TO ~/.gitconfig ####
 # delete branch that still exists in origin
-db() {
-  git branch -D $1
-  git push origin --delete $1
-}
+#db() {
+#  git branch -D $1
+#  git push origin --delete $1
+#}
 
 # prune branch that's already deleted from origin
-pb() {
-  git branch -D $1
-  git remote prune origin
-}
+#pb() {
+#  git branch -D $1
+#  git remote prune origin
+#}
 
 
 # git newb - create a new branch and push it to origin
-git() {
-    if [ "$1" = "newb" ]; then
-        shift # eat the 'newb'
-        git switch -c $1 && git push --set-upstream origin $1
-    else 
-        command git "$@"
-    fi
-}
+#git() {
+#    if [ "$1" = "newb" ]; then
+#        shift # eat the 'newb'
+#        git switch -c $1 && git push --set-upstream origin $1
+#    else 
+#        command git "$@"
+#    fi
+#}
 
 
