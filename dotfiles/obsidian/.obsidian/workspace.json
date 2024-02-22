@@ -48,19 +48,19 @@
             }
           },
           {
-            "id": "5371f47f90c0c9e7",
+            "id": "b351a3a79fb4cde5",
             "type": "leaf",
             "state": {
               "type": "markdown",
               "state": {
-                "file": "journal/2024/02 - February/2024-02-20 Tue.md",
+                "file": "journal/2024/02 - February/2024-02-22 Thu.md",
                 "mode": "source",
                 "source": false
               }
             }
           }
         ],
-        "currentTab": 3
+        "currentTab": 2
       }
     ],
     "direction": "vertical"
@@ -89,7 +89,7 @@
             "state": {
               "type": "search",
               "state": {
-                "query": "dataset sync",
+                "query": "",
                 "matchingCase": false,
                 "explainSearch": false,
                 "collapseAll": false,
@@ -114,8 +114,7 @@
               "state": {}
             }
           }
-        ],
-        "currentTab": 1
+        ]
       }
     ],
     "direction": "horizontal",
@@ -135,7 +134,7 @@
             "state": {
               "type": "backlink",
               "state": {
-                "file": "journal/2024/02 - February/2024-02-20 Tue.md",
+                "file": "IXIS/DAE Release.md",
                 "collapseAll": false,
                 "extraContext": true,
                 "sortOrder": "alphabetical",
@@ -152,7 +151,7 @@
             "state": {
               "type": "outline",
               "state": {
-                "file": "journal/2024/02 - February/2024-02-20 Tue.md"
+                "file": "IXIS/DAE Release.md"
               }
             }
           },
@@ -202,14 +201,19 @@
       "table-editor-obsidian:Advanced Tables Toolbar": false
     }
   },
-  "active": "d47275d2b48f25e0",
+  "active": "e03c468db74807f8",
   "lastOpenFiles": [
-    "journal/2024/02 - February/2024-02-19 Mon.md",
-    "journal/2024/02 - February/2024-02-20 Tue.md",
+    "journal/2024/02 - February/2024-02-22 Thu.md",
     "IXIS/DAE Release.md",
+    "journal/2024/02 - February/2024-02-21 Wed.md",
+    "journal/2024/02 - February/2024-02-20 Tue.md",
+    "journal/2024/02 - February/2024-02-19 Mon.md",
+    "IXIS/Kanban.md",
+    "journal/2022/08 - August/2022-08-01.md",
+    "Code/Snippets/dbt.md",
+    "journal/2023/10 - October/Untitled.md",
     "journal/2024/02 - February/2024-02-16 Fri.md",
     "IXIS/Urgent TODO.md",
-    "IXIS/Kanban.md",
     "IXIS/Projects/Atlas/Repos/dsmodels/ixis_dsmodels.md",
     "journal/2024/02 - February/2024-02-14 Wed.md",
     "journal/2024/02 - February/2024-02-13 Tue.md",
@@ -225,11 +229,6 @@
     "IXIS/Projects/Atlas/Shiny/Posit Next-Steps.md",
     "IXIS/Projects/Atlas/Shiny/Initial Architecture.md",
     "IXIS/Projects/Atlas/Trainings/Gray Cross-Training.md",
-    "IXIS/Projects/Atlas/Trainings/ixis_dsmodels.md",
-    "IXIS/Projects/Atlas/Trainings/Middleware.md",
-    "IXIS/Projects/Atlas/Trainings/Serverless.md",
-    "IXIS/Projects/Atlas/Repos/DIS/JSON Processor.md",
-    "IXIS/Projects/Atlas/How-To/Grant Permissions in Atlas.md",
     "IXIS/Projects/AoA/How-To",
     "configs/nano/nano/improved_syntax/Dockerfile.nanorc",
     "configs/nano/nano/improved_syntax/java.nanorc",
