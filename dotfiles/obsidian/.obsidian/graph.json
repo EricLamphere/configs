@@ -8,25 +8,39 @@
   "collapse-color-groups": false,
   "colorGroups": [
     {
-      "query": "tag:#TODO",
+      "query": "tag:#todo  ",
       "color": {
         "a": 1,
-        "rgb": 16711680
+        "rgb": 5436415
       }
     },
     {
-      "query": "path:journal",
+      "query": "tag:#in_progress  ",
       "color": {
         "a": 1,
-        "rgb": 54783
+        "rgb": 14725458
+      }
+    },
+    {
+      "query": "tag:#data_issue  ",
+      "color": {
+        "a": 1,
+        "rgb": 14701138
+      }
+    },
+    {
+      "query": "tag:#vulnerability  ",
+      "color": {
+        "a": 1,
+        "rgb": 13193952
       }
     }
   ],
   "collapse-display": true,
-  "showArrow": true,
+  "showArrow": false,
   "textFadeMultiplier": 0,
-  "nodeSizeMultiplier": 1.95164939633045,
-  "lineSizeMultiplier": 1.00370092633436,
+  "nodeSizeMultiplier": 1,
+  "lineSizeMultiplier": 1,
   "collapse-forces": true,
   "centerStrength": 0.518713248970312,
   "repelStrength": 10,
