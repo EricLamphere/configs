@@ -14,7 +14,7 @@
             "state": {
               "type": "markdown",
               "state": {
-                "file": "IXIS/Urgent TODO.md",
+                "file": "todo/Urgent TODO.md",
                 "mode": "source",
                 "source": false
               },
@@ -28,7 +28,7 @@
             "state": {
               "type": "kanban",
               "state": {
-                "file": "IXIS/Kanban.md"
+                "file": "todo/Kanban.md"
               },
               "pinned": true
             }
@@ -58,9 +58,19 @@
                 "source": false
               }
             }
+          },
+          {
+            "id": "46e91406f9242257",
+            "type": "leaf",
+            "state": {
+              "type": "kanban",
+              "state": {
+                "file": "todo/Kanban.md"
+              }
+            }
           }
         ],
-        "currentTab": 2
+        "currentTab": 4
       }
     ],
     "direction": "vertical"
@@ -134,7 +144,7 @@
             "state": {
               "type": "backlink",
               "state": {
-                "file": "IXIS/DAE Release.md",
+                "file": "todo/Kanban.md",
                 "collapseAll": false,
                 "extraContext": true,
                 "sortOrder": "alphabetical",
@@ -151,7 +161,7 @@
             "state": {
               "type": "outline",
               "state": {
-                "file": "IXIS/DAE Release.md"
+                "file": "todo/Kanban.md"
               }
             }
           },
@@ -201,24 +211,26 @@
       "table-editor-obsidian:Advanced Tables Toolbar": false
     }
   },
-  "active": "e03c468db74807f8",
+  "active": "3719046a0743896e",
   "lastOpenFiles": [
-    "journal/2024/02 - February/2024-02-22 Thu.md",
+    "todo",
+    "README.md",
+    "todo/Urgent TODO.md",
+    "todo/Kanban.md",
     "IXIS/DAE Release.md",
+    "journal/2024/02 - February/2024-02-23 Fri.md",
+    "journal/2024/02 - February/2024-02-22 Thu.md",
+    "IXIS/Projects/Atlas/Repos/dsmodels/ixis_dsmodels.md",
     "journal/2024/02 - February/2024-02-21 Wed.md",
     "journal/2024/02 - February/2024-02-20 Tue.md",
     "journal/2024/02 - February/2024-02-19 Mon.md",
-    "IXIS/Kanban.md",
     "journal/2022/08 - August/2022-08-01.md",
     "Code/Snippets/dbt.md",
     "journal/2023/10 - October/Untitled.md",
     "journal/2024/02 - February/2024-02-16 Fri.md",
-    "IXIS/Urgent TODO.md",
-    "IXIS/Projects/Atlas/Repos/dsmodels/ixis_dsmodels.md",
     "journal/2024/02 - February/2024-02-14 Wed.md",
     "journal/2024/02 - February/2024-02-13 Tue.md",
     "journal/2024/02 - February/2024-02-12 Mon.md",
-    "README.md",
     "journal/2024/02 - February/2024-02-09 Fri.md",
     "journal/2024/02 - February/2024-02-07 Wed.md",
     "journal/2024/02 - February/2024-02-08 Thu.md",
@@ -227,8 +239,6 @@
     "IXIS/Projects/Atlas/Lambda Tests.md",
     "IXIS/Projects/Atlas/How-To/Develop a Shiny App for Atlas.md",
     "IXIS/Projects/Atlas/Shiny/Posit Next-Steps.md",
-    "IXIS/Projects/Atlas/Shiny/Initial Architecture.md",
-    "IXIS/Projects/Atlas/Trainings/Gray Cross-Training.md",
     "IXIS/Projects/AoA/How-To",
     "configs/nano/nano/improved_syntax/Dockerfile.nanorc",
     "configs/nano/nano/improved_syntax/java.nanorc",

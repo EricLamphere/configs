@@ -2,27 +2,8 @@
 ######## Misc ########
 #######################################################################################
 
-# open finder to a specific candidate
-find_candidate() {
-  JOB_SHORT=$1
-  NAME=$2
-  
-  if [ $JOB_SHORT = "DA" ]; then
-    JOB="Data Analyst"
-  elif [ $JOB_SHORT = "DAE" ]; then
-    JOB="Data Analytics Engineer"
-  else 
-    exit "DAE and DA are the only supported positions right now"
-  fi
-  
-  echo "Opening finder to $LightBlue$JOB$Default candidate $LightBlue$NAME$Default"
-  
-  cd ~
-  open "IXIS/Hiring/$JOB/Code Challenges/$NAME"
-}
 
-
-
+### OPEN ###
 ropen() {
     PROJ=$1
     FILE=$(find ~/Projects -maxdepth 3 -type f -name "$PROJ.Rproj")
@@ -82,30 +63,16 @@ alias rm-pycache='find ./Projects/ | grep -E "(/__pycache__$|\.pyc$|\.pyo$)" | x
 
 
 ### NOTES ###
-sync_notes() {
-  # curdir=$(pwd)
-
-  cd ~/vaults/notes
-  git diff origin/main --name-status
-  git add -A
-  git commit -m "syncing notes"
-  git push
-  git push personal
-
-  # cd $curdir
-  cd -  
-}
-
 notes() {
   cd ~/vaults/notes
 }
 
 todo() {
-  nano ~/vaults/notes/IXIS/Urgent\ TODO.md $@
+  nano ~/vaults/notes/todo/Urgent\ TODO.md $@
 }
 
 catodo() {
-    file=~/vaults/notes/IXIS/Urgent\ TODO.md
+    file=~/vaults/notes/todo/Urgent\ TODO.md
 
     if grep -q "\\* \\[ \\]" $file; then
         mdcat $file $@
