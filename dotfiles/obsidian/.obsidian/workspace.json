@@ -53,7 +53,7 @@
             "state": {
               "type": "markdown",
               "state": {
-                "file": "journal/2024/02 - February/2024-02-23 Fri.md",
+                "file": "journal/2024/02 - February/2024-02-26 Mon.md",
                 "mode": "source",
                 "source": false
               }
@@ -134,7 +134,7 @@
             "state": {
               "type": "backlink",
               "state": {
-                "file": "journal/2024/02 - February/2024-02-23 Fri.md",
+                "file": "journal/2024/02 - February/2024-02-26 Mon.md",
                 "collapseAll": false,
                 "extraContext": true,
                 "sortOrder": "alphabetical",
@@ -151,7 +151,7 @@
             "state": {
               "type": "outline",
               "state": {
-                "file": "journal/2024/02 - February/2024-02-23 Fri.md"
+                "file": "journal/2024/02 - February/2024-02-26 Mon.md"
               }
             }
           },
@@ -201,10 +201,26 @@
       "table-editor-obsidian:Advanced Tables Toolbar": false
     }
   },
-  "active": "e85a9c03a10f1152",
+  "active": "3719046a0743896e",
   "lastOpenFiles": [
-    "todo/Urgent TODO.md",
     "journal/2024/02 - February/2024-02-23 Fri.md",
+    "journal/2024/02 - February/2024-02-26 Mon.md",
+    "IXIS/Private/Hiring/Data_Analytics_Engineer/Candidates/Not Considering/Sowjanya Deva.md",
+    "IXIS/Private/Hiring/Data_Analytics_Engineer/Candidates/Not Considering/Mohammed Said.md",
+    "IXIS/Private/Hiring/Data_Analytics_Engineer/Candidates/Hired/Alfred Meza.md",
+    "IXIS/Private/Hiring/Data_Analytics_Engineer/Trainings/DAE.md",
+    "IXIS/Private/Hiring/Data_Analytics_Engineer/Candidates/Not Considering",
+    "IXIS/Private/Hiring/Data_Analytics_Engineer/Candidates/Hired",
+    "IXIS/Private/Hiring/Data_Analytics_Engineer/Trainings",
+    "IXIS/Private/Hiring/Data_Analytics_Engineer/Requirements.md",
+    "IXIS/Private/Hiring/Data_Analytics_Engineer/Candidates",
+    "IXIS/Private/Hiring/AWS_Machine_Learning_Engineer/Gerald Toge.md",
+    "IXIS/Private/Hiring/AWS_Data_Engineer/Matthew Trinh.md",
+    "IXIS/Private/Hiring/Data_Analytics_Engineer",
+    "IXIS/Private/Hiring/AWS_Machine_Learning_Engineer",
+    "IXIS/Private/Hiring/AWS_Data_Engineer",
+    "IXIS/Private/Hiring",
+    "todo/Urgent TODO.md",
     "2023-09-07.md",
     "todo/Kanban.md",
     "IXIS/DAE Release.md",
@@ -222,23 +238,7 @@
     "journal/2024/02 - February/2024-02-14 Wed.md",
     "journal/2024/02 - February/2024-02-13 Tue.md",
     "journal/2024/02 - February/2024-02-12 Mon.md",
-    "journal/2024/02 - February/2024-02-09 Fri.md",
-    "journal/2024/02 - February/2024-02-07 Wed.md",
-    "journal/2024/02 - February/2024-02-08 Thu.md",
-    "Code/General.md",
-    "zzPersonal/zzAppointments.md",
-    "IXIS/Projects/Atlas/Lambda Tests.md",
-    "IXIS/Projects/Atlas/How-To/Develop a Shiny App for Atlas.md",
-    "IXIS/Projects/Atlas/Shiny/Posit Next-Steps.md",
     "IXIS/Projects/AoA/How-To",
-    "configs/nano/nano/improved_syntax/Dockerfile.nanorc",
-    "configs/nano/nano/improved_syntax/java.nanorc",
-    "configs/nano/nano/improved_syntax/json.nanorc",
-    "configs/nano/nano/improved_syntax/js.nanorc",
-    "configs/nano/nano/improved_syntax/yaml.nanorc",
-    "configs/nano/nano/improved_syntax/zsh.nanorc",
-    "configs/nano/nano/improved_syntax/csv.nanorc",
-    "journal/2024/02 - February",
     "obsidian/figures/Pasted image 20240117160432.png",
     "obsidian/figures/Pasted image 20240117155055.png",
     "obsidian/figures/Pasted image 20231129132829.png",
