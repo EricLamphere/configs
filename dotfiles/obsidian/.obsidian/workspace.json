@@ -122,6 +122,7 @@
             "state": {
               "type": "backlink",
               "state": {
+                "file": "IXIS/DAE Release.md",
                 "collapseAll": false,
                 "extraContext": true,
                 "sortOrder": "alphabetical",
@@ -138,7 +139,7 @@
             "state": {
               "type": "outline",
               "state": {
-                "file": "2023-09-07.md"
+                "file": "IXIS/DAE Release.md"
               }
             }
           },
@@ -188,10 +189,10 @@
       "table-editor-obsidian:Advanced Tables Toolbar": false
     }
   },
-  "active": "3719046a0743896e",
+  "active": "e03c468db74807f8",
   "lastOpenFiles": [
-    "IXIS/DAE Release.md",
     "2023-09-07.md",
+    "IXIS/DAE Release.md",
     "IXIS/Kanban Notes/Epic level priorities we want to put in the mix for Q3 roadmapping (second week of July at the earliest).md",
     "obsidian/templates/Notes/hiring.md",
     "journal/2024/02 - February/2024-02-26 Mon.md",
