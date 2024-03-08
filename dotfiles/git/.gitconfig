@@ -16,6 +16,8 @@
 	lb = branch -a --list
 	reb = rebase
 	dif = diff --name-status
+	diffo = diff @{upstream}
+	difo = diff @{upstream} --name-status
 	stash = stash --all
 	pruneremote = !echo "pruning remote" && git remote prune origin && :
 	pullnoreb = pull --no-rebase
