@@ -17,12 +17,13 @@
 	reb = rebase
 	dif = diff --name-status
 	stash = stash --all
-	pruneremote = remote prune origin
+	pruneremote = !echo "pruning remote" && git remote prune origin && :
 	pullnoreb = pull --no-rebase
 	newb = !git switch -c $1 && git push --set-upstream origin $1 && :
 	db = !git branch -D $1 && git push origin --delete $1 && :
 	pb = !git branch -D $1 && git remote prune origin && :
 	prunelocal = !sh ~/.on_load/git-prune-local.sh
+	cleanup = !git pruneremote && git prunelocal && :
 [column]
 	ui = auto
 [branch]

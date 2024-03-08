@@ -34,17 +34,15 @@
             }
           },
           {
-            "id": "e03c468db74807f8",
+            "id": "567a2ba1a882835e",
             "type": "leaf",
-            "pinned": true,
             "state": {
               "type": "markdown",
               "state": {
-                "file": "IXIS/DAE Release.md",
+                "file": "journal/2024/03 - March/2024-03-11 Mon.md",
                 "mode": "source",
                 "source": false
-              },
-              "pinned": true
+              }
             }
           }
         ],
@@ -77,7 +75,7 @@
             "state": {
               "type": "search",
               "state": {
-                "query": "tag:#in_progress",
+                "query": "",
                 "matchingCase": false,
                 "explainSearch": false,
                 "collapseAll": false,
@@ -122,7 +120,7 @@
             "state": {
               "type": "backlink",
               "state": {
-                "file": "IXIS/DAE Release.md",
+                "file": "journal/2024/03 - March/2024-03-11 Mon.md",
                 "collapseAll": false,
                 "extraContext": true,
                 "sortOrder": "alphabetical",
@@ -139,7 +137,7 @@
             "state": {
               "type": "outline",
               "state": {
-                "file": "IXIS/DAE Release.md"
+                "file": "journal/2024/03 - March/2024-03-11 Mon.md"
               }
             }
           },
@@ -189,44 +187,44 @@
       "table-editor-obsidian:Advanced Tables Toolbar": false
     }
   },
-  "active": "e03c468db74807f8",
+  "active": "567a2ba1a882835e",
   "lastOpenFiles": [
-    "2023-09-07.md",
+    "journal/2024/03 - March/2024-03-08 Fri.md",
+    "journal/2024/03 - March/2024-03-11 Mon.md",
+    "todo/Kanban.md",
+    "IXIS/Projects/Atlas/How-To/Develop a Shiny App for Atlas.md",
+    "journal/2024/03 - March/2024-03-07 Thu.md",
+    "IXIS/Projects/Atlas/How-To/Debug Inside an ECS Task.md",
+    "IXIS/Projects/Atlas/How-To/Grant Permissions in Atlas.md",
+    "IXIS/Projects/Atlas/Repos/dsmodels/ixis_dsmodels.md",
+    "IXIS/Projects/Atlas/How-To/Add A New Dataset.md",
+    "journal/2024/03 - March/2024-03-05 Tue.md",
+    "journal/2024/03 - March/2024-03-06 Wed.md",
+    "todo/Urgent TODO.md",
+    "journal/2024/02 - February/2024-02-28 Wed.md",
+    "journal/2024/03 - March/2024-03-01 Fri.md",
+    "IXIS/Projects/AoA/Initiatives/oADD/Executive Summary Dashboard.md",
     "IXIS/DAE Release.md",
-    "IXIS/Kanban Notes/Epic level priorities we want to put in the mix for Q3 roadmapping (second week of July at the earliest).md",
-    "obsidian/templates/Notes/hiring.md",
+    "journal/2024/03 - March/2024-03-04 Mon.md",
+    "journal/2024/03 - March",
+    "IXIS/Projects/Atlas/Trainings/Middleware.md",
+    "IXIS/Projects/Atlas/Lambda Tests.md",
+    "IXIS/Projects/AoA/Initiatives/oADD/AXI Architecture.md",
+    "IXIS/Private/Health Insurance.md",
+    "IXIS/Private/zzSecrets.md",
+    "journal/2024/02 - February/2024-02-27 Tue.md",
     "journal/2024/02 - February/2024-02-26 Mon.md",
-    "journal/2024/02 - February/2024-02-23 Fri.md",
-    "IXIS/Private/Hiring/Data_Analytics_Engineer/Candidates/Not Considering/Sowjanya Deva.md",
-    "IXIS/Private/Hiring/Data_Analytics_Engineer/Candidates/Not Considering/Mohammed Said.md",
+    "journal/2024/02 - February/2024-02-14 Wed.md",
     "IXIS/Private/Hiring/Data_Analytics_Engineer/Candidates/Hired/Alfred Meza.md",
-    "IXIS/Private/Hiring/Data_Analytics_Engineer/Trainings/DAE.md",
     "IXIS/Private/Hiring/Data_Analytics_Engineer/Candidates/Not Considering",
     "IXIS/Private/Hiring/Data_Analytics_Engineer/Candidates/Hired",
     "IXIS/Private/Hiring/Data_Analytics_Engineer/Trainings",
-    "IXIS/Private/Hiring/Data_Analytics_Engineer/Requirements.md",
     "IXIS/Private/Hiring/Data_Analytics_Engineer/Candidates",
-    "IXIS/Private/Hiring/AWS_Machine_Learning_Engineer/Gerald Toge.md",
-    "IXIS/Private/Hiring/AWS_Data_Engineer/Matthew Trinh.md",
     "IXIS/Private/Hiring/Data_Analytics_Engineer",
     "IXIS/Private/Hiring/AWS_Machine_Learning_Engineer",
     "IXIS/Private/Hiring/AWS_Data_Engineer",
     "IXIS/Private/Hiring",
-    "todo/Urgent TODO.md",
-    "todo/Kanban.md",
-    "journal/2024/02 - February/2024-02-22 Thu.md",
     "todo",
-    "README.md",
-    "IXIS/Projects/Atlas/Repos/dsmodels/ixis_dsmodels.md",
-    "journal/2024/02 - February/2024-02-21 Wed.md",
-    "journal/2024/02 - February/2024-02-20 Tue.md",
-    "journal/2024/02 - February/2024-02-19 Mon.md",
-    "journal/2022/08 - August/2022-08-01.md",
-    "Code/Snippets/dbt.md",
-    "journal/2023/10 - October/Untitled.md",
-    "journal/2024/02 - February/2024-02-16 Fri.md",
-    "journal/2024/02 - February/2024-02-14 Wed.md",
-    "IXIS/Projects/AoA/How-To",
     "obsidian/figures/Pasted image 20240117160432.png",
     "obsidian/figures/Pasted image 20240117155055.png",
     "obsidian/figures/Pasted image 20231129132829.png",
