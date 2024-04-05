@@ -30,5 +30,5 @@
 	ui = auto
 [branch]
 	sort = -committerdate
-[push]
-	default = current
+[protocol]
+	version = 2
