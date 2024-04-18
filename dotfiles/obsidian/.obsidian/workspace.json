@@ -34,31 +34,31 @@
             }
           },
           {
-            "id": "09349c37f05c9a51",
+            "id": "65acaf303984fe93",
             "type": "leaf",
             "state": {
               "type": "markdown",
               "state": {
-                "file": "IXIS/Projects/AoA/Initiatives/oADD/AXI Architecture.md",
+                "file": "journal/2024/04 - April/2024-04-18 Thu.md",
                 "mode": "source",
                 "source": false
               }
             }
           },
           {
-            "id": "eff75379193a2e83",
+            "id": "5dab6361dde9a853",
             "type": "leaf",
             "state": {
               "type": "markdown",
               "state": {
-                "file": "journal/2024/04 - April/2024-04-05 Fri.md",
+                "file": "Code/Software/Snowflake.md",
                 "mode": "source",
                 "source": false
               }
             }
           }
         ],
-        "currentTab": 2
+        "currentTab": 3
       }
     ],
     "direction": "vertical"
@@ -132,7 +132,7 @@
             "state": {
               "type": "backlink",
               "state": {
-                "file": "IXIS/Projects/AoA/Initiatives/oADD/AXI Architecture.md",
+                "file": "Code/Software/Snowflake.md",
                 "collapseAll": false,
                 "extraContext": true,
                 "sortOrder": "alphabetical",
@@ -149,7 +149,7 @@
             "state": {
               "type": "outline",
               "state": {
-                "file": "IXIS/Projects/AoA/Initiatives/oADD/AXI Architecture.md"
+                "file": "Code/Software/Snowflake.md"
               }
             }
           },
@@ -199,35 +199,37 @@
       "table-editor-obsidian:Advanced Tables Toolbar": false
     }
   },
-  "active": "09349c37f05c9a51",
+  "active": "5dab6361dde9a853",
   "lastOpenFiles": [
-    "IXIS/Projects/AoA/Initiatives/oADD/Untitled.md",
-    "IXIS/Projects/AoA/Initiatives/oADD/AXI Architecture.md",
-    "journal/2024/04 - April/2024-04-05 Fri.md",
+    "journal/2024/04 - April/2024-04-18 Thu.md",
+    "todo/Kanban.md",
     "IXIS/Projects/AoA/Initiatives/oADD/Dashboard Updates.md",
+    "journal/2024/04 - April/2024-04-17 Wed.md",
+    "journal/2024/04 - April/2024-04-16 Tue.md",
+    "journal/2024/04 - April/2024-04-15 Mon.md",
+    "IXIS/Projects/AoA/Initiatives/oADD/AXI Architecture.md",
+    "journal/2024/04 - April/2024-04-11 Thu.md",
+    "obsidian/figures/Pasted image 20240415142213.png",
+    "obsidian/figures/Pasted image 20240415142205.png",
+    "Code/Software/Snowflake.md",
+    "Code/Software/Airbyte.md",
+    "Code/Software/Apache.md",
+    "Code/General.md",
+    "todo/Urgent TODO.md",
+    "journal/2024/04 - April/2024-04-10 Wed.md",
+    "journal/2024/04 - April/2024-04-02 Tue.md",
+    "journal/2024/04 - April/2024-04-04 Thu.md",
+    "journal/2024/04 - April/2024-04-05 Fri.md",
+    "journal/2024/04 - April/2024-04-08 Mon.md",
+    "IXIS/Projects/AoA/Initiatives/oADD/Untitled.md",
     "IXIS/Projects/AoA/Initiatives/oADD/old/Dashboard Prototype.md",
     "IXIS/Projects/AoA/Initiatives/oADD/old/Data Solutions.md",
     "IXIS/Projects/AoA/Initiatives/oADD/old/Executive Summary Dashboard.md",
-    "journal/2024/04 - April/2024-04-04 Thu.md",
-    "todo/Kanban.md",
-    "journal/2024/04 - April/2024-04-02 Tue.md",
     "journal/2024/03 - March/2024-03-29 Fri.md",
     "journal/2024/04 - April",
     "journal/2024/03 - March/2024-03-28 Thu.md",
     "journal/2024/03 - March/2024-03-27 Wed.md",
-    "todo/Urgent TODO.md",
     "IXIS/Projects/Atlas/Repos/Metrics Database/Config System for dbt Models.md",
-    "IXIS/Projects/Atlas/Repos/dsmodels/ixis_dsmodels.md",
-    "journal/2024/03 - March/2024-03-26 Tue.md",
-    "journal/2024/03 - March/2024-03-25 Mon.md",
-    "journal/2024/03 - March/2024-03-22 Fri.md",
-    "journal/2024/03 - March/2024-03-21 Thu.md",
-    "journal/2024/03 - March/2024-03-20 Wed.md",
-    "journal/2024/03 - March/2024-03-18 Mon.md",
-    "IXIS/Projects/Atlas/Repos/dsmodels/Old Available Dimensions SQL.md",
-    "journal/2024/03 - March/2024-03-15 Fri.md",
-    "journal/2024/03 - March/2024-03-14 Thu.md",
-    "journal/2024/03 - March/2024-03-13 Wed.md",
     "journal/2024/03 - March",
     "IXIS/Private/Hiring/Data_Analytics_Engineer/Candidates/Not Considering",
     "IXIS/Private/Hiring/Data_Analytics_Engineer/Candidates/Hired",
