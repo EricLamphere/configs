@@ -37,6 +37,10 @@ update_config_files__personal() {
     echo "Syncing rstudio config folder"
     rm -rf ~/Personal/configs/dotfiles/rstudio/rstudio
     cp -r ~/.config/rstudio ~/Personal/configs/dotfiles/rstudio/rstudio
+
+    echo "Syncing powerlevel10k dotfile"
+    rm -rf ~/Personal/configs/dotfiles/powerlevel10k/.p10k.zsh
+    cp -r ~/.p10k.zsh ~/Personal/configs/dotfiles/powerlevel10k/.p10k.zsh
 }
 
 # Now cd into git repo and sync with git

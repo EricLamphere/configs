@@ -44,9 +44,21 @@
                 "source": false
               }
             }
+          },
+          {
+            "id": "e317b9c0ef50b2f0",
+            "type": "leaf",
+            "state": {
+              "type": "markdown",
+              "state": {
+                "file": "journal/2024/04 - April/2024-04-24 Wed.md",
+                "mode": "source",
+                "source": false
+              }
+            }
           }
         ],
-        "currentTab": 1
+        "currentTab": 3
       }
     ],
     "direction": "vertical"
@@ -120,7 +132,7 @@
             "state": {
               "type": "backlink",
               "state": {
-                "file": "todo/Kanban.md",
+                "file": "journal/2024/04 - April/2024-04-24 Wed.md",
                 "collapseAll": false,
                 "extraContext": true,
                 "sortOrder": "alphabetical",
@@ -137,7 +149,7 @@
             "state": {
               "type": "outline",
               "state": {
-                "file": "todo/Kanban.md"
+                "file": "journal/2024/04 - April/2024-04-24 Wed.md"
               }
             }
           },
@@ -187,18 +199,21 @@
       "table-editor-obsidian:Advanced Tables Toolbar": false
     }
   },
-  "active": "6743eb7dc60ef109",
+  "active": "e317b9c0ef50b2f0",
   "lastOpenFiles": [
-    "todo/Urgent TODO.md",
-    "todo/Kanban.md",
+    "journal/2024/04 - April/2024-04-23 Tue.md",
+    "journal/2024/04 - April/2024-04-24 Wed.md",
+    "journal/2024/04 - April/2024-04-22 Mon.md",
+    "journal/2024/04 - April/2024-04-11 Thu.md",
     "journal/2024/04 - April/2024-04-18 Thu.md",
     "Code/Software/Snowflake.md",
+    "todo/Kanban.md",
+    "todo/Urgent TODO.md",
     "IXIS/Projects/AoA/Initiatives/oADD/Dashboard Updates.md",
     "journal/2024/04 - April/2024-04-17 Wed.md",
     "journal/2024/04 - April/2024-04-16 Tue.md",
     "journal/2024/04 - April/2024-04-15 Mon.md",
     "IXIS/Projects/AoA/Initiatives/oADD/AXI Architecture.md",
-    "journal/2024/04 - April/2024-04-11 Thu.md",
     "obsidian/figures/Pasted image 20240415142213.png",
     "obsidian/figures/Pasted image 20240415142205.png",
     "Code/Software/Airbyte.md",
@@ -215,9 +230,6 @@
     "IXIS/Projects/AoA/Initiatives/oADD/old/Executive Summary Dashboard.md",
     "journal/2024/03 - March/2024-03-29 Fri.md",
     "journal/2024/04 - April",
-    "journal/2024/03 - March/2024-03-28 Thu.md",
-    "journal/2024/03 - March/2024-03-27 Wed.md",
-    "IXIS/Projects/Atlas/Repos/Metrics Database/Config System for dbt Models.md",
     "journal/2024/03 - March",
     "IXIS/Private/Hiring/Data_Analytics_Engineer/Candidates/Not Considering",
     "IXIS/Private/Hiring/Data_Analytics_Engineer/Candidates/Hired",
