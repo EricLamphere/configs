@@ -21,7 +21,7 @@ snippet mdb_query
 	
 		res_f <- 
 			res %>%
-	    dplyr::rename(dim_date = ${6:date_dimension}) %>%
+	    dplyr::rename(dim_date = dim_${6:date_dimension}) %>%
 	    dplyr::mutate(dim_date = as.Date(dim_date)) %>%
 	    dplyr::mutate(
 	      dplyr::across(

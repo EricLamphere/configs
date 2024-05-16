@@ -34,24 +34,24 @@
             }
           },
           {
-            "id": "5dab6361dde9a853",
+            "id": "b65f34785df357e2",
             "type": "leaf",
             "state": {
               "type": "markdown",
               "state": {
-                "file": "Code/Software/Snowflake.md",
+                "file": "IXIS/Projects/AoA/Initiatives/oADD/Dashboard Updates.md",
                 "mode": "source",
                 "source": false
               }
             }
           },
           {
-            "id": "e317b9c0ef50b2f0",
+            "id": "99776d7e5a11b537",
             "type": "leaf",
             "state": {
               "type": "markdown",
               "state": {
-                "file": "journal/2024/04 - April/2024-04-24 Wed.md",
+                "file": "journal/2024/05 - May/2024-05-16 Thu.md",
                 "mode": "source",
                 "source": false
               }
@@ -132,7 +132,7 @@
             "state": {
               "type": "backlink",
               "state": {
-                "file": "journal/2024/04 - April/2024-04-24 Wed.md",
+                "file": "journal/2024/05 - May/2024-05-16 Thu.md",
                 "collapseAll": false,
                 "extraContext": true,
                 "sortOrder": "alphabetical",
@@ -149,7 +149,7 @@
             "state": {
               "type": "outline",
               "state": {
-                "file": "journal/2024/04 - April/2024-04-24 Wed.md"
+                "file": "journal/2024/05 - May/2024-05-16 Thu.md"
               }
             }
           },
@@ -199,36 +199,37 @@
       "table-editor-obsidian:Advanced Tables Toolbar": false
     }
   },
-  "active": "e317b9c0ef50b2f0",
+  "active": "99776d7e5a11b537",
   "lastOpenFiles": [
-    "journal/2024/04 - April/2024-04-23 Tue.md",
+    "journal/2024/05 - May/2024-05-15 Wed.md",
+    "IXIS/Projects/AoA/Initiatives/oADD/Dashboard Updates.md",
+    "todo/Kanban.md",
+    "journal/2024/05 - May/2024-05-16 Thu.md",
+    "journal/2024/05 - May/2024-05-14 Tue.md",
+    "journal/2024/05 - May/2024-05-13 Mon.md",
+    "journal/2024/05 - May/2024-05-07 Tue.md",
+    "journal/2024/05 - May/2024-05-06 Mon.md",
+    "journal/2024/05 - May/2024-05-09 Thu.md",
+    "journal/2024/05 - May/2024-05-08 Wed.md",
+    "journal/2024/05 - May/2024-05-10 Fri.md",
+    "journal/2024/05 - May/2024-05-03 Fri.md",
+    "journal/2024/04 - April/2024-04-30 Tue.md",
+    "journal/2024/05 - May",
+    "journal/2024/04 - April/2024-04-29 Mon.md",
+    "journal/2024/04 - April/2024-04-25 Thu.md",
+    "journal/2024/04 - April/2024-04-26 Fri.md",
+    "Code/Software/dbt.md",
+    "Code/Software/Snowflake.md",
     "journal/2024/04 - April/2024-04-24 Wed.md",
+    "journal/2024/04 - April/2024-04-23 Tue.md",
     "journal/2024/04 - April/2024-04-22 Mon.md",
     "journal/2024/04 - April/2024-04-11 Thu.md",
     "journal/2024/04 - April/2024-04-18 Thu.md",
-    "Code/Software/Snowflake.md",
-    "todo/Kanban.md",
     "todo/Urgent TODO.md",
-    "IXIS/Projects/AoA/Initiatives/oADD/Dashboard Updates.md",
     "journal/2024/04 - April/2024-04-17 Wed.md",
     "journal/2024/04 - April/2024-04-16 Tue.md",
-    "journal/2024/04 - April/2024-04-15 Mon.md",
-    "IXIS/Projects/AoA/Initiatives/oADD/AXI Architecture.md",
     "obsidian/figures/Pasted image 20240415142213.png",
     "obsidian/figures/Pasted image 20240415142205.png",
-    "Code/Software/Airbyte.md",
-    "Code/Software/Apache.md",
-    "Code/General.md",
-    "journal/2024/04 - April/2024-04-10 Wed.md",
-    "journal/2024/04 - April/2024-04-02 Tue.md",
-    "journal/2024/04 - April/2024-04-04 Thu.md",
-    "journal/2024/04 - April/2024-04-05 Fri.md",
-    "journal/2024/04 - April/2024-04-08 Mon.md",
-    "IXIS/Projects/AoA/Initiatives/oADD/Untitled.md",
-    "IXIS/Projects/AoA/Initiatives/oADD/old/Dashboard Prototype.md",
-    "IXIS/Projects/AoA/Initiatives/oADD/old/Data Solutions.md",
-    "IXIS/Projects/AoA/Initiatives/oADD/old/Executive Summary Dashboard.md",
-    "journal/2024/03 - March/2024-03-29 Fri.md",
     "journal/2024/04 - April",
     "journal/2024/03 - March",
     "IXIS/Private/Hiring/Data_Analytics_Engineer/Candidates/Not Considering",
@@ -238,7 +239,6 @@
     "IXIS/Private/Hiring/Data_Analytics_Engineer",
     "IXIS/Private/Hiring/AWS_Machine_Learning_Engineer",
     "IXIS/Private/Hiring/AWS_Data_Engineer",
-    "IXIS/Private/Hiring",
     "obsidian/figures/Pasted image 20240117160432.png",
     "obsidian/figures/Pasted image 20240117155055.png",
     "obsidian/figures/Pasted image 20231129132829.png",
