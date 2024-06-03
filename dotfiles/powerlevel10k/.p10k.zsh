@@ -246,6 +246,10 @@
     .shorten_folder_marker
     .svn
     .terraform
+    .gitlab-ci.yml
+    .gitlab-ci.yaml
+    serverless.yml
+    serverless.yaml
     CVS
     Cargo.toml
     composer.json
@@ -1583,7 +1587,7 @@
   function prompt_aws_env() {
     prompt_stage=$STAGE
     if [[ ! -z "${prompt_stage}" ]]; then
-        p10k segment -f 208 -i 'aws' -t "${prompt_stage}"
+        p10k segment -f 208 -t "${prompt_stage}"
     fi
   }
 

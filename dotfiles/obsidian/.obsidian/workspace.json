@@ -28,37 +28,29 @@
             "state": {
               "type": "kanban",
               "state": {
-                "file": "todo/Kanban.md"
+                "file": "todo/Kanban.md",
+                "kanbanViewState": {
+                  "kanban-plugin": "board",
+                  "list-collapse": []
+                }
               },
               "pinned": true
             }
           },
           {
-            "id": "b65f34785df357e2",
+            "id": "3388c355b0894016",
             "type": "leaf",
             "state": {
               "type": "markdown",
               "state": {
-                "file": "IXIS/Projects/AoA/Initiatives/oADD/Dashboard Updates.md",
-                "mode": "source",
-                "source": false
-              }
-            }
-          },
-          {
-            "id": "99776d7e5a11b537",
-            "type": "leaf",
-            "state": {
-              "type": "markdown",
-              "state": {
-                "file": "journal/2024/05 - May/2024-05-16 Thu.md",
+                "file": "journal/2024/06 - June/2024-06-03 Mon.md",
                 "mode": "source",
                 "source": false
               }
             }
           }
         ],
-        "currentTab": 3
+        "currentTab": 2
       }
     ],
     "direction": "vertical"
@@ -132,7 +124,7 @@
             "state": {
               "type": "backlink",
               "state": {
-                "file": "journal/2024/05 - May/2024-05-16 Thu.md",
+                "file": "journal/2024/06 - June/2024-06-03 Mon.md",
                 "collapseAll": false,
                 "extraContext": true,
                 "sortOrder": "alphabetical",
@@ -149,7 +141,7 @@
             "state": {
               "type": "outline",
               "state": {
-                "file": "journal/2024/05 - May/2024-05-16 Thu.md"
+                "file": "journal/2024/06 - June/2024-06-03 Mon.md"
               }
             }
           },
@@ -196,17 +188,30 @@
       "templates:Insert template": false,
       "command-palette:Open command palette": false,
       "markdown-importer:Open format converter": false,
-      "table-editor-obsidian:Advanced Tables Toolbar": false
+      "table-editor-obsidian:Advanced Tables Toolbar": false,
+      "obsidian-kanban:Create new board": false
     }
   },
-  "active": "99776d7e5a11b537",
+  "active": "3388c355b0894016",
   "lastOpenFiles": [
-    "journal/2024/05 - May/2024-05-15 Wed.md",
-    "IXIS/Projects/AoA/Initiatives/oADD/Dashboard Updates.md",
     "todo/Kanban.md",
-    "journal/2024/05 - May/2024-05-16 Thu.md",
-    "journal/2024/05 - May/2024-05-14 Tue.md",
+    "journal/2024/05 - May/2024-05-31 Fri.md",
+    "journal/2024/06 - June/2024-06-03 Mon.md",
+    "journal/2024/05 - May/2024-05-28 Tue.md",
+    "journal/2024/06 - June",
+    "journal/2024/05 - May/2024-05-22 Wed.md",
+    "journal/2024/05 - May/2024-05-23 Thu.md",
+    "IXIS/Projects/AoA/Initiatives/oADD/Dashboard Updates.md",
+    "journal/2024/05 - May/2024-05-30 Thu.md",
     "journal/2024/05 - May/2024-05-13 Mon.md",
+    "journal/2024/05 - May/2024-05-14 Tue.md",
+    "journal/2024/05 - May/2024-05-16 Thu.md",
+    "journal/2024/05 - May/2024-05-17 Fri.md",
+    "todo/Urgent TODO.md",
+    "IXIS/Projects/Atlas/Repos/DIS/JSON Processor.md",
+    "IXIS/Projects/Atlas/Repos/dsmodels/ixis_dsmodels.md",
+    "IXIS/Projects/Atlas/Lambda Tests.md",
+    "journal/2024/05 - May/2024-05-15 Wed.md",
     "journal/2024/05 - May/2024-05-07 Tue.md",
     "journal/2024/05 - May/2024-05-06 Mon.md",
     "journal/2024/05 - May/2024-05-09 Thu.md",
@@ -217,17 +222,6 @@
     "journal/2024/05 - May",
     "journal/2024/04 - April/2024-04-29 Mon.md",
     "journal/2024/04 - April/2024-04-25 Thu.md",
-    "journal/2024/04 - April/2024-04-26 Fri.md",
-    "Code/Software/dbt.md",
-    "Code/Software/Snowflake.md",
-    "journal/2024/04 - April/2024-04-24 Wed.md",
-    "journal/2024/04 - April/2024-04-23 Tue.md",
-    "journal/2024/04 - April/2024-04-22 Mon.md",
-    "journal/2024/04 - April/2024-04-11 Thu.md",
-    "journal/2024/04 - April/2024-04-18 Thu.md",
-    "todo/Urgent TODO.md",
-    "journal/2024/04 - April/2024-04-17 Wed.md",
-    "journal/2024/04 - April/2024-04-16 Tue.md",
     "obsidian/figures/Pasted image 20240415142213.png",
     "obsidian/figures/Pasted image 20240415142205.png",
     "journal/2024/04 - April",
@@ -238,7 +232,6 @@
     "IXIS/Private/Hiring/Data_Analytics_Engineer/Candidates",
     "IXIS/Private/Hiring/Data_Analytics_Engineer",
     "IXIS/Private/Hiring/AWS_Machine_Learning_Engineer",
-    "IXIS/Private/Hiring/AWS_Data_Engineer",
     "obsidian/figures/Pasted image 20240117160432.png",
     "obsidian/figures/Pasted image 20240117155055.png",
     "obsidian/figures/Pasted image 20231129132829.png",
