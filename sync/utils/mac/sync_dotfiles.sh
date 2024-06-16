@@ -38,7 +38,7 @@ update_config_files__personal() {
     rm -rf ~/Personal/configs/dotfiles/rstudio/rstudio
     cp -r ~/.config/rstudio ~/Personal/configs/dotfiles/rstudio/rstudio
 
-    echo "Syncing powerlevel10k dotfile"
+    echo "Syncing powerlevel10k configs"
     rm -rf ~/Personal/configs/dotfiles/powerlevel10k/.p10k.zsh
     rm -rf ~/Personal/configs/dotfiles/powerlevel10k/internal
     rm -rf ~/Personal/configs/dotfiles/powerlevel10k/config
@@ -49,10 +49,11 @@ update_config_files__personal() {
     mkdir -p ~/Personal/configs/dotfiles/powerlevel10k/themes/gitstatus
 
     cp -r ~/.p10k.zsh ~/Personal/configs/dotfiles/powerlevel10k/.p10k.zsh
-    cp -r ~/.oh-my-zsh/custom/themes/powerlevel10k/powerlevel10k.zsh-theme ~/Personal/configs/dotfiles/powerlevel10k/themes/
-    cp -r ~/.oh-my-zsh/custom/themes/powerlevel10k/internal ~/Personal/configs/dotfiles/powerlevel10k/themes/internal
-    cp -r ~/.oh-my-zsh/custom/themes/powerlevel10k/config ~/Personal/configs/dotfiles/powerlevel10k/themes/config
-    cp -r ~/.oh-my-zsh/custom/themes/powerlevel10k/gitstatus ~/Personal/configs/dotfiles/powerlevel10k/themes/gitstatus
+    cp -r ~/.oh-my-zsh/custom/themes/powerlevel10k/ ~/Personal/configs/dotfiles/powerlevel10k/themes/
+    # cp -r ~/.oh-my-zsh/custom/themes/powerlevel10k/powerlevel10k.zsh-theme ~/Personal/configs/dotfiles/powerlevel10k/themes/
+    # cp -r ~/.oh-my-zsh/custom/themes/powerlevel10k/internal ~/Personal/configs/dotfiles/powerlevel10k/themes/internal
+    # cp -r ~/.oh-my-zsh/custom/themes/powerlevel10k/config ~/Personal/configs/dotfiles/powerlevel10k/themes/config
+    # cp -r ~/.oh-my-zsh/custom/themes/powerlevel10k/gitstatus ~/Personal/configs/dotfiles/powerlevel10k/themes/gitstatus
 }
 
 # Now cd into git repo and sync with git
