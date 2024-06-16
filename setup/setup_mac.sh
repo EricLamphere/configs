@@ -1,5 +1,5 @@
 
-source <( cat ~/Personal/configs/setup/utils/mac/* )
+source <( cat ~/Personal/configs/setup/mac/* )
 
 # obsidian
 echo "Setting up git configs"

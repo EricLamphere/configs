@@ -1,6 +1,6 @@
 
 # source utils
-source <( cat ~/Personal/configs/sync/utils/mac/* )
+source <( cat ~/Personal/configs/sync/mac/* )
 
 # run sync scripts from utils
 echo ">>> SYNCING NOTES <<<"
