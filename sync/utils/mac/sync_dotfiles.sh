@@ -4,9 +4,10 @@ update_config_files__personal() {
     rm -rf ~/Personal/configs/dotfiles/zsh/.on_load/
     cp -r ~/.on_load/ ~/Personal/configs/dotfiles/zsh/.on_load/
 
-    echo "Syncing .zshrc file"
+    echo "Syncing zsh config files"
     rm -f ~/Personal/configs/dotfiles/zsh/.zshrc
     cp ~/.zshrc ~/Personal/configs/dotfiles/zsh/.zshrc
+    cp -r ~/.oh-my-zsh ~/Personal/configs/dotfiles/zsh/
 
     echo "Syncing .gitconfig files"
     rm -f ~/Personal/configs/dotfiles/git/.gitconfig
