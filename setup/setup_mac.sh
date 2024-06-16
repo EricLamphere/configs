@@ -16,3 +16,4 @@ setup_rstudio
 
 echo "Setting up zsh configs"
 setup_zsh
+setup_p10k

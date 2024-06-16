@@ -38,19 +38,31 @@
             }
           },
           {
-            "id": "3388c355b0894016",
+            "id": "c2e99834001bd373",
             "type": "leaf",
             "state": {
               "type": "markdown",
               "state": {
-                "file": "journal/2024/06 - June/2024-06-03 Mon.md",
+                "file": "IXIS/Projects/AoA/Initiatives/oADD/Dashboard Updates.md",
+                "mode": "source",
+                "source": false
+              }
+            }
+          },
+          {
+            "id": "c6c6aa1075964b6e",
+            "type": "leaf",
+            "state": {
+              "type": "markdown",
+              "state": {
+                "file": "journal/2024/06 - June/2024-06-14 Fri.md",
                 "mode": "source",
                 "source": false
               }
             }
           }
         ],
-        "currentTab": 2
+        "currentTab": 3
       }
     ],
     "direction": "vertical"
@@ -124,7 +136,7 @@
             "state": {
               "type": "backlink",
               "state": {
-                "file": "journal/2024/06 - June/2024-06-03 Mon.md",
+                "file": "journal/2024/06 - June/2024-06-14 Fri.md",
                 "collapseAll": false,
                 "extraContext": true,
                 "sortOrder": "alphabetical",
@@ -141,7 +153,7 @@
             "state": {
               "type": "outline",
               "state": {
-                "file": "journal/2024/06 - June/2024-06-03 Mon.md"
+                "file": "journal/2024/06 - June/2024-06-14 Fri.md"
               }
             }
           },
@@ -192,16 +204,24 @@
       "obsidian-kanban:Create new board": false
     }
   },
-  "active": "3388c355b0894016",
+  "active": "c6c6aa1075964b6e",
   "lastOpenFiles": [
+    "IXIS/Projects/AoA/Initiatives/oADD/Dashboard Updates.md",
+    "journal/2024/06 - June/2024-06-14 Fri.md",
+    "journal/2024/06 - June/2024-06-12 Wed.md",
     "todo/Kanban.md",
-    "journal/2024/05 - May/2024-05-31 Fri.md",
+    "journal/2024/06 - June/2024-06-10 Mon.md",
+    "journal/2024/06 - June/2024-06-07 Fri.md",
+    "journal/2024/06 - June/2024-06-06 Thu.md",
+    "IXIS/Projects/AoA/Initiatives/oADD/old/Dashboard Prototype.md",
+    "journal/2024/06 - June/2024-06-05 Wed.md",
+    "journal/2024/06 - June/2024-06-04 Tue.md",
     "journal/2024/06 - June/2024-06-03 Mon.md",
+    "journal/2024/05 - May/2024-05-31 Fri.md",
     "journal/2024/05 - May/2024-05-28 Tue.md",
     "journal/2024/06 - June",
     "journal/2024/05 - May/2024-05-22 Wed.md",
     "journal/2024/05 - May/2024-05-23 Thu.md",
-    "IXIS/Projects/AoA/Initiatives/oADD/Dashboard Updates.md",
     "journal/2024/05 - May/2024-05-30 Thu.md",
     "journal/2024/05 - May/2024-05-13 Mon.md",
     "journal/2024/05 - May/2024-05-14 Tue.md",
@@ -213,15 +233,7 @@
     "IXIS/Projects/Atlas/Lambda Tests.md",
     "journal/2024/05 - May/2024-05-15 Wed.md",
     "journal/2024/05 - May/2024-05-07 Tue.md",
-    "journal/2024/05 - May/2024-05-06 Mon.md",
-    "journal/2024/05 - May/2024-05-09 Thu.md",
-    "journal/2024/05 - May/2024-05-08 Wed.md",
-    "journal/2024/05 - May/2024-05-10 Fri.md",
-    "journal/2024/05 - May/2024-05-03 Fri.md",
-    "journal/2024/04 - April/2024-04-30 Tue.md",
     "journal/2024/05 - May",
-    "journal/2024/04 - April/2024-04-29 Mon.md",
-    "journal/2024/04 - April/2024-04-25 Thu.md",
     "obsidian/figures/Pasted image 20240415142213.png",
     "obsidian/figures/Pasted image 20240415142205.png",
     "journal/2024/04 - April",
