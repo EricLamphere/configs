@@ -44,9 +44,9 @@ update_config_files__personal() {
     rm -rf ~/Personal/configs/dotfiles/powerlevel10k/config
     rm -rf ~/Personal/configs/dotfiles/powerlevel10k/gitstatus
 
-    mkdir -p ~/Personal/configs/dotfiles/powerlevel10k/internal
-    mkdir -p ~/Personal/configs/dotfiles/powerlevel10k/config
-    mkdir -p ~/Personal/configs/dotfiles/powerlevel10k/gitstatus
+    mkdir -p ~/Personal/configs/dotfiles/powerlevel10k/themes/internal
+    mkdir -p ~/Personal/configs/dotfiles/powerlevel10k/themes/config
+    mkdir -p ~/Personal/configs/dotfiles/powerlevel10k/themes/gitstatus
 
     cp -r ~/.p10k.zsh ~/Personal/configs/dotfiles/powerlevel10k/.p10k.zsh
     cp -r ~/.oh-my-zsh/custom/themes/powerlevel10k/powerlevel10k.zsh-theme ~/Personal/configs/dotfiles/powerlevel10k/themes/
