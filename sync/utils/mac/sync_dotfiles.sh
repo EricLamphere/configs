@@ -41,7 +41,9 @@ update_config_files__personal() {
 
     echo "Syncing powerlevel10k dotfile"
     rm -rf ~/Personal/configs/dotfiles/powerlevel10k/.p10k.zsh
+    rm -rf ~/Personal/configs/dotfiles/powerlevel10k/themes/powerlevel10k
     cp -r ~/.p10k.zsh ~/Personal/configs/dotfiles/powerlevel10k/.p10k.zsh
+    cp -r ~/.oh-my-zsh/custom/themes/powerlevel10k ~/Personal/configs/dotfiles/powerlevel10k/themes/
 }
 
 # Now cd into git repo and sync with git
