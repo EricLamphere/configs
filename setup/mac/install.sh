@@ -8,8 +8,10 @@ eval "$(/opt/homebrew/bin/brew shellenv)"
 echo "----- Installing Apps -----"
 brew install iterm2 sublime-text google-chrome spotify
 
+
 echo "----- Installing Software -----"
 brew install visual-studio-code r rstudio gh docker python
+
 
 echo "----- Installing OhMyZsh -----"
 sh -c "$(curl -fsSL https://raw.githubusercontent.com/ohmyzsh/ohmyzsh/master/tools/install.sh)"
