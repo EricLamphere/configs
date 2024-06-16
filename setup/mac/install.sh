@@ -25,6 +25,7 @@ echo "source $(brew --prefix)/share/powerlevel10k/powerlevel10k.zsh-theme" >>~/.
 echo "----- Installing git-open -----"
 git clone https://github.com/paulirish/git-open.git $ZSH_CUSTOM/plugins/git-poen
 
+
 echo "----- Authenticating With GitHub -----"
 gh auth login
 
