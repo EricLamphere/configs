@@ -39,7 +39,7 @@ update_config_files__personal() {
     cp -r ~/.config/rstudio ~/Personal/configs/dotfiles/rstudio/rstudio
 
     echo "Syncing powerlevel10k dotfile"
-    rm -rf ~/Personal/configs/dotfiles/powerlevel10k
+    rm -rf ~/Personal/configs/dotfiles/powerlevel10k/
     cp -r ~/.p10k.zsh ~/Personal/configs/dotfiles/powerlevel10k/.p10k.zsh
     cp -r ~/.oh-my-zsh/custom/themes/powerlevel10k/powerlevel10k.zsh-theme ~/Personal/configs/dotfiles/powerlevel10k/themes/
     cp -r ~/.oh-my-zsh/custom/themes/powerlevel10k/internal ~/Personal/configs/dotfiles/powerlevel10k/themes/
