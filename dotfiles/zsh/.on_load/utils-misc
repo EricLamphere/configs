@@ -17,7 +17,14 @@ ropen() {
 
 vsopen() {
     PROJ=$1
-    FOLDER=$(find ~/Projects -maxdepth 2 -type d -name "$PROJ")
+    if [ -z "$2" ]; then
+	ROOT_PATH="~/Projects"
+    else
+	ROOT_PATH="$2"
+    fi
+
+    FOLDER=$(find ~/${ROOT_PATH} -maxdepth 2 -type d -name "$PROJ")
+
     if [ -z $FOLDER ]; then
         echo "$Red$PROJ$Default folder not found"
     else

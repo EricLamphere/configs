@@ -33,7 +33,6 @@ sync_notes() {
 	git add -A
 	git commit -m "syncing notes"
 	git push
-	git push personal
 
 	cd -
 }

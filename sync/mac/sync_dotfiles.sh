@@ -62,10 +62,20 @@ sync_dotfiles() {
 
     cd ~/Personal/configs
 
+    echo "GIT DIFF"
     git diff origin/main --name-status
-    git add -A
-    git commit -m "syncing dotfiles"
-    git push
+    git diff origin/main
+
+    printf 'Push these changes? (y/n)'
+    read answer
+    
+    if [ "$answer" != "${answer#[Yy]}" ] ;then 
+        git add -A
+        git commit -m "syncing dotfiles" 
+        git push
+    else
+        echo "Okay, not pushing"
+    fi
 
     cd -
 }
