@@ -24,7 +24,6 @@
           {
             "id": "6743eb7dc60ef109",
             "type": "leaf",
-            "pinned": true,
             "state": {
               "type": "kanban",
               "state": {
@@ -33,24 +32,35 @@
                   "kanban-plugin": "board",
                   "list-collapse": []
                 }
-              },
-              "pinned": true
+              }
             }
           },
           {
-            "id": "ade2edfc7ae0a987",
+            "id": "c6c6aa1075964b6e",
             "type": "leaf",
             "state": {
               "type": "markdown",
               "state": {
-                "file": "Code/Software/dbt.md",
+                "file": "IXIS/Projects/AoA/Initiatives/oADD/Dashboard QA.md",
+                "mode": "source",
+                "source": false
+              }
+            }
+          },
+          {
+            "id": "888a20f9bd47dfbb",
+            "type": "leaf",
+            "state": {
+              "type": "markdown",
+              "state": {
+                "file": "journal/2024/06 - June/2024-06-21 Fri.md",
                 "mode": "source",
                 "source": false
               }
             }
           }
         ],
-        "currentTab": 2
+        "currentTab": 3
       }
     ],
     "direction": "vertical"
@@ -124,7 +134,7 @@
             "state": {
               "type": "backlink",
               "state": {
-                "file": "Code/Software/dbt.md",
+                "file": "journal/2024/06 - June/2024-06-21 Fri.md",
                 "collapseAll": false,
                 "extraContext": true,
                 "sortOrder": "alphabetical",
@@ -141,7 +151,7 @@
             "state": {
               "type": "outline",
               "state": {
-                "file": "Code/Software/dbt.md"
+                "file": "journal/2024/06 - June/2024-06-21 Fri.md"
               }
             }
           },
@@ -192,37 +202,35 @@
       "obsidian-kanban:Create new board": false
     }
   },
-  "active": "ade2edfc7ae0a987",
+  "active": "888a20f9bd47dfbb",
   "lastOpenFiles": [
-    "todo/Kanban.md",
-    "Code/Untitled",
-    "todo/Urgent TODO.md",
-    "Code/Software/dbt.md",
-    "Code/Software/AWS.md",
-    "Code/Software/Apache.md",
-    "Code/Software/Airbyte.md",
-    "Code/General.md",
+    "journal/2024/06 - June/2024-06-20 Thu.md",
     "journal/2024/06 - June/2024-06-21 Fri.md",
-    "journal/2024/06 - June/2024-06-16 Sun.md",
-    "Code/Snippets/SQL.md",
-    "Code/Snippets/Python.md",
-    "Code/Snippets/Node.md",
-    "Code/Snippets/Git.md",
-    "Code/Snippets/Docker.md",
-    "Code/Snippets/dbt.md",
-    "Code/Snippets/CLI.md",
-    "README.md",
-    "journal/2024/06 - June",
-    "journal/2024",
-    "obsidian/figures/iar_iperceptions_projects.png.png",
-    "journal/2024/06 - June/2024-06-14 Fri.md",
+    "journal/2024/06 - June/2024-06-17 Mon.md",
+    "todo/Urgent TODO.md",
+    "IXIS/Projects/AoA/Initiatives/oADD/Dashboard QA.md",
+    "todo/Kanban.md",
     "IXIS/Projects/AoA/Initiatives/oADD/Dashboard Updates.md",
+    "journal/2024/06 - June/2024-06-14 Fri.md",
     "journal/2024/06 - June/2024-06-12 Wed.md",
     "journal/2024/06 - June/2024-06-10 Mon.md",
     "journal/2024/06 - June/2024-06-07 Fri.md",
     "journal/2024/06 - June/2024-06-06 Thu.md",
     "IXIS/Projects/AoA/Initiatives/oADD/old/Dashboard Prototype.md",
     "journal/2024/06 - June/2024-06-05 Wed.md",
+    "journal/2024/06 - June/2024-06-04 Tue.md",
+    "journal/2024/06 - June/2024-06-03 Mon.md",
+    "journal/2024/05 - May/2024-05-31 Fri.md",
+    "journal/2024/05 - May/2024-05-28 Tue.md",
+    "journal/2024/06 - June",
+    "journal/2024/05 - May/2024-05-22 Wed.md",
+    "journal/2024/05 - May/2024-05-23 Thu.md",
+    "journal/2024/05 - May/2024-05-30 Thu.md",
+    "journal/2024/05 - May/2024-05-13 Mon.md",
+    "journal/2024/05 - May/2024-05-14 Tue.md",
+    "journal/2024/05 - May/2024-05-16 Thu.md",
+    "journal/2024/05 - May/2024-05-17 Fri.md",
+    "IXIS/Projects/Atlas/Repos/DIS/JSON Processor.md",
     "journal/2024/05 - May",
     "obsidian/figures/Pasted image 20240415142213.png",
     "obsidian/figures/Pasted image 20240415142205.png",
@@ -232,10 +240,13 @@
     "IXIS/Private/Hiring/Data_Analytics_Engineer/Candidates/Hired",
     "IXIS/Private/Hiring/Data_Analytics_Engineer/Trainings",
     "IXIS/Private/Hiring/Data_Analytics_Engineer/Candidates",
+    "IXIS/Private/Hiring/Data_Analytics_Engineer",
+    "IXIS/Private/Hiring/AWS_Machine_Learning_Engineer",
     "obsidian/figures/Pasted image 20240117160432.png",
     "obsidian/figures/Pasted image 20240117155055.png",
     "obsidian/figures/Pasted image 20231129132829.png",
     "obsidian/figures/obsidian-app-icon.png",
+    "obsidian/figures/iar_iperceptions_projects.png.png",
     "obsidian/figures/local-mail-screenshot.png",
     "obsidian/figures/Pasted image 20220610125525.png"
   ]
