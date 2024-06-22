@@ -2,7 +2,7 @@
     "workbench.tree.indent": 15,
     "workbench.colorTheme": "GitHub Dark Dimmed",
     "redhat.telemetry.enabled": false,
-    "window.zoomLevel": .8,
+    "window.zoomLevel": 0.2,
     "todohighlight.isEnable": true,
     "yaml.customTags": [
         "!And",
