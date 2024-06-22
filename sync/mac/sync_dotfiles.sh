@@ -54,6 +54,9 @@ update_config_files__personal() {
     # cp -r ~/.oh-my-zsh/custom/themes/powerlevel10k/internal ~/Personal/configs/dotfiles/powerlevel10k/themes/internal
     # cp -r ~/.oh-my-zsh/custom/themes/powerlevel10k/config ~/Personal/configs/dotfiles/powerlevel10k/themes/config
     # cp -r ~/.oh-my-zsh/custom/themes/powerlevel10k/gitstatus ~/Personal/configs/dotfiles/powerlevel10k/themes/gitstatus
+
+    echo "Syncing vscode configs"
+    cp ~/Library/Application\ Support/Code/User/settings.json ~/Personal/configs/dotfiles/vscode/settings.json
 }
 
 # Now cd into git repo and sync with git
