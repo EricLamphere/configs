@@ -69,7 +69,7 @@ sync_dotfiles() {
     git diff origin/main --name-status
     git diff origin/main
 
-    printf 'Push these changes? (y/n)'
+    printf 'Push these changes? (y/n) '
     read answer
     
     if [ "$answer" != "${answer#[Yy]}" ] ;then 
