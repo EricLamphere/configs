@@ -24,6 +24,7 @@
           {
             "id": "6743eb7dc60ef109",
             "type": "leaf",
+            "pinned": true,
             "state": {
               "type": "kanban",
               "state": {
@@ -32,35 +33,24 @@
                   "kanban-plugin": "board",
                   "list-collapse": []
                 }
-              }
+              },
+              "pinned": true
             }
           },
           {
-            "id": "c6c6aa1075964b6e",
+            "id": "0cf702dae06c85a3",
             "type": "leaf",
             "state": {
               "type": "markdown",
               "state": {
-                "file": "IXIS/Projects/AoA/Initiatives/oADD/Dashboard QA.md",
-                "mode": "source",
-                "source": false
-              }
-            }
-          },
-          {
-            "id": "f593b1b6a892eb5d",
-            "type": "leaf",
-            "state": {
-              "type": "markdown",
-              "state": {
-                "file": "journal/2024/07 - July/2024-07-11 Thu.md",
+                "file": "journal/2024/07 - July/2024-07-30 Tue.md",
                 "mode": "source",
                 "source": false
               }
             }
           }
         ],
-        "currentTab": 3
+        "currentTab": 2
       }
     ],
     "direction": "vertical"
@@ -134,7 +124,7 @@
             "state": {
               "type": "backlink",
               "state": {
-                "file": "journal/2024/07 - July/2024-07-11 Thu.md",
+                "file": "journal/2024/07 - July/2024-07-30 Tue.md",
                 "collapseAll": false,
                 "extraContext": true,
                 "sortOrder": "alphabetical",
@@ -151,7 +141,7 @@
             "state": {
               "type": "outline",
               "state": {
-                "file": "journal/2024/07 - July/2024-07-11 Thu.md"
+                "file": "journal/2024/07 - July/2024-07-30 Tue.md"
               }
             }
           },
@@ -202,17 +192,26 @@
       "obsidian-kanban:Create new board": false
     }
   },
-  "active": "f593b1b6a892eb5d",
+  "active": "0cf702dae06c85a3",
   "lastOpenFiles": [
-    "journal/2024/07 - July/2024-07-10 Wed.md",
-    "journal/2024/07 - July/2024-07-11 Thu.md",
-    "journal/2024/07 - July/2024-07-09 Tue.md",
+    "journal/2024/07 - July/2024-07-29 Mon.md",
+    "journal/2024/07 - July/2024-07-30 Tue.md",
+    "journal/2024/07 - July/2024-07-24 Wed.md",
+    "journal/2024/07 - July/2024-07-23 Tue.md",
+    "journal/2024/07 - July/2024-07-22 Mon.md",
     "todo/Kanban.md",
+    "journal/2024/07 - July/2024-07-18 Thu.md",
+    "journal/2024/07 - July/2024-07-17 Wed.md",
+    "journal/2024/07 - July/2024-07-16 Tue.md",
+    "IXIS/Projects/AoA/Initiatives/oADD/Dashboard QA.md",
+    "journal/2024/07 - July/2024-07-12 Fri.md",
+    "journal/2024/07 - July/2024-07-11 Thu.md",
+    "journal/2024/07 - July/2024-07-10 Wed.md",
+    "journal/2024/07 - July/2024-07-09 Tue.md",
     "todo/Urgent TODO.md",
     "journal/2024/07 - July/2024-07-08 Mon.md",
     "journal/2024/06 - June/2024-06-28 Fri.md",
     "journal/2024/07 - July",
-    "IXIS/Projects/AoA/Initiatives/oADD/Dashboard QA.md",
     "IXIS/Private/Meetings/Checkins/2024-06-28 - Justin.md",
     "IXIS/Private/Meetings/Checkins/2023-07-24 - Erik.md",
     "IXIS/Private/zzSecrets.md",
@@ -222,15 +221,6 @@
     "journal/2024/06 - June/2024-06-24 Mon.md",
     "journal/2024/06 - June/2024-06-21 Fri.md",
     "journal/2024/06 - June/2024-06-20 Thu.md",
-    "journal/2024/06 - June/2024-06-17 Mon.md",
-    "IXIS/Projects/AoA/Initiatives/oADD/Dashboard Updates.md",
-    "journal/2024/06 - June/2024-06-14 Fri.md",
-    "journal/2024/06 - June/2024-06-12 Wed.md",
-    "journal/2024/06 - June/2024-06-10 Mon.md",
-    "journal/2024/06 - June/2024-06-07 Fri.md",
-    "journal/2024/06 - June/2024-06-06 Thu.md",
-    "IXIS/Projects/AoA/Initiatives/oADD/old/Dashboard Prototype.md",
-    "journal/2024/06 - June/2024-06-05 Wed.md",
     "journal/2024/06 - June",
     "journal/2024/05 - May",
     "obsidian/figures/Pasted image 20240415142213.png",

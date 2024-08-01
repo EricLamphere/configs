@@ -41,13 +41,19 @@ workspace() {
 }
 
 
-cwd() {
+goto() {
     PROJ=$1
-    FOLDER=$(find ~/Projects -maxdepth 2 -type d -name "$PROJ")
+    if [ $PROJ = 'dbt' ]; then
+        FOLDER=~/Projects/IXIS/ds-data-refinery/src/dbt
+    else
+        FOLDER=$(find ~/Projects -maxdepth 2 -type d -name "$PROJ")
+    fi
+    
     if [ -z $FOLDER ]; then
         echo "$Red$PROJ$Default folder not found"
     else
-        echo "Changing working directory to  $Cyan$FOLDER$Default" && cd "$FOLDER"
+        echo "Changing working directory to  $Cyan$FOLDER$Default"
+        cd $FOLDER
     fi
 }
 

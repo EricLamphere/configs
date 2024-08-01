@@ -26,6 +26,7 @@
 	pb = !git branch -D $1 && git remote prune origin && :
 	prunelocal = !sh ~/.on_load/git-prune-local.sh
 	cleanup = !git pruneremote && git prunelocal && :
+	latestrelease = !sh ~/.on_load/git-latest-release.sh
 [column]
 	ui = auto
 [branch]
