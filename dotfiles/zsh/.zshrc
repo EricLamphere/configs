@@ -17,9 +17,10 @@ ME=$(whoami)
 export PYTHON_PATH="/opt/homebrew/bin/python3.9"
 export PATH="$PATH:$PYTHON_PATH"
 
-export iodbc_path="/Library/Application Support/iODBC/bin"
-export PATH="$PATH:$iodbc_path"
+#export iodbc_path="/Library/Application Support/iODBC/bin"
+#export PATH="$PATH:$iodbc_path"
 
+export PATH="$PATH:$HOME/.dae-deploy-scripts"
 
 export VISUAL=nano
 export EDITOR=nano
