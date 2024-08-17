@@ -14,7 +14,7 @@ ME=$(whoami)
 
 # If you come from bash you might have to change your $PATH.
 # export PATH=$HOME/bin:/usr/local/bin:$PATH
-export PYTHON_PATH="/opt/homebrew/bin/python3.9"
+export PYTHON_PATH="/opt/homebrew/bin/python3.12"
 export PATH="$PATH:$PYTHON_PATH"
 
 #export iodbc_path="/Library/Application Support/iODBC/bin"
