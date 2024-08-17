@@ -72,7 +72,9 @@ alias c="clear"
 alias n="nano"
 alias rm-pycache='find ./Projects/ | grep -E "(/__pycache__$|\.pyc$|\.pyo$)" | xargs rm -rf'
 
-
+app() {
+    open -a $@
+}
 
 
 ### NOTES ###
