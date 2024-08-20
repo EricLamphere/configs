@@ -1,9 +1,7 @@
 #!/bin/bash
 
-release_branches=$(git lb "*origin/release/v*")
-
-sorted=$(echo $release_branches | sort -V)
-set -- $sorted
+release_branches=$(git lb "*origin/release/v*" | sort -Vr)
+set -- $release_branches
 latest=$1
 
 prefix="remotes/origin/"
