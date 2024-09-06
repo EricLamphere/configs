@@ -3,7 +3,7 @@
     "editor_theme": "Cobalt",
     "posix_terminal_shell": "zsh",
     "python_type": "system",
-    "python_version": "3.11.4",
+    "python_version": "3.12.3",
     "python_path": "/opt/homebrew/bin/python3",
     "default_project_location": "~/Projects/IXIS",
     "show_hidden_files": true,
