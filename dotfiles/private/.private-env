@@ -1,0 +1,5 @@
+# > This file was created from a template in ~/Personal/configs/dotfiles/private/.private-env 
+# > This file is sourced in ~/.zshrc to establish environment variables and utility functions
+#   specific to the machine
+
+export PROJECT_PATH=Personal
