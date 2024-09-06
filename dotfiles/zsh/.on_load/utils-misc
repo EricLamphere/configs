@@ -6,7 +6,12 @@
 ### OPEN ###
 ropen() {
     PROJ=$1
-    FILE=$(find ~/Projects -maxdepth 3 -type f -name "$PROJ.Rproj")
+    if [ -z "$2" ]; then
+        ROOT_PATH="$PROJECT_PATH"
+    else
+        ROOT_PATH="$2"
+    fi
+    FILE=$(find ~/${ROOT_PATH} -maxdepth 3 -type f -name "$PROJ.Rproj")
     if [ -z $FILE ]; then
         echo "$Red$PROJ.Rproj$Default not found"
     else
@@ -18,7 +23,7 @@ ropen() {
 vsopen() {
     PROJ=$1
     if [ -z "$2" ]; then
-	    ROOT_PATH="~/Projects"
+	    ROOT_PATH="$PROJECT_PATH"
     else
 	    ROOT_PATH="$2"
     fi
@@ -34,7 +39,7 @@ vsopen() {
 
 workspace() {
     WS=$1
-    cd ~/Projects/IXIS/workspaces/
+    cd ~/${PROJECT_PATH}/workspaces/
     echo "Opening vscode workspace $Cyan$WS$Default"
     open ${WS}.code-workspace
     cd -
@@ -44,9 +49,14 @@ workspace() {
 goto() {
     PROJ=$1
     if [ $PROJ = 'dbt' ]; then
-        FOLDER=~/Projects/IXIS/ds-data-refinery/src/dbt
+        FOLDER=~/${PROJECT_PATH}/dbt/
     else
-        FOLDER=$(find ~/Projects -maxdepth 2 -type d -name "$PROJ")
+        if [ -z "$2" ]; then
+            ROOT_PATH="$PROJECT_PATH"
+        else
+            ROOT_PATH="$2"
+        fi
+        FOLDER=$(find ~/${ROOT_PATH} -maxdepth 2 -type d -name "$PROJ")
     fi
     
     if [ -z $FOLDER ]; then
@@ -70,9 +80,11 @@ alias slack="open -a Slack"
 alias zoom="open -a zoom.us"
 alias c="clear"
 alias n="nano"
-alias rm-pycache='find ./Projects/ | grep -E "(/__pycache__$|\.pyc$|\.pyo$)" | xargs rm -rf'
+alias rm-pycache='find ./${PROJECT_PATH}/ | grep -E "(/__pycache__$|\.pyc$|\.pyo$)" | xargs rm -rf'
 
-
+app() {
+    open -a $@
+}
 
 
 ### NOTES ###

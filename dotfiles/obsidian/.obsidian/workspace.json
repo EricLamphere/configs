@@ -36,21 +36,9 @@
               },
               "pinned": true
             }
-          },
-          {
-            "id": "7106b60ca13ea874",
-            "type": "leaf",
-            "state": {
-              "type": "markdown",
-              "state": {
-                "file": "journal/2024/09 - September/2024-09-04 Wed.md",
-                "mode": "source",
-                "source": false
-              }
-            }
           }
         ],
-        "currentTab": 2
+        "currentTab": 1
       }
     ],
     "direction": "vertical"
@@ -125,7 +113,7 @@
             "state": {
               "type": "backlink",
               "state": {
-                "file": "journal/2024/09 - September/2024-09-04 Wed.md",
+                "file": "todo/Kanban.md",
                 "collapseAll": false,
                 "extraContext": true,
                 "sortOrder": "alphabetical",
@@ -142,7 +130,7 @@
             "state": {
               "type": "outline",
               "state": {
-                "file": "journal/2024/09 - September/2024-09-04 Wed.md"
+                "file": "todo/Kanban.md"
               }
             }
           },
@@ -193,38 +181,28 @@
       "obsidian-kanban:Create new board": false
     }
   },
-  "active": "7106b60ca13ea874",
+  "active": "6743eb7dc60ef109",
   "lastOpenFiles": [
-    "journal/2024/09 - September/2024-09-03 Tue.md",
-    "journal/2024/09 - September/2024-09-04 Wed.md",
     "todo/Urgent TODO.md",
     "todo/Kanban.md",
-    "journal/2024/08 - August/2024-08-28 Wed.md",
-    "journal/2024/08 - August/2024-08-29 Thu.md",
-    "journal/2024/08 - August/2024-08-30 Fri.md",
-    "journal/2024/09 - September",
-    "journal/2024/07 - July/2024-07-18 Thu.md",
-    "IXIS/Projects/Atlas/Repos/dsmodels/ixis_dsmodels.md",
-    "journal/2024/08 - August/2024-08-27 Tue.md",
-    "journal/2024/08 - August/2024-08-21 Wed.md",
-    "journal/2024/08 - August/2024-08-20 Tue.md",
-    "journal/2024/08 - August/2024-08-15 Thu.md",
-    "journal/2024/08 - August/2024-08-14 Wed.md",
-    "journal/2024/08 - August/2024-08-13 Tue.md",
-    "journal/2024/08 - August/2024-08-12 Mon.md",
-    "journal/2024/08 - August/2024-08-08 Thu.md",
-    "obsidian/figures/Pasted image 20240808102038.png",
-    "journal/2024/08 - August/2024-08-07 Wed.md",
-    "journal/2024/08 - August/2024-08-05 Mon.md",
-    "journal/2024/07 - July/2024-07-30 Tue.md",
-    "journal/2024/08 - August",
-    "journal/2024/07 - July/2024-07-29 Mon.md",
-    "journal/2024/07 - July/2024-07-24 Wed.md",
-    "journal/2024/07 - July/2024-07-23 Tue.md",
-    "journal/2024/07 - July/2024-07-22 Mon.md",
-    "journal/2024/07 - July/2024-07-17 Wed.md",
-    "journal/2024/07 - July/2024-07-16 Tue.md",
-    "journal/2024/07 - July",
+    "journal/2024/08 - August/2024-08-25 Sun.md",
+    "journal/2024/08 - August/2024-08-17 Sat.md",
+    "journal/2024/06 - June/2024-06-16 Sun.md",
+    "journal/2024/06 - June/2024-06-21 Fri.md",
+    "Code/Software/dbt.md",
+    "Code/Untitled",
+    "Code/Software/AWS.md",
+    "Code/Software/Apache.md",
+    "Code/Software/Airbyte.md",
+    "Code/General.md",
+    "Code/Snippets/SQL.md",
+    "Code/Snippets/Python.md",
+    "Code/Snippets/Node.md",
+    "Code/Snippets/Git.md",
+    "Code/Snippets/Docker.md",
+    "Code/Snippets/dbt.md",
+    "Code/Snippets/CLI.md",
+    "README.md",
     "journal/2024/06 - June",
     "journal/2024/05 - May",
     "obsidian/figures/Pasted image 20240415142213.png",

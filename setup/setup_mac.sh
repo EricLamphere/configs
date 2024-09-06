@@ -16,3 +16,6 @@ setup_rstudio
 
 echo "Setting up zsh configs"
 setup_zsh
+
+echo "Setting up vscode settings"
+setup_vscode
