@@ -92,7 +92,8 @@
               "state": {}
             }
           }
-        ]
+        ],
+        "currentTab": 1
       }
     ],
     "direction": "horizontal",
@@ -211,7 +212,6 @@
     "IXIS/Private/Hiring/Data_Analytics_Engineer/Candidates/Not Considering",
     "IXIS/Private/Hiring/Data_Analytics_Engineer/Candidates/Hired",
     "IXIS/Private/Hiring/Data_Analytics_Engineer/Trainings",
-    "IXIS/Private/Hiring/Data_Analytics_Engineer/Candidates",
     "obsidian/figures/Pasted image 20240117160432.png",
     "obsidian/figures/Pasted image 20240117155055.png",
     "obsidian/figures/Pasted image 20231129132829.png",
