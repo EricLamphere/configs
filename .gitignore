@@ -4,3 +4,4 @@
 .Ruserdata
 */**.DS_Store
 ~/.private-env
+dotfiles/obsidian/.obsidian/workspace*
