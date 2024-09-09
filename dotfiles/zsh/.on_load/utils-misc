@@ -39,7 +39,16 @@ vsopen() {
 
 workspace() {
     WS=$1
-    cd ~/${PROJECT_PATH}/workspaces/
+    user=$(whoami)
+    if [[ $user == 'ericlamphere' ]]; then
+        cd ~/${PROJECT_PATH}/workspaces/
+    elif [[ $user == 'eric' ]]; then
+        cd ~/${PROJECT_PATH}/IXIS/workspaces
+    else
+        echo "Machine name didn't match 'eric' (work) or 'ericlamphere' (personal)"
+        echo " > Defaulting to ~/$PROJECT_PATH/workspaces/"
+        cd ~/${PROJECT_PATH}/workspaces/
+    fi
     echo "Opening vscode workspace $Cyan$WS$Default"
     open ${WS}.code-workspace
     cd -
