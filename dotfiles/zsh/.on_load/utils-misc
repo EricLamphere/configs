@@ -57,8 +57,17 @@ workspace() {
 
 goto() {
     PROJ=$1
+    user=$(whoami)
     if [ $PROJ = 'dbt' ]; then
-        FOLDER=~/${PROJECT_PATH}/dbt/
+        if [ $user = 'ericlamphere' ]; then
+            FOLDER=~/${PROJECT_PATH}/dbt/
+        elif [ $user = 'eric' ]; then
+            FOLDER=~/${PROJECT_PATH}/IXIS/ds-data-refinery/src/dbt/
+        else
+            echo "Machine name didn't match 'eric' (work) or 'ericlamphere' (personal)"
+            echo " > Defaulting to ~/${PROJECT_PATH}/dbt/"
+            FOLDER=~/${PROJECT_PATH}/dbt/
+        fi
     else
         if [ -z "$2" ]; then
             ROOT_PATH="$PROJECT_PATH"
