@@ -65,9 +65,11 @@ sync_dotfiles() {
 
     cd ~/Personal/configs
 
+    branch=$(git rev-parse --abbrev-ref HEAD)
+
     echo "GIT DIFF"
-    git diff origin/main --name-status
-    git diff origin/main
+    git diff origin/${branch} --name-status
+    git diff origin/${branch}
 
     printf 'Push these changes? (y/n) '
     read answer
