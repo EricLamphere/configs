@@ -65,7 +65,7 @@ sync_dotfiles() {
 
     cd ~/Personal/configs
 
-    branch=$(git rev-parse --abbrev-ref HEAD)
+    branch=$(git currentbranch)
 
     echo "GIT DIFF"
     git diff origin/${branch} --name-status
