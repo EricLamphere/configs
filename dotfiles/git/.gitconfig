@@ -27,6 +27,7 @@
 	prunelocal = !sh ~/.on_load/git-prune-local.sh
 	cleanup = !git pruneremote && git prunelocal && :
 	latestrelease = !sh ~/.on_load/git-latest-release.sh
+	currentbranch = !git rev-parse --abbrev-ref HEAD
 [column]
 	ui = auto
 [branch]
