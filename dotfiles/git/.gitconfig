@@ -18,7 +18,7 @@
 	dif = diff --name-status
 	diffo = diff @{upstream}
 	difo = diffo --name-status
-    difflr = !sh ~/.on_load/git-diff-latest-release.sh
+	difflr = !git diff origin/$(git latestrelease)
 	diflr = difflr --name-status
 	stash = stash --all
 	pruneremote = !echo "pruning remote" && git remote prune origin && :
