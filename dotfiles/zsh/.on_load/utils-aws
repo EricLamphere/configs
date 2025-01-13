@@ -4,12 +4,17 @@
 
 
 # AWS Auth
+aws_default_region() {
+    echo "us-east-1"
+}
+
 aws_base_env() {
     export AWS_DEFAULT_PROFILE='dev'
 
-    export AWS_DEFAULT_REGION=us-east-1
-    export REGION=us-east-1
-    export Region=us-east-1
+    default_region=$(aws_default_region)
+    export AWS_DEFAULT_REGION=$default_region
+    export REGION=$default_region
+    export Region=$default_region
 
     export AWS_SDK_LOAD_CONFIG=true
 
@@ -18,7 +23,12 @@ aws_base_env() {
 
 amazon() {
     # base
-    declare -A accountids=( [sandbox]=042160483821 [dev]=224391273786 [staging]=053659339701 [production]=227301701583 )
+    declare -A accountids=(
+        [sandbox]=042160483821 
+        [dev]=224391273786 
+        [staging]=053659339701 
+        [production]=227301701583
+    )
     aws_base_env
 
     # stage aliases
@@ -117,71 +127,3 @@ ssh.ec2.terminal() {
 }
 
 
-# auth with AWS
-# > main function is in ~/.private-env
-# aws_base_env() {
-#     export AWS_DEFAULT_PROFILE='dev'
-
-#     export AWS_DEFAULT_REGION=us-east-1
-#     export REGION=us-east-1
-#     export Region=us-east-1
-
-#     export AWS_SDK_LOAD_CONFIG=true
-
-#     export AWS_DEFAULT_OUTPUT='table'
-# }
-
-# amazon() {
-#     # base
-#     declare -A accountids=( [sandbox]=0000 [dev]=1111 [staging]=2222 [production]=3333 )
-#     aws_base_env
-
-#     # stage aliases
-#     stage=${1:-$AWS_DEFAULT_PROFILE}
-#     if [[ $stage == 'prod' ]]
-#     then
-#         stage='production'
-#     elif [[ $stage == 'stag' ]]
-#     then
-#         stage='staging'
-#     elif [[ $stage == 'sand' ]]
-#     then
-#         stage='sandbox'
-#     elif [[ $stage == 'all' ]]
-#     then
-#         amazon production
-#         amazon staging
-#         amazon sandbox
-#         amazon dev
-#         return 1
-#     fi
-
-#     # vars
-# 	id=${accountids[$stage]}
-# 	access=${2:-admin}
-
-#     # message & env var
-# 	export AWS_DEFAULT_PROFILE=platform-$stage-$access
-#     color_light_cyan='\033[1;36m'
-#     color_default='\e[0m'
-#     color_red='\033[0;31m'
-# 	echo "Authenticating with ${color_light_cyan}${AWS_DEFAULT_PROFILE}${color_default}"
-
-#     # env vars
-# 	unset AWS_ACCESS_KEY_ID AWS_SECRET_ACCESS_KEY AWS_SESSION_TOKEN
-# 	export AWS_ACCOUNT_ID=$id
-# 	export AWS_PROFILE=$AWS_DEFAULT_PROFILE
-# 	export STAGE=$stage
-# 	export ACCESS=$access
-#     export NOTIFICATIONS_TOPIC_ARN=arn:aws:sns:$AWS_DEFAULT_REGION:$AWS_ACCOUNT_ID:notifications-and-alerts-topic
-# 	export NotificationsTopicArn=arn:aws:sns:$AWS_DEFAULT_REGION:$AWS_ACCOUNT_ID:notifications-and-alerts-topic
-
-#     # refresh tokens
-# 	ssocred $AWS_PROFILE 2> /dev/null
-
-#     if (( $? != 0 ))
-#     then
-#         echo "!! ${color_red}Authentication failed for profile ${AWS_PROFILE}${color_default} !!"
-#         return 1
-#     fi
-# }

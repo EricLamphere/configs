@@ -96,6 +96,8 @@ alias rstudio="open -a RStudio"
 alias spotify="open -a Spotify"
 alias slack="open -a Slack"
 alias zoom="open -a zoom.us"
+
+alias g="git"
 alias c="clear"
 alias n="nano"
 alias rm-pycache='find ./${PROJECT_PATH}/ | grep -E "(/__pycache__$|\.pyc$|\.pyo$)" | xargs rm -rf'
@@ -119,5 +121,5 @@ catodo() {
 
     if grep -q "\\* \\[ \\]" $file; then
         mdcat $file $@
-    fi  
+    fi
 }
