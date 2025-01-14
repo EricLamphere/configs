@@ -50,13 +50,13 @@ update_config_files__personal() {
 
     cp -r ~/.p10k.zsh ~/Personal/configs/dotfiles/powerlevel10k/.p10k.zsh
     cp -r ~/.oh-my-zsh/custom/themes/powerlevel10k/ ~/Personal/configs/dotfiles/powerlevel10k/themes/
-    # cp -r ~/.oh-my-zsh/custom/themes/powerlevel10k/powerlevel10k.zsh-theme ~/Personal/configs/dotfiles/powerlevel10k/themes/
-    # cp -r ~/.oh-my-zsh/custom/themes/powerlevel10k/internal ~/Personal/configs/dotfiles/powerlevel10k/themes/internal
-    # cp -r ~/.oh-my-zsh/custom/themes/powerlevel10k/config ~/Personal/configs/dotfiles/powerlevel10k/themes/config
-    # cp -r ~/.oh-my-zsh/custom/themes/powerlevel10k/gitstatus ~/Personal/configs/dotfiles/powerlevel10k/themes/gitstatus
 
     echo "Syncing vscode configs"
     cp ~/Library/Application\ Support/Code/User/settings.json ~/Personal/configs/dotfiles/vscode/settings.json
+
+    echo "Syncing duckdb.ini file"
+    rm -rf ~/Personal/configs/dotfiles/duckdb.ini
+    cp ~/.duckdb.ini ~/Personal/configs/dotfiles/duckdb.ini
 }
 
 # Now cd into git repo and sync with git

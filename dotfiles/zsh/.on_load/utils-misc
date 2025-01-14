@@ -123,3 +123,8 @@ catodo() {
         mdcat $file $@
     fi
 }
+
+# Add duckdb alias
+if [[ -f "$HOME/.duckdb.ini" ]]; then
+	alias awsduck='duckdb --init ~/.duckdb.ini'
+fi
