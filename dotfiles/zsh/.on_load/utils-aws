@@ -51,12 +51,21 @@ amazon() {
         return 1
     elif [[ $stage == 'refresh' ]]
     then
+        original_stage=$STAGE
+        
         echo "Logging out..."
         aws sso logout
         export STAGE=$AWS_DEFAULT_PROFILE
         echo "Logging in..."
         aws sso login
-        amazon all
+        
+        if [[ $original_stage ]]
+        then
+            amazon $original_stage
+        else
+            amazon all
+        fi
+
         return 1
     fi
 
