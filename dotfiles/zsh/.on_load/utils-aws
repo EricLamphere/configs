@@ -85,6 +85,8 @@ amazon() {
 	export AWS_ACCOUNT_ID=$id
 	export AWS_PROFILE=$AWS_DEFAULT_PROFILE
 	export STAGE=$stage
+	export AWS_STAGE=$stage
+	export AWS_ENV=$stage
 	export ACCESS=$access
     export NOTIFICATIONS_TOPIC_ARN=arn:aws:sns:$AWS_DEFAULT_REGION:$AWS_ACCOUNT_ID:notifications-and-alerts-topic
 	export NotificationsTopicArn=arn:aws:sns:$AWS_DEFAULT_REGION:$AWS_ACCOUNT_ID:notifications-and-alerts-topic
