@@ -143,5 +143,6 @@
     "codeium.enableConfig": {
         "*": true
     },
-    "altimate.onboardedMcpServer": true
+    "altimate.onboardedMcpServer": true,
+    "dbt-formatter.upper": false
 }

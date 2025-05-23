@@ -94,7 +94,13 @@ amazon() {
     # refresh tokens
 	ssocred $AWS_PROFILE 2> /dev/null
 
-    if (( $? != 0 ))
+    if (( $? != 0 ));
+    then
+        echo "Logging in with ssocred failed, trying aws sso login"
+        aws sso login --profile $AWS_PROFILE 2> /dev/null
+    fi
+    
+    if (( $? != 0 ));
     then
         echo "!! ${color_red}Authentication failed for profile ${AWS_PROFILE}${color_default} !!"
         return 1
