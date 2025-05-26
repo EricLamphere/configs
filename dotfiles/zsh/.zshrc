@@ -11,6 +11,7 @@ fi
 ME=$(whoami)
 
 
+# ----------------- PATH -----------------
 
 # If you come from bash you might have to change your $PATH.
 # export PATH=$HOME/bin:/usr/local/bin:$PATH
@@ -20,7 +21,14 @@ export PATH="$PATH:$PYTHON_PATH"
 #export iodbc_path="/Library/Application Support/iODBC/bin"
 #export PATH="$PATH:$iodbc_path"
 
+# dae deploy scripts
 export PATH="$PATH:$HOME/.dae-deploy-scripts"
+
+# positron
+export POSITRON_PATH="/Applications/Positron.app"
+export PATH="$PATH:$POSITRON_PATH"
+
+# ----------------- PATH END -----------------
 
 export VISUAL=nano
 export EDITOR=nano
@@ -76,4 +84,31 @@ typeset -g POWERLEVEL9K_INSTANT_PROMPT=quiet
 catodo
 
 PATH=$HOME/bin:$PATH
-PATH=$HOME/bin:$PATH
+# added by dae-tools installer
+PATH=$HOME/.dae-deploy-scripts:$PATH
+# added by dae-tools installer
+fpath=($HOME/.dae-deploy-scripts/completions $fpath)
+# added by dae-tools installer
+compinit
+# added by dae-tools installer
+fpath=($HOME/.dae-deploy-scripts/completions $fpath)
+# added by dae-tools installer
+compinit
+
+
+
+atlas_common_metrics() {
+  aws ecr get-login-password --region us-east-1 | docker login --username AWS --password-stdin ${AWS_ACCOUNT_ID}.dkr.ecr.us-east-1.amazonaws.com
+  if [ ! -f "deployment.yml" ]; then
+    echo "Error: File 'deployment.yml' not found is current directory." >&2
+  else
+    docker run -it \
+    -v $(pwd)/deployment.yml:/tmp/deployment.yaml \
+    -v $HOME/.aws/:/root/.aws/ \
+    -e AWS_DEFAULT_PROFILE=$AWS_DEFAULT_PROFILE \
+    -e AWS_PROFILE=$AWS_PROFILE \
+    ${AWS_ACCOUNT_ID}.dkr.ecr.us-east-1.amazonaws.com/serverless-atlas-custom-metrics-${STAGE}:engine -f /tmp/deployment.yaml \
+    $@
+  fi
+}
+

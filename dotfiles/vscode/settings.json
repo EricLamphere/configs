@@ -139,5 +139,10 @@
     },
     "terminal.integrated.defaultProfile.osx": "zsh",
     "terminal.integrated.enablePersistentSessions": false,
-    "python.terminal.activateEnvironment": false
+    "python.terminal.activateEnvironment": false,
+    "codeium.enableConfig": {
+        "*": true
+    },
+    "altimate.onboardedMcpServer": true,
+    "dbt-formatter.upper": false
 }

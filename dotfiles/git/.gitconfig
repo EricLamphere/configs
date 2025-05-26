@@ -14,10 +14,14 @@
 	cm = commit -m
 	lg = log --graph --decorate --oneline --all
 	lb = branch -a --list
+	mybranches = !sh ~/.on_load/git-list-my-branches.sh
+	branchesbyname = !git for-each-ref --format=' %(authorname) %09 %(refname)' --sort=authorname
 	reb = rebase
 	dif = diff --name-status
 	diffo = diff @{upstream}
-	difo = diff @{upstream} --name-status
+	difo = diffo --name-status
+	difflr = !git diff origin/$(git latestrelease)
+	diflr = difflr --name-status
 	stash = stash --all
 	pruneremote = !echo "pruning remote" && git remote prune origin && :
 	pullnoreb = pull origin --no-rebase
@@ -27,6 +31,7 @@
 	prunelocal = !sh ~/.on_load/git-prune-local.sh
 	cleanup = !git pruneremote && git prunelocal && :
 	latestrelease = !sh ~/.on_load/git-latest-release.sh
+	currentbranch = !git rev-parse --abbrev-ref HEAD
 [column]
 	ui = auto
 [branch]

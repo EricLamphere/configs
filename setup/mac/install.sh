@@ -10,7 +10,7 @@ brew install iterm2 sublime-text google-chrome spotify
 
 
 echo "----- Installing Software -----"
-brew install visual-studio-code r rstudio gh docker python
+brew install visual-studio-code r rstudio gh docker python duckdb
 
 
 echo "----- Installing OhMyZsh -----"

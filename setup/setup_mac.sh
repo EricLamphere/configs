@@ -19,3 +19,6 @@ setup_zsh
 
 echo "Setting up vscode settings"
 setup_vscode
+
+echo "Setting up duckdb configs"
+setup_duckdb
