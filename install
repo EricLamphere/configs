@@ -11,7 +11,7 @@ echo "----- Installing Apps -----"
 brew install iterm2 sublime-text google-chrome spotify
 
 
-echo "----- Installing Software -----"
+echo "----- Installing Coding Tools -----"
 brew install visual-studio-code r rstudio gh docker python duckdb
 
 
