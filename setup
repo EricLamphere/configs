@@ -9,7 +9,8 @@ set -e  # Exit on any error
 SCRIPT_NAME="${0##*/}"
 
 # Configuration
-DOTFILES_DIR="$HOME/Personal/configs/dotfiles"
+BASE_DOTFILES_DIR="$HOME/Personal/configs/dotfiles"
+DOTFILES_DIR="$BASE_DOTFILES_DIR"
 TARGET_DIR="$HOME"
 STOW_CMD="stow"
 
@@ -92,6 +93,7 @@ show_help() {
     echo "  -p, --package  Stow specific package only"
     echo "  -f, --force    Force symlinks even if files already exist"
     echo "  -y, --yes      Auto-confirm removals when using --force"
+    echo "  -o, --os       Target OS: mac (default) or windows"
     echo ""
     echo "Examples:"
     echo "  $script_name                    # Stow all packages"
@@ -101,6 +103,7 @@ show_help() {
     echo "  $script_name --restow           # Clean and restow all packages"
     echo "  $script_name --force            # Force symlinks, prompt before removal"
     echo "  $script_name --force --yes      # Force symlinks, auto-confirm removals"
+    echo "  $script_name --os windows       # Use dotfiles/windows as the source"
 }
 
 # Function to stow packages
@@ -125,6 +128,11 @@ stow_packages() {
     print_status "Stowing packages: ${packages[*]}"
     
     for package in "${packages[@]}"; do
+        if [ "$package" = "private" ]; then
+            print_status "Skipping private package"
+            continue
+        fi
+
         local package_path="$DOTFILES_DIR/$package"
         
         if [ ! -d "$package_path" ]; then
@@ -193,11 +201,19 @@ setup_private_file() {
     local private_file="$HOME/.private-env"
     local private_template="$DOTFILES_DIR/private/.private-env"
     
-    if [ -f "$private_file" ]; then
+    # Check if file exists and is readable (not a broken symlink)
+    if [ -f "$private_file" ] && [ -r "$private_file" ]; then
         print_status "$private_file file already exists"
     else
+        # Remove broken symlink if it exists
+        if [ -L "$private_file" ]; then
+            print_status "Removing broken symlink: $private_file"
+            rm "$private_file"
+        fi
+        
+        print_status "Private file not found: $private_file"
         if [ -f "$private_template" ]; then
-            print_status "Adding template $private_file file to your home directory"
+            print_status "Copying template $private_template file to $private_file"
             cp "$private_template" "$private_file"
             print_success "Created $private_file from template"
         else
@@ -300,7 +316,7 @@ main() {
     # Parse command line arguments using zparseopts
     local -A opts
     local -a args
-    local -a help dry_run clean restow list package force yes
+    local -a help dry_run clean restow list package force yes os
     
     # Define option specifications for zparseopts
     # Format: -o shortopt --longopt:description
@@ -312,7 +328,8 @@ main() {
         l=list -list=list \
         p:=package -package:=package \
         f=force -force=force \
-        y=yes -yes=yes
+        y=yes -yes=yes \
+        o:=os -os:=os
     
     # Check for help option
     if (( ${#help[@]} > 0 )); then
@@ -335,6 +352,23 @@ main() {
         # The value is at index 1 (index 0 is the option itself)
         SPECIFIC_PACKAGE="${package[2]}"
     fi
+
+    # Resolve OS selection (default: mac)
+    SELECTED_OS="mac"
+    if (( ${#os[@]} > 0 )); then
+        SELECTED_OS="${os[2]}"
+    fi
+    case "$SELECTED_OS" in
+        mac|windows)
+            ;;
+        *)
+            print_error "Invalid --os value: $SELECTED_OS (expected 'mac' or 'windows')"
+            exit 1
+            ;;
+    esac
+    DOTFILES_DIR="$BASE_DOTFILES_DIR/$SELECTED_OS"
+    print_status "Using OS: $SELECTED_OS"
+    print_status "Dotfiles dir: $DOTFILES_DIR"
     
     # Check for unknown arguments
     if (( $# > 0 )); then
@@ -347,8 +381,10 @@ main() {
     check_stow
     check_dotfiles_dir
     
-    # Setup private file (always run this)
-    setup_private_file
+    # Setup private file (always run this, but respect dry run)
+    if (( ! DRY_RUN )); then
+        setup_private_file
+    fi
     
     # Handle different modes
     if (( LIST )); then

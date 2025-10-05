@@ -3,3 +3,4 @@
 #   specific to the machine
 
 export PROJECT_PATH=Personal
+export FULL_NAME="Eric Lamphere"
