@@ -70,7 +70,8 @@ source $ZSH/oh-my-zsh.sh
 ##### SOURCE UTIL CONFIG FILES #####
 #######################################################################################
 
-source <(cat ~/.on_load/utils-*)
+source ~/.on_load/aliases
+source ~/.on_load/env
 source ~/.private-env
 
 ### p10k
