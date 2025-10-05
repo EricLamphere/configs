@@ -96,19 +96,8 @@ fpath=($HOME/.dae-deploy-scripts/completions $fpath)
 compinit
 
 
-
-atlas_common_metrics() {
-  aws ecr get-login-password --region us-east-1 | docker login --username AWS --password-stdin ${AWS_ACCOUNT_ID}.dkr.ecr.us-east-1.amazonaws.com
-  if [ ! -f "deployment.yml" ]; then
-    echo "Error: File 'deployment.yml' not found is current directory." >&2
-  else
-    docker run -it \
-    -v $(pwd)/deployment.yml:/tmp/deployment.yaml \
-    -v $HOME/.aws/:/root/.aws/ \
-    -e AWS_DEFAULT_PROFILE=$AWS_DEFAULT_PROFILE \
-    -e AWS_PROFILE=$AWS_PROFILE \
-    ${AWS_ACCOUNT_ID}.dkr.ecr.us-east-1.amazonaws.com/serverless-atlas-custom-metrics-${STAGE}:engine -f /tmp/deployment.yaml \
-    $@
-  fi
-}
+# Add duckdb alias
+if [[ -f "$HOME/.duckdb.ini" ]]; then
+	alias awsduck='duckdb --init ~/.duckdb.ini'
+fi
 
