@@ -105,16 +105,32 @@ app() {
 }
 
 
+notes_root() {
+    user=$(whoami)
+    if [ $user = 'ericlamphere' ]; then
+        root=${HOME}/Library/Mobile\ Documents/com\~apple\~CloudDocs
+    else
+        root=${HOME}
+    fi
+
+    echo ${root}
+}
+
 notes() {
-  cd ~/vaults/notes
+    root=$(notes_root)
+    
+    cd ${root}/vaults/notes
 }
 
 todo() {
-  nano ~/vaults/notes/todo/Urgent\ TODO.md $@
+    root=$(notes_root)
+
+    nano ${root}/vaults/notes/todo/Urgent\ TODO.md $@
 }
 
 catodo() {
-    file=~/vaults/notes/todo/Urgent\ TODO.md
+    root=$(notes_root)
+    file=${root}/vaults/notes/todo/Urgent\ TODO.md
 
     if grep -q "\\* \\[ \\]" $file; then
         mdcat $file $@
