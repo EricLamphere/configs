@@ -15,6 +15,10 @@ echo "----- Installing Coding Tools -----"
 brew install visual-studio-code r rstudio gh docker python duckdb
 
 
+echo "----- Installing Utils -----"
+brew install mdcat ddgr micro
+
+
 echo "----- Installing OhMyZsh -----"
 sh -c "$(curl -fsSL https://raw.githubusercontent.com/ohmyzsh/ohmyzsh/master/tools/install.sh)"
 

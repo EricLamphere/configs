@@ -5,36 +5,37 @@ if [[ -r "${XDG_CACHE_HOME:-$HOME/.cache}/p10k-instant-prompt-${(%):-%n}.zsh" ]]
   source "${XDG_CACHE_HOME:-$HOME/.cache}/p10k-instant-prompt-${(%):-%n}.zsh"
 fi
 
-#######################################################################################
-##### ZSH CONFIGURATION #####
-#######################################################################################
+
 ME=$(whoami)
 
 
 # ----------------- PATH -----------------
-
 # If you come from bash you might have to change your $PATH.
 # export PATH=$HOME/bin:/usr/local/bin:$PATH
 export PYTHON_PATH="/opt/homebrew/bin/python3.12"
 export PATH="$PATH:$PYTHON_PATH"
 
-#export iodbc_path="/Library/Application Support/iODBC/bin"
-#export PATH="$PATH:$iodbc_path"
-
-# dae deploy scripts
-export PATH="$PATH:$HOME/.dae-deploy-scripts"
-
 # positron
 export POSITRON_PATH="/Applications/Positron.app"
 export PATH="$PATH:$POSITRON_PATH"
 
+# misc
+PATH=$HOME/bin:$PATH
 # ----------------- PATH END -----------------
 
-export VISUAL=nano
-export EDITOR=nano
+
+# ----------------- BASE -----------------
+export VISUAL=micro
+export EDITOR=micro
 
 # less output modification
 export LESS="-FXR"
+
+# ----------------- BASE END -----------------
+
+
+
+# ----------------- ZSH -----------------
 
 # Path to your oh-my-zsh installation.
 export ZSH="/Users/$ME/.oh-my-zsh"
@@ -63,42 +64,35 @@ plugins=(git-open)
 
 source $ZSH/oh-my-zsh.sh
 
+# ----------------- ZSH END -----------------
 
 
 
-#######################################################################################
-##### SOURCE UTIL CONFIG FILES #####
-#######################################################################################
+
+
+
+# ----------------- UTIL CONFIG FILES -----------------
 
 source ~/.on_load/aliases
 source ~/.on_load/env
 source ~/.private-env
 
-### p10k
+# ----------------- UTIL CONFIG FILES END -----------------
+
+
+
+
+# ----------------- P10k -----------------
+
 # To customize prompt, run `p10k configure` or edit ~/.p10k.zsh.
 [[ ! -f ~/.p10k.zsh ]] || source ~/.p10k.zsh
 
-
 # don't show warning due to cat message below
 typeset -g POWERLEVEL9K_INSTANT_PROMPT=quiet
+
+# ----------------- P10k -----------------
+
 # print out todo list
 catodo
 
-PATH=$HOME/bin:$PATH
-# added by dae-tools installer
-PATH=$HOME/.dae-deploy-scripts:$PATH
-# added by dae-tools installer
-fpath=($HOME/.dae-deploy-scripts/completions $fpath)
-# added by dae-tools installer
-compinit
-# added by dae-tools installer
-fpath=($HOME/.dae-deploy-scripts/completions $fpath)
-# added by dae-tools installer
-compinit
-
-
-# Add duckdb alias
-if [[ -f "$HOME/.duckdb.ini" ]]; then
-	alias awsduck='duckdb --init ~/.duckdb.ini'
-fi
 

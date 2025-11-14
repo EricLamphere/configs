@@ -16,6 +16,16 @@ alias g="git"
 alias c="clear"
 alias n="nano"
 alias rm-pycache='find ./${PROJECT_PATH}/ | grep -E "(/__pycache__$|\.pyc$|\.pyo$)" | xargs rm -rf'
+alias ddgo="ddgr"
+alias ddg="ddgr"
+alias e="micro"
+
+
+
+if [[ -f "$HOME/.duckdb.ini" ]]; then
+	alias awsduck='duckdb --init ~/.duckdb.ini'
+fi
+
 
 ### OPEN ###
 ropen() {
@@ -160,7 +170,36 @@ export_env() {
 }
 
 
+worthit() {
+    if [ $# -ne 2 ]; then
+        echo "Usage: worthit <cost> <time_in_minutes>"
+        return 1
+    fi
 
+    cost=$1
+    time_min=$2
+
+    if [ -z "$SALARY" ]; then
+        echo "Error: SALARY environment variable not set (annual salary in USD)"
+        return 1
+    fi
+
+    # Assume 2080 work hours per year (full-time)
+    hourly=$(echo "scale=2; $SALARY / 2080" | bc -l)
+    per_min=$(echo "scale=2; $hourly / 60" | bc -l)
+    opp_cost=$(echo "scale=2; $per_min * $time_min" | bc -l)
+
+    echo "Opportunity cost: \$$opp_cost (time spent earning equivalent)"
+    echo "Item cost: \$$cost"
+
+    if (( $(echo "$opp_cost > $cost" | bc -l) )); then
+        echo "Worth it!"
+    elif (( $(echo "$opp_cost == $cost" | bc -l) )); then
+        echo "Neutral (opportunity cost = item cost)."
+    else
+        echo "Not worth it."
+    fi
+}
 
 
 
