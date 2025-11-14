@@ -18,6 +18,9 @@ alias n="nano"
 alias rm-pycache='find ./${PROJECT_PATH}/ | grep -E "(/__pycache__$|\.pyc$|\.pyo$)" | xargs rm -rf'
 alias ddgo="ddgr"
 alias ddg="ddgr"
+alias e="micro"
+
+
 
 if [[ -f "$HOME/.duckdb.ini" ]]; then
 	alias awsduck='duckdb --init ~/.duckdb.ini'
