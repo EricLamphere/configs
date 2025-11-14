@@ -19,6 +19,11 @@ alias rm-pycache='find ./${PROJECT_PATH}/ | grep -E "(/__pycache__$|\.pyc$|\.pyo
 alias ddgo="ddgr"
 alias ddg="ddgr"
 
+if [[ -f "$HOME/.duckdb.ini" ]]; then
+	alias awsduck='duckdb --init ~/.duckdb.ini'
+fi
+
+
 ### OPEN ###
 ropen() {
     PROJ=$1
