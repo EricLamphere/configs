@@ -2,5 +2,6 @@
     "Alt-/": "lua:comment.comment",
     "CtrlUnderscore": "lua:comment.comment",
     "CtrlLeft": "StartOfText",
-    "CtrlRight": "EndOfLine"
+    "CtrlRight": "EndOfLine",
+    "\u001bctrlback": "SelectToStartOfLine,Delete"
 }
