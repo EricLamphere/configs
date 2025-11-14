@@ -71,6 +71,7 @@ workspace() {
 
 goto() {
     PROJ=$1
+    DIR_OVERRIDE=$2
     user=$(whoami)
     if [ $PROJ = 'dbt' ]; then
         if [ $user = 'ericlamphere' ]; then
@@ -83,10 +84,10 @@ goto() {
             FOLDER=~/${PROJECT_PATH}/dbt/
         fi
     else
-        if [ -z "$2" ]; then
+        if [ -z "$DIR_OVERRIDE" ]; then
             ROOT_PATH="$PROJECT_PATH"
         else
-            ROOT_PATH="$2"
+            ROOT_PATH="$DIR_OVERRIDE"
         fi
         FOLDER=$(find ~/${ROOT_PATH} -maxdepth 2 -type d -name "$PROJ")
     fi
@@ -108,9 +109,9 @@ app() {
 notes_root() {
     user=$(whoami)
     if [ $user = 'ericlamphere' ]; then
-        root=${HOME}/Library/Mobile\ Documents/com\~apple\~CloudDocs
+        root=${HOME}/Library/Mobile\ Documents/iCloud\~md\~obsidian/Documents
     else
-        root=${HOME}
+        root=${HOME}/vaults
     fi
 
     echo ${root}
@@ -119,18 +120,18 @@ notes_root() {
 notes() {
     root=$(notes_root)
     
-    cd ${root}/vaults/notes
+    cd ${root}/notes
 }
 
 todo() {
     root=$(notes_root)
 
-    nano ${root}/vaults/notes/todo/Urgent\ TODO.md $@
+    nano ${root}/notes/todo/Urgent\ TODO.md $@
 }
 
 catodo() {
     root=$(notes_root)
-    file=${root}/vaults/notes/todo/Urgent\ TODO.md
+    file=${root}/notes/todo/Urgent\ TODO.md
 
     if grep -q "\\* \\[ \\]" $file; then
         mdcat $file $@
