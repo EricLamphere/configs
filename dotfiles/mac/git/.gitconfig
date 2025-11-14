@@ -38,6 +38,3 @@
 	sort = -committerdate
 [protocol]
 	version = 2
-[user]
-	name = Eric Lamphere
-	email = ericjlamphere@gmail.com
