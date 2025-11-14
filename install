@@ -16,7 +16,7 @@ brew install visual-studio-code r rstudio gh docker python duckdb
 
 
 echo "----- Installing Utils -----"
-brew install mdcat
+brew install mdcat ddgr micro
 
 
 echo "----- Installing OhMyZsh -----"

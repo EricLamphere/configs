@@ -16,6 +16,8 @@ alias g="git"
 alias c="clear"
 alias n="nano"
 alias rm-pycache='find ./${PROJECT_PATH}/ | grep -E "(/__pycache__$|\.pyc$|\.pyo$)" | xargs rm -rf'
+alias ddgo="ddgr"
+alias ddg="ddgr"
 
 ### OPEN ###
 ropen() {
