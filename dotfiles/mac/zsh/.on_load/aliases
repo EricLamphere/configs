@@ -82,28 +82,31 @@ workspace() {
 goto() {
     PROJ=$1
     DIR_OVERRIDE=$2
-    user=$(whoami)
+
+	# handle dbt
     if [ $PROJ = 'dbt' ]; then
-        if [ $user = 'ericlamphere' ]; then
+        if [ $USER = 'ericlamphere' ]; then
             FOLDER=~/${PROJECT_PATH}/dbt/
-        elif [ $user = 'eric' ]; then
+        elif [ $USER = 'eric' ]; then
             FOLDER=~/${PROJECT_PATH}/IXIS/ds-data-refinery/src/dbt/
         else
             echo "Machine name didn't match 'eric' (work) or 'ericlamphere' (personal)"
             echo " > Defaulting to ~/${PROJECT_PATH}/dbt/"
             FOLDER=~/${PROJECT_PATH}/dbt/
         fi
-    else
-        if [ -z "$DIR_OVERRIDE" ]; then
-            ROOT_PATH="$PROJECT_PATH"
-        else
-            ROOT_PATH="$DIR_OVERRIDE"
-        fi
-        FOLDER=$(find ~/${ROOT_PATH} -maxdepth 2 -type d -name "$PROJ")
     fi
-    
+
+    # main path
+    if [ -z "$DIR_OVERRIDE" ]; then
+        FOLDER=$(find ~/Projects ~/Personal -maxdepth 2 -type d -name "$PROJ" | head -1)
+    else
+        FOLDER=$(find ~/${DIR_OVERRIDE} -maxdepth 2 -type d -name "$PROJ")
+    fi
+
+	# switch to folder if found
     if [ -z $FOLDER ]; then
         echo "$Red$PROJ$Default folder not found"
+        return 1
     else
         echo "Changing working directory to  $Cyan$FOLDER$Default"
         cd $FOLDER
