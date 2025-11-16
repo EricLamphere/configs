@@ -13,6 +13,7 @@ BASE_DOTFILES_DIR="$HOME/Personal/configs/dotfiles"
 DOTFILES_DIR="$BASE_DOTFILES_DIR"
 TARGET_DIR="$HOME"
 STOW_CMD="stow"
+PRIORITY_PACKAGES=("stow")
 
 # Colors for output
 RED='\033[0;31m'
@@ -124,7 +125,19 @@ stow_packages() {
     if [ ${#packages[@]} -eq 0 ]; then
         packages=($(get_packages | xargs -I {} basename {}))
     fi
-    
+
+    # Sort packages with priority packages first
+    sorted_packages=()
+    remaining_packages=()
+    for pkg in "${packages[@]}"; do
+        if [[ " ${PRIORITY_PACKAGES[*]} " =~ " $pkg " ]]; then
+            sorted_packages+=("$pkg")
+        else
+            remaining_packages+=("$pkg")
+        fi
+    done
+    packages=("${sorted_packages[@]}" "${remaining_packages[@]}")
+
     print_status "Stowing packages: ${packages[*]}"
     
     for package in "${packages[@]}"; do
@@ -167,7 +180,19 @@ clean_packages() {
     if [ ${#packages[@]} -eq 0 ]; then
         packages=($(get_packages | xargs -I {} basename {}))
     fi
-    
+
+    # Sort packages with priority packages first
+    sorted_packages=()
+    remaining_packages=()
+    for pkg in "${packages[@]}"; do
+        if [[ " ${PRIORITY_PACKAGES[*]} " =~ " $pkg " ]]; then
+            sorted_packages+=("$pkg")
+        else
+            remaining_packages+=("$pkg")
+        fi
+    done
+    packages=("${sorted_packages[@]}" "${remaining_packages[@]}")
+
     print_status "Cleaning packages: ${packages[*]}"
     
     for package in "${packages[@]}"; do
