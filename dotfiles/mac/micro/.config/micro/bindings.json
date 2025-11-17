@@ -4,5 +4,5 @@
     "CtrlLeft": "lua:bounce.smartHome",
     "CtrlRight": "EndOfLine",
     "\u001bctrlback": "SelectToStartOfLine,Delete",
-    "Alt-b": "lua:bounce.bounce"
+    "Alt-B": "lua:bounce.bounce"
 }
