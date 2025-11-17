@@ -26,9 +26,9 @@ micro --plugin install <plugin>
 ```
 
 These are the plugins I've installed
-* manipulator
-* autofmt
-
+* [manipulator](https://github.com/NicolaiSoeborg/manipulator-plugin)
+* [filemanager](https://github.com/NicolaiSoeborg/filemanager-plugin)
+* [bounce](https://github.com/sparques/micro-bounce)
 
 
 ## Helpful Links

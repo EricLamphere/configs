@@ -1,7 +1,8 @@
 {
     "Alt-/": "lua:comment.comment",
     "CtrlUnderscore": "lua:comment.comment",
-    "CtrlLeft": "StartOfText",
+    "CtrlLeft": "lua:bounce.smartHome",
     "CtrlRight": "EndOfLine",
-    "\u001bctrlback": "SelectToStartOfLine,Delete"
+    "\u001bctrlback": "SelectToStartOfLine,Delete",
+    "Alt-b": "lua:bounce.bounce"
 }
