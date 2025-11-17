@@ -1,5 +1,5 @@
-# Agent Instructions for Configs Repository
 
+# Agent Instructions for Configs Repository
 ## Build/Lint/Test Commands
 
 ### Setup Commands
@@ -43,5 +43,5 @@
 - `dotfiles/mac/` - macOS specific configurations
 - `dotfiles/windows/` - Windows specific configurations
 - `config_exports/` - Exported application configurations
-- Scripts in root: `install`, `setup` for setup automation</content>
-<parameter name="filePath">/Users/ericlamphere/Personal/configs/AGENTS.md
+- Scripts in root: `install`, `setup` for setup automation
+
