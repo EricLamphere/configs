@@ -1,8 +1,10 @@
 {
+    "\u001bctrlback": "SelectToStartOfLine,Delete",
+    "Alt-,": "command:prevBookmark",
+    "Alt-.": "command:nextBookmark",
     "Alt-/": "lua:comment.comment",
-    "CtrlUnderscore": "lua:comment.comment",
+    "Alt-B": "lua:bounce.bounce",
     "CtrlLeft": "lua:bounce.smartHome",
     "CtrlRight": "EndOfLine",
-    "\u001bctrlback": "SelectToStartOfLine,Delete",
-    "Alt-B": "lua:bounce.bounce"
+    "CtrlUnderscore": "lua:comment.comment"
 }

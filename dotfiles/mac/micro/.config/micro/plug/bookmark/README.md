@@ -1,6 +1,9 @@
 # Bookmarks for micro
 
-A plugin for the micro text editor. Bookmark lines to quickly jump between saved positions.
+This fork turns the bookmark plugin into a lightweight navigation history for
+micro. It automatically records the last 20 cursor locations you visit across
+all buffers (similar to VS Code's Go Back/Forward) and lets you walk that
+history with the original bookmark keybindings.
 
 ## Installation
 
@@ -15,18 +18,25 @@ $ micro -plugin install bookmark
 ## Usage
 
 ```
-# mark/unmark current line (Ctrl-F2)
+# force-save the current cursor location (Ctrl-F2)
 > toggleBookmark
 
-# clear all bookmarks (CtrlShift-F2)
+# clear the rolling history (CtrlShift-F2)
 > clearBookmarks
 
-# jump to next bookmark (F2)
+# jump forward to the next recorded spot (Alt-.)
 > nextBookmark
 
-# jump to previous bookmark (Shift-F2)
+# jump backward to the previous spot (Alt-,)
 > prevBookmark
 ```
+
+Notes:
+
+- Positions are tracked globally across buffers; when you revisit a file its pane
+  is focused automatically (entries for closed panes are discarded on use).
+- The history keeps the most recent 20 unique positions. Moving again within the
+  same location does not duplicate the entry.
 
 ## Troubleshooting
 
@@ -38,7 +48,7 @@ Keyboard shortcuts can be changed in `~/.config/micro/bindings.json`.
 {
     "Ctrl-F2": "command:toggleBookmark",
     "CtrlShift-F2": "command:clearBookmarks",
-    "F2": "command:nextBookmark",
-    "Shift-F2": "command:prevBookmark"
+    "Alt-.": "command:nextBookmark",
+    "Alt-,": "command:prevBookmark"
 }
 ```
