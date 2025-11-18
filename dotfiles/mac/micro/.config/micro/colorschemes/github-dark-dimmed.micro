@@ -1,0 +1,73 @@
+# GitHub Dark Dimmed theme for Micro
+# Based on the official GitHub Dark Dimmed theme from github.com
+# Color palette from Primer Design System
+
+# Interface colors
+color-link default "#adbac7,#22272e"
+color-link comment "#768390"
+
+# Line numbers and cursor
+color-link line-number "#768390,#22272e"
+color-link current-line-number "#adbac7,#2d333b"
+color-link cursor-line "#2d333b"
+color-link color-column "#2d333b"
+
+# Selection and search
+color-link selection "#2d333b"
+color-link statusline "#adbac7,#2d333b"
+color-link tabbar "#adbac7,#2d333b"
+color-link indent-char "#373e47"
+color-link divider "#444c56"
+
+# Syntax highlighting
+color-link statement "#f47067"
+color-link identifier "#f69d50"
+color-link preproc "#dcbdfb"
+color-link type "#6cb6ff"
+color-link special "#6cb6ff"
+color-link constant "#6cb6ff"
+color-link constant.string "#96d0ff"
+color-link constant.string.char "#96d0ff"
+color-link symbol "#f69d50"
+color-link symbol.operator "#f69d50"
+color-link symbol.brackets "#adbac7"
+color-link symbol.tag "#8ddb8c"
+
+# Keywords and control flow
+color-link statement.declaration "#f47067"
+color-link preproc.shebang "#768390"
+
+# Numbers and booleans
+color-link constant.number "#6cb6ff"
+color-link constant.bool "#6cb6ff"
+
+# Strings and characters
+color-link constant.string "#96d0ff"
+color-link constant.specialChar "#96d0ff"
+
+# Comments and documentation
+color-link comment "#768390"
+color-link comment.bright "#768390"
+color-link todo "#dcbdfb"
+
+# Diff colors
+color-link diff-added "#46954a"
+color-link diff-modified "#966600"
+color-link diff-deleted "#d47616"
+
+# Git gutter
+color-link gutter-error "#f47067"
+color-link gutter-warning "#f69d50"
+
+# Messages and errors
+color-link error "#f47067,#22272e"
+color-link message "#adbac7,#22272e"
+
+# Underlines (for misspellings, etc)
+color-link underlined "#6cb6ff"
+
+# Additional color refinements
+color-link type.keyword "#f47067"
+color-link symbol.operator "#f69d50"
+color-link color-column "#373e47"
+color-link trailingws "#f47067"
