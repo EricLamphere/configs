@@ -1,3 +1,6 @@
 {
-    "colorscheme": "darcula"
+    "colorscheme": "darcula",
+    "hlsearch": true,
+    "scrollbar": true,
+    "softwrap": true
 }

@@ -14,20 +14,56 @@ alias zoom="open -a zoom.us"
 
 alias g="git"
 alias c="clear"
-alias n="nano"
 alias rm-pycache='find ./${PROJECT_PATH}/ | grep -E "(/__pycache__$|\.pyc$|\.pyo$)" | xargs rm -rf'
-alias ddgo="ddgr"
-alias ddg="ddgr"
 alias mic="micro"
 
+alias web="w3m"
+alias ddg="ddgr"
 
 
 if [[ -f "$HOME/.duckdb.ini" ]]; then
 	alias awsduck='duckdb --init ~/.duckdb.ini'
 fi
 
+app() {
+    open -a $@
+}
 
 ### OPEN ###
+goto() {
+    PROJ=$1
+    DIR_OVERRIDE=$2
+
+	# handle dbt
+    if [ $PROJ = 'dbt' ]; then
+        if [ $USER = 'ericlamphere' ]; then
+            FOLDER=~/${PROJECT_PATH}/dbt/
+        elif [ $USER = 'eric' ]; then
+            FOLDER=~/${PROJECT_PATH}/IXIS/ds-data-refinery/src/dbt/
+        else
+            echo "Machine name didn't match 'eric' (work) or 'ericlamphere' (personal)"
+            echo " > Defaulting to ~/${PROJECT_PATH}/dbt/"
+            FOLDER=~/${PROJECT_PATH}/dbt/
+        fi
+    fi
+
+    # main path
+    if [ -z "$DIR_OVERRIDE" ]; then
+        FOLDER=$(find ~/Projects ~/Personal -maxdepth 2 -type d -name "$PROJ" | head -1)
+    else
+        FOLDER=$(find ~/${DIR_OVERRIDE} -maxdepth 2 -type d -name "$PROJ")
+    fi
+
+	# switch to folder if found
+    if [ -z $FOLDER ]; then
+        echo "$Red$PROJ$Default folder not found"
+        return 1
+    else
+        echo "Changing working directory to  $Cyan$FOLDER$Default"
+        cd $FOLDER
+    fi
+}
+
 ropen() {
     PROJ=$1
     if [ -z "$2" ]; then
@@ -79,44 +115,6 @@ workspace() {
 }
 
 
-goto() {
-    PROJ=$1
-    DIR_OVERRIDE=$2
-
-	# handle dbt
-    if [ $PROJ = 'dbt' ]; then
-        if [ $USER = 'ericlamphere' ]; then
-            FOLDER=~/${PROJECT_PATH}/dbt/
-        elif [ $USER = 'eric' ]; then
-            FOLDER=~/${PROJECT_PATH}/IXIS/ds-data-refinery/src/dbt/
-        else
-            echo "Machine name didn't match 'eric' (work) or 'ericlamphere' (personal)"
-            echo " > Defaulting to ~/${PROJECT_PATH}/dbt/"
-            FOLDER=~/${PROJECT_PATH}/dbt/
-        fi
-    fi
-
-    # main path
-    if [ -z "$DIR_OVERRIDE" ]; then
-        FOLDER=$(find ~/Projects ~/Personal -maxdepth 2 -type d -name "$PROJ" | head -1)
-    else
-        FOLDER=$(find ~/${DIR_OVERRIDE} -maxdepth 2 -type d -name "$PROJ")
-    fi
-
-	# switch to folder if found
-    if [ -z $FOLDER ]; then
-        echo "$Red$PROJ$Default folder not found"
-        return 1
-    else
-        echo "Changing working directory to  $Cyan$FOLDER$Default"
-        cd $FOLDER
-    fi
-}
-
-
-app() {
-    open -a $@
-}
 
 
 notes_root() {
@@ -192,8 +190,7 @@ worthit() {
     per_min=$(echo "scale=2; $hourly / 60" | bc -l)
     opp_cost=$(echo "scale=2; $per_min * $time_min" | bc -l)
 
-    echo "Opportunity cost: \$$opp_cost (time spent earning equivalent)"
-    echo "Item cost: \$$cost"
+    echo "Opportunity cost: \$$opp_cost (what you make in ${time_min}m)"
 
     if (( $(echo "$opp_cost > $cost" | bc -l) )); then
         echo "Worth it!"
