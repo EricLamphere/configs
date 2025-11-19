@@ -5,12 +5,8 @@ detect:
 
 rules:
     # Object keys (quoted strings followed by colon) - use identifier.class for green
-    - identifier.class:
-        start: '"'
-        end: '"(?=\\s*:)'
-        skip: "\\\\."
-        rules:
-            - constant.specialChar: "\\\\."
+    # Note: matches the key and colon together since micro doesn't support lookahead
+    - identifier.class: '"[^"\\\\]*(\\\\.[^"\\\\]*)*"\\s*:'
     
     # Boolean values
     - constant.bool: "\\b(true|false|null)\\b"

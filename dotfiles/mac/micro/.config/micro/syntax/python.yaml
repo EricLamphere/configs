@@ -180,11 +180,12 @@ rules:
     # Class names (PascalCase - starts with capital, has lowercase) - blue
     - type: "\\b[A-Z][a-z]\\w*\\b"
     
-    # Operators
+    # Operators (blue - matches official theme)
     - symbol.operator: "(\\+\\+|\\-\\-|\\*\\*=|//=|>>=|<<=|\\+=|\\-=|\\*=|/=|%=|&=|\\|=|\\^=|==|!=|<=|>=|\\*\\*|//|<<|>>|\\+|\\-|\\*|/|%|&|\\||\\^|~|<|>|=)"
     
     # Brackets and delimiters
     - symbol.brackets: "[()\\[\\]{}:;,.]"
     
     # Function/method calls - purple - LAST so nothing overrides
+    # Note: matches function name + paren since micro doesn't support lookahead
     - special: "\\b[a-z_][a-zA-Z0-9_]*\\("

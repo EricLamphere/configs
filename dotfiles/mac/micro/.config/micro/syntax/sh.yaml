@@ -43,7 +43,7 @@ rules:
     # Conditional expressions
     - statement: "\\[\\[|\\]\\]"
     
-    # Test operators
+    # Test operators (blue - matches operators in official theme)
     - symbol.operator: "(-eq|-ne|-lt|-le|-gt|-ge|-z|-n|-e|-f|-d|-r|-w|-x|-s|-L|-O|-G|-N|-nt|-ot|-ef)"
     
     # Built-in commands - purple

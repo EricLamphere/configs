@@ -1,6 +1,17 @@
 # GitHub Dark Dimmed theme for Micro
-# Based on the official GitHub Dark Dimmed theme
-# Color palette from Primer Design System
+# Based on the official GitHub Dark Dimmed theme from highlight.js
+# Official color reference: https://github.com/highlightjs/highlight.js/blob/main/src/styles/github-dark-dimmed.css
+#
+# OFFICIAL COLOR PALETTE:
+# Background:    #22272e
+# Foreground:    #adbac7
+# Comments:      #768390
+# Keywords:      #f47067 (red)
+# Functions:     #dcbdfb (purple)
+# Strings:       #96d0ff (light blue)
+# Numbers:       #6cb6ff (blue)
+# Built-ins:     #f69d50 (orange)
+# Tags:          #8ddb8c (green)
 
 # Interface colors
 color-link default "#adbac7,#22272e"
@@ -19,39 +30,39 @@ color-link tabbar "#adbac7,#2d333b"
 color-link indent-char "#373e47"
 color-link divider "#444c56"
 
-# Syntax highlighting - CORE COLORS
-color-link statement "#f47067"
-color-link identifier "#f69d50"
-color-link preproc "#dcbdfb"
-color-link type "#6cb6ff"
-color-link special "#dcbdfb"
-color-link constant "#6cb6ff"
-color-link constant.string "#96d0ff"
-color-link constant.string.char "#96d0ff"
-color-link constant.bool "#6cb6ff"
-color-link constant.number "#6cb6ff"
-color-link symbol "#f69d50"
-color-link symbol.operator "#f69d50"
-color-link symbol.brackets "#adbac7"
-color-link symbol.tag "#8ddb8c"
+# Syntax highlighting - CORE COLORS (matching highlight.js official theme)
+color-link statement "#f47067"              # Keywords (red)
+color-link identifier "#f69d50"             # Variables, built-in symbols (orange)
+color-link preproc "#dcbdfb"                # Preprocessor directives (purple)
+color-link type "#6cb6ff"                   # Types, class references (blue)
+color-link special "#dcbdfb"                # Functions, built-ins, special names (purple)
+color-link constant "#6cb6ff"               # Constants (blue)
+color-link constant.string "#96d0ff"        # Strings (light blue)
+color-link constant.string.char "#96d0ff"   # Character literals (light blue)
+color-link constant.bool "#6cb6ff"          # Booleans (blue)
+color-link constant.number "#6cb6ff"        # Numbers (blue)
+color-link symbol "#f69d50"                 # Symbols (orange)
+color-link symbol.operator "#6cb6ff"        # Operators (blue)
+color-link symbol.brackets "#adbac7"        # Brackets and delimiters (default fg)
+color-link symbol.tag "#8ddb8c"             # HTML/XML tags (green)
 
 # Statement types
-color-link statement.declaration "#f47067"
+color-link statement.declaration "#f47067"  # Declarations (red)
 
 # Preprocessor
-color-link preproc.shebang "#768390"
+color-link preproc.shebang "#768390"        # Shebang lines (comment color)
 
 # Additional refinements
-color-link type.keyword "#f47067"
-color-link trailingws "#f47067"
+color-link type.keyword "#f47067"           # Type keywords (red)
+color-link trailingws "#f47067"             # Trailing whitespace (red highlight)
 
-# Special override for YAML/JSON keys (green)
-color-link identifier.class "#57ab5a"
+# Special override for YAML/JSON keys (green - matches tag color)
+color-link identifier.class "#8ddb8c"
 
-# Diff colors
-color-link diff-added "#46954a"
-color-link diff-modified "#966600"
-color-link diff-deleted "#d47616"
+# Diff colors (matching GitHub's diff colors)
+color-link diff-added "#b4f1b4"
+color-link diff-modified "#eac55f"
+color-link diff-deleted "#ffd8d3"
 
 # Git gutter
 color-link gutter-error "#f47067"
