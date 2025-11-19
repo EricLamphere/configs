@@ -36,17 +36,11 @@ goto() {
     DIR_OVERRIDE=$2
 
 	# handle dbt
-    if [ $PROJ = 'dbt' ]; then
-        if [ $USER = 'ericlamphere' ]; then
-            FOLDER=~/${PROJECT_PATH}/dbt/
-        elif [ $USER = 'eric' ]; then
-            FOLDER=~/${PROJECT_PATH}/IXIS/ds-data-refinery/src/dbt/
-        else
-            echo "Machine name didn't match 'eric' (work) or 'ericlamphere' (personal)"
-            echo " > Defaulting to ~/${PROJECT_PATH}/dbt/"
-            FOLDER=~/${PROJECT_PATH}/dbt/
-        fi
-    fi
+	if [ "$PROJ" = "dbt" ] && [ "$USER" = "eric" ]; then
+	    FOLDER=~/${PROJECT_PATH}/IXIS/ds-data-refinery/src/dbt/
+	    cd "$FOLDER"
+	    return 0
+	fi
 
     # main path
     if [ -z "$DIR_OVERRIDE" ]; then
@@ -62,6 +56,7 @@ goto() {
     else
         echo "Changing working directory to  $Cyan$FOLDER$Default"
         cd $FOLDER
+        return 0
     fi
 }
 
