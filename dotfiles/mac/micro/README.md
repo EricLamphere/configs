@@ -29,6 +29,7 @@ These are the plugins I've installed
 * [manipulator](https://github.com/NicolaiSoeborg/manipulator-plugin)
 * [filemanager](https://github.com/NicolaiSoeborg/filemanager-plugin)
 * [bounce](https://github.com/sparques/micro-bounce)
+* [bookmark](https://github.com/haqk/micro-bookmark) - I heavily modified this so that it adds bookmarks automatically
 
 
 ## Helpful Links

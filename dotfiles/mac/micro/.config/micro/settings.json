@@ -2,5 +2,6 @@
     "colorscheme": "github-dark-dimmed",
     "hlsearch": true,
     "scrollbar": true,
-    "softwrap": true
+    "softwrap": true,
+    "wordwrap": true
 }
