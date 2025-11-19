@@ -1,0 +1,61 @@
+filetype: yaml
+
+detect:
+    filename: "\\.(ya?ml|sls)$"
+
+rules:
+    # Comments
+    - comment:
+        start: "#"
+        end: "$"
+        rules:
+            - todo: "(TODO|FIXME|XXX|NOTE|HACK|BUG)"
+    
+    # Document markers
+    - special: "^(---|\\.\\.\\.)$"
+    
+    # Keys (before colon) - use identifier.class for green color
+    - identifier.class: "^[[:space:]]*[^:#\"'\\[\\]{}\\n]+:"
+    - identifier.class: "[[:space:]]+[^:#\"'\\[\\]{}\\n]+:"
+    
+    # Anchors and aliases
+    - type: "&[A-Za-z0-9_-]+"
+    - type: "\\*[A-Za-z0-9_-]+"
+    
+    # Tags
+    - preproc: "![A-Za-z0-9_-]+"
+    - preproc: "!<[^>]+>"
+    
+    # Boolean values
+    - constant.bool: "\\b(true|false|yes|no|on|off|True|False|Yes|No|On|Off|TRUE|FALSE|YES|NO|ON|OFF)\\b"
+    
+    # Null values
+    - constant.bool: "\\b(null|Null|NULL|~)\\b"
+    
+    # Numbers
+    - constant.number: "\\b([0-9]+\\.[0-9]+([eE][+-]?[0-9]+)?|\\.[0-9]+([eE][+-]?[0-9]+)?|[0-9]+[eE][+-]?[0-9]+|0[xX][0-9a-fA-F]+|0[oO][0-7]+|0[bB][01]+|[0-9]+)\\b"
+    
+    # Double-quoted strings
+    - constant.string:
+        start: '"'
+        end: '"'
+        skip: "\\\\."
+        rules:
+            - constant.specialChar: "\\\\."
+    
+    # Single-quoted strings
+    - constant.string:
+        start: "'"
+        end: "'"
+        skip: "\\\\."
+        rules:
+            - constant.specialChar: "\\\\."
+    
+    # Multiline strings (literal and folded)
+    - constant.string: "[|>][-+]?[0-9]*$"
+    
+    # Brackets and braces
+    - symbol.brackets: "[\\[\\]{}]"
+    
+    # Colons and commas (in flow style)
+    - symbol.operator: "[,:]"

@@ -1,0 +1,83 @@
+filetype: sh
+
+detect:
+    filename: "\\.(sh|bash|zsh)$"
+    header: "^#!.*/(env +)?(bash|sh|zsh|dash|ksh)( |$)"
+
+rules:
+    # Shebang
+    - preproc.shebang: "^#!.*$"
+    
+    # Comments
+    - comment:
+        start: "#"
+        end: "$"
+        rules:
+            - todo: "(TODO|FIXME|XXX|NOTE|HACK|BUG)"
+    
+    # Double-quoted strings FIRST (allow variable expansion)
+    - constant.string:
+        start: '"'
+        end: '"'
+        skip: "\\\\."
+        rules:
+            - identifier: "\\$\\{[^}]+\\}"
+            - identifier: "\\$[a-zA-Z_][a-zA-Z0-9_]*"
+            - identifier: "\\$[0-9]+"
+            - identifier: "\\$[@*#?$!_-]"
+            - preproc: "\\$\\([^)]*\\)"
+            - preproc: "`[^`]*`"
+            - constant.specialChar: "\\\\."
+    
+    # Single-quoted strings (no expansion)
+    - constant.string:
+        start: "'"
+        end: "'"
+        rules: []
+    
+    # Keywords and control flow
+    - statement: "\\b(if|then|else|elif|fi|case|esac|for|select|while|until|do|done|in|function|time|coproc)\\b"
+    - statement: "\\b(return|break|continue|exit|shift|eval|exec|source)\\b"
+    - statement: "\\b(declare|local|readonly|export|unset|set|alias|unalias)\\b"
+    
+    # Conditional expressions
+    - statement: "\\[\\[|\\]\\]"
+    
+    # Test operators
+    - symbol.operator: "(-eq|-ne|-lt|-le|-gt|-ge|-z|-n|-e|-f|-d|-r|-w|-x|-s|-L|-O|-G|-N|-nt|-ot|-ef)"
+    
+    # Built-in commands - purple
+    - special: "\\b(echo|printf|read|cd|pwd|pushd|popd|dirs|let|test|trap|wait|jobs|bg|fg|kill|sleep|type|command|builtin|enable|help|mapfile|readarray)\\b"
+    
+    # Common external commands - purple
+    - special: "\\b(ls|cat|grep|egrep|fgrep|sed|awk|find|xargs|sort|uniq|head|tail|wc|cut|tr|tee|touch|mkdir|rm|rmdir|cp|mv|ln|chmod|chown|chgrp|tar|gzip|gunzip|bzip2|bunzip2|zip|unzip|curl|wget|ssh|scp|rsync|git|svn|docker|kubectl|make|gcc|g\\+\\+|clang|python|python3|node|npm|yarn|cargo|rustc|go|java|javac)\\b"
+    
+    # Function definitions
+    - special: "^[[:space:]]*[a-zA-Z_][a-zA-Z0-9_]*[[:space:]]*\\(\\)"
+    - special: "\\bfunction\\s+[a-zA-Z_][a-zA-Z0-9_]*"
+    
+    # Variables - orange
+    - identifier: "\\$\\{[^}]+\\}"
+    - identifier: "\\$[a-zA-Z_][a-zA-Z0-9_]*"
+    - identifier: "\\$[0-9]+"
+    - identifier: "\\$[@*#?$!_-]"
+    
+    # Command substitution
+    - preproc: "\\$\\([^)]*\\)"
+    - preproc: "`[^`]*`"
+    
+    # Numbers
+    - constant.number: "\\b[0-9]+\\b"
+    
+    # Here-doc markers
+    - preproc: "<<-?\\s*['\"]?\\w+['\"]?"
+    
+    # Operators and redirections
+    - symbol.operator: "(&&|\\|\\||;;|&>>|>>|>|<<|<|2>&1|2>>|2>|&>|\\|&)"
+    - symbol.operator: "(==|!=|=~|!|=)"
+    
+    # Semicolons and pipes
+    - symbol.operator: "[;|&]"
+    
+    # Brackets and delimiters  
+    - symbol.brackets: "[()\\[\\]{}]"

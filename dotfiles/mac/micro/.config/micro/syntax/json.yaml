@@ -1,0 +1,34 @@
+filetype: json
+
+detect:
+    filename: "\\.json$"
+
+rules:
+    # Object keys (quoted strings followed by colon) - use identifier.class for green
+    - identifier.class:
+        start: '"'
+        end: '"(?=\\s*:)'
+        skip: "\\\\."
+        rules:
+            - constant.specialChar: "\\\\."
+    
+    # Boolean values
+    - constant.bool: "\\b(true|false|null)\\b"
+    
+    # Numbers
+    - constant.number: "-?\\b([0-9]+\\.[0-9]+([eE][+-]?[0-9]+)?|[0-9]+[eE][+-]?[0-9]+|[0-9]+)\\b"
+    
+    # Regular string values (not keys)
+    - constant.string:
+        start: '"'
+        end: '"'
+        skip: "\\\\."
+        rules:
+            - constant.specialChar: "\\\\u[0-9a-fA-F]{4}"
+            - constant.specialChar: "\\\\."
+    
+    # Brackets and braces
+    - symbol.brackets: "[\\[\\]{}]"
+    
+    # Colons and commas
+    - symbol.operator: "[,:]"

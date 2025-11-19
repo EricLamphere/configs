@@ -1,0 +1,190 @@
+filetype: python
+
+detect:
+    filename: "\\.py$"
+    header: "^#!.*/(env +)?python( |$)"
+
+rules:
+    # Shebang
+    - preproc.shebang: "^#!.*$"
+    
+    # Comments - region to prevent quotes from breaking out
+    - comment:
+        start: "#"
+        end: "$"
+        rules:
+            - todo: "(TODO|FIXME|XXX|NOTE|HACK|BUG)"
+    
+    # Strings FIRST (to protect their contents)
+    # F-strings with triple double quotes
+    - constant.string:
+        start: 'f"""'
+        end: '"""'
+        skip: "\\\\."
+        rules:
+            - identifier: "\\{[^}]*\\}"
+            - constant.specialChar: "\\\\."
+    
+    # F-strings with triple single quotes
+    - constant.string:
+        start: "f'''"
+        end: "'''"
+        skip: "\\\\."
+        rules:
+            - identifier: "\\{[^}]*\\}"
+            - constant.specialChar: "\\\\."
+    
+    # F-strings with double quotes
+    - constant.string:
+        start: 'f"'
+        end: '"'
+        skip: "\\\\."
+        rules:
+            - identifier: "\\{[^}]*\\}"
+            - constant.specialChar: "\\\\."
+    
+    # F-strings with single quotes
+    - constant.string:
+        start: "f'"
+        end: "'"
+        skip: "\\\\."
+        rules:
+            - identifier: "\\{[^}]*\\}"
+            - constant.specialChar: "\\\\."
+    
+    # Raw f-strings (rf and fr)
+    - constant.string:
+        start: 'rf"""'
+        end: '"""'
+        rules:
+            - identifier: "\\{[^}]*\\}"
+    
+    - constant.string:
+        start: "rf'''"
+        end: "'''"
+        rules:
+            - identifier: "\\{[^}]*\\}"
+    
+    - constant.string:
+        start: 'rf"'
+        end: '"'
+        rules:
+            - identifier: "\\{[^}]*\\}"
+    
+    - constant.string:
+        start: "rf'"
+        end: "'"
+        rules:
+            - identifier: "\\{[^}]*\\}"
+    
+    - constant.string:
+        start: 'fr"""'
+        end: '"""'
+        rules:
+            - identifier: "\\{[^}]*\\}"
+    
+    - constant.string:
+        start: "fr'''"
+        end: "'''"
+        rules:
+            - identifier: "\\{[^}]*\\}"
+    
+    - constant.string:
+        start: 'fr"'
+        end: '"'
+        rules:
+            - identifier: "\\{[^}]*\\}"
+    
+    - constant.string:
+        start: "fr'"
+        end: "'"
+        rules:
+            - identifier: "\\{[^}]*\\}"
+    
+    # Regular triple-quoted strings
+    - constant.string:
+        start: '"""'
+        end: '"""'
+        skip: "\\\\."
+        rules:
+            - constant.specialChar: "\\\\."
+    
+    - constant.string:
+        start: "'''"
+        end: "'''"
+        skip: "\\\\."
+        rules:
+            - constant.specialChar: "\\\\."
+    
+    # Regular double-quoted strings
+    - constant.string:
+        start: '"'
+        end: '"'
+        skip: "\\\\."
+        rules:
+            - constant.specialChar: "\\\\."
+    
+    # Regular single-quoted strings
+    - constant.string:
+        start: "'"
+        end: "'"
+        skip: "\\\\."
+        rules:
+            - constant.specialChar: "\\\\."
+    
+    # Raw strings
+    - constant.string:
+        start: 'r"""'
+        end: '"""'
+        rules: []
+    
+    - constant.string:
+        start: "r'''"
+        end: "'''"
+        rules: []
+    
+    - constant.string:
+        start: 'r"'
+        end: '"'
+        rules: []
+    
+    - constant.string:
+        start: "r'"
+        end: "'"
+        rules: []
+    
+    # Decorators - light purple
+    - preproc: "@\\w+(\\.\\w+)*(\\([^)]*\\))?"
+    
+    # Keywords - red
+    - statement: "\\b(and|as|assert|async|await|break|class|continue|def|del|elif|else|except|finally|for|from|global|if|import|in|is|lambda|nonlocal|not|or|pass|raise|return|try|while|with|yield)\\b"
+    
+    # Boolean and None - blue
+    - constant.bool: "\\b(True|False|None)\\b"
+    
+    # Numbers - blue
+    - constant.number: "\\b([0-9]+\\.[0-9]*([eE][+-]?[0-9]+)?|\\.[0-9]+([eE][+-]?[0-9]+)?|[0-9]+[eE][+-]?[0-9]+|0[xX][0-9a-fA-F]+|0[oO][0-7]+|0[bB][01]+|[0-9]+)\\b"
+    
+    # Built-in functions - purple
+    - special: "\\b(abs|all|any|ascii|bin|bool|bytearray|bytes|callable|chr|classmethod|compile|complex|delattr|dict|dir|divmod|enumerate|eval|exec|filter|float|format|frozenset|getattr|globals|hasattr|hash|help|hex|id|input|int|isinstance|issubclass|iter|len|list|locals|map|max|memoryview|min|next|object|oct|open|ord|pow|print|property|range|repr|reversed|round|set|setattr|slice|sorted|staticmethod|str|sum|super|tuple|type|vars|zip|__import__)\\b"
+    
+    # Magic methods - purple
+    - special: "__\\w+__"
+    
+    # Self and cls - orange
+    - identifier: "\\b(self|cls)\\b"
+    
+    # Constants (ALL_CAPS with at least 2 chars) - orange
+    - identifier: "\\b[A-Z][A-Z0-9_]+\\b"
+    
+    # Class names (PascalCase - starts with capital, has lowercase) - blue
+    - type: "\\b[A-Z][a-z]\\w*\\b"
+    
+    # Operators
+    - symbol.operator: "(\\+\\+|\\-\\-|\\*\\*=|//=|>>=|<<=|\\+=|\\-=|\\*=|/=|%=|&=|\\|=|\\^=|==|!=|<=|>=|\\*\\*|//|<<|>>|\\+|\\-|\\*|/|%|&|\\||\\^|~|<|>|=)"
+    
+    # Brackets and delimiters
+    - symbol.brackets: "[()\\[\\]{}:;,.]"
+    
+    # Function/method calls - purple - LAST so nothing overrides
+    - special: "\\b[a-z_][a-zA-Z0-9_]*\\("

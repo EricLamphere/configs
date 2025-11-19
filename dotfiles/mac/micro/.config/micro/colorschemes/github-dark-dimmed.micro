@@ -1,5 +1,5 @@
 # GitHub Dark Dimmed theme for Micro
-# Based on the official GitHub Dark Dimmed theme from github.com
+# Based on the official GitHub Dark Dimmed theme
 # Color palette from Primer Design System
 
 # Interface colors
@@ -10,45 +10,43 @@ color-link comment "#768390"
 color-link line-number "#768390,#22272e"
 color-link current-line-number "#adbac7,#2d333b"
 color-link cursor-line "#2d333b"
-color-link color-column "#2d333b"
+color-link color-column "#373e47"
 
 # Selection and search
-color-link selection "#2d333b"
+color-link selection "#adbac7,#1c4b82"
 color-link statusline "#adbac7,#2d333b"
 color-link tabbar "#adbac7,#2d333b"
 color-link indent-char "#373e47"
 color-link divider "#444c56"
 
-# Syntax highlighting
+# Syntax highlighting - CORE COLORS
 color-link statement "#f47067"
 color-link identifier "#f69d50"
 color-link preproc "#dcbdfb"
 color-link type "#6cb6ff"
-color-link special "#6cb6ff"
+color-link special "#dcbdfb"
 color-link constant "#6cb6ff"
 color-link constant.string "#96d0ff"
 color-link constant.string.char "#96d0ff"
+color-link constant.bool "#6cb6ff"
+color-link constant.number "#6cb6ff"
 color-link symbol "#f69d50"
 color-link symbol.operator "#f69d50"
 color-link symbol.brackets "#adbac7"
 color-link symbol.tag "#8ddb8c"
 
-# Keywords and control flow
+# Statement types
 color-link statement.declaration "#f47067"
+
+# Preprocessor
 color-link preproc.shebang "#768390"
 
-# Numbers and booleans
-color-link constant.number "#6cb6ff"
-color-link constant.bool "#6cb6ff"
+# Additional refinements
+color-link type.keyword "#f47067"
+color-link trailingws "#f47067"
 
-# Strings and characters
-color-link constant.string "#96d0ff"
-color-link constant.specialChar "#96d0ff"
-
-# Comments and documentation
-color-link comment "#768390"
-color-link comment.bright "#768390"
-color-link todo "#dcbdfb"
+# Special override for YAML/JSON keys (green)
+color-link identifier.class "#57ab5a"
 
 # Diff colors
 color-link diff-added "#46954a"
@@ -63,11 +61,8 @@ color-link gutter-warning "#f69d50"
 color-link error "#f47067,#22272e"
 color-link message "#adbac7,#22272e"
 
-# Underlines (for misspellings, etc)
+# Underlines
 color-link underlined "#6cb6ff"
 
-# Additional color refinements
-color-link type.keyword "#f47067"
-color-link symbol.operator "#f69d50"
-color-link color-column "#373e47"
-color-link trailingws "#f47067"
+# TODO highlighting
+color-link todo "#dcbdfb"
