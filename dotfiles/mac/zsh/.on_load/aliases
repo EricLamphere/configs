@@ -14,6 +14,7 @@ alias zoom="open -a zoom.us"
 
 alias g="git"
 alias c="clear"
+alias python="python3"
 alias rm-pycache='find ./${PROJECT_PATH}/ | grep -E "(/__pycache__$|\.pyc$|\.pyo$)" | xargs rm -rf'
 alias mic="micro"
 
