@@ -16,7 +16,7 @@ brew install visual-studio-code r rstudio gh docker python duckdb
 
 
 echo "----- Installing Utils -----"
-brew install mdcat micro tree ddgr w3m
+brew install mdcat micro tree ddgr w3m lazygit
 
 
 echo "----- Installing OhMyZsh -----"
