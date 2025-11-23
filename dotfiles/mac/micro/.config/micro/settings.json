@@ -3,5 +3,8 @@
     "hlsearch": true,
     "scrollbar": true,
     "softwrap": true,
-    "wordwrap": true
+    "wordwrap": true,
+    "pluginrepos": [
+        "https://raw.githubusercontent.com/Neko-Box-Coder/MicroOmni/master/repo.json"
+    ]
 }

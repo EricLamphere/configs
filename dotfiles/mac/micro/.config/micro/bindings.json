@@ -1,7 +1,7 @@
 {
     "\u001bctrlback": "SelectToStartOfLine,Delete",
-    "Alt-,": "command:prevBookmark",
-    "Alt-.": "command:nextBookmark",
+    "Alt-,": "command:OmniPreviousHistory",
+    "Alt-.": "command:OmniNextHistory",
     "Alt-/": "lua:comment.comment",
     "Alt-B": "lua:bounce.bounce",
     "CtrlLeft": "lua:bounce.smartHome",

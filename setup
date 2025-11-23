@@ -13,6 +13,7 @@ BASE_DOTFILES_DIR="$HOME/Personal/configs/dotfiles"
 DOTFILES_DIR="$BASE_DOTFILES_DIR"
 TARGET_DIR="$HOME"
 STOW_CMD="stow"
+STOW_IGNORE="--ignore='\.setup\.sh'"
 PRIORITY_PACKAGES=("stow")
 
 # Colors for output
@@ -91,20 +92,23 @@ show_help() {
     echo "  -c, --clean    Remove existing symlinks before stowing"
     echo "  -r, --restow   Restow packages (clean + stow)"
     echo "  -l, --list     List available packages"
-    echo "  -p, --package  Stow specific package only"
+    echo "  -p, --packages Stow specific packages (remaining args are package names)"
     echo "  -f, --force    Force symlinks even if files already exist"
     echo "  -y, --yes      Auto-confirm removals when using --force"
     echo "  -o, --os       Target OS: mac (default) or windows"
+    echo "  --full         Also run .setup.sh scripts for packages after stowing"
     echo ""
     echo "Examples:"
     echo "  $script_name                    # Stow all packages"
     echo "  $script_name --dry-run          # Preview what would be done"
     echo "  $script_name --clean            # Remove all symlinks"
-    echo "  $script_name --package git      # Stow only git package"
+    echo "  $script_name -p git zsh         # Stow only git and zsh packages"
     echo "  $script_name --restow           # Clean and restow all packages"
     echo "  $script_name --force            # Force symlinks, prompt before removal"
     echo "  $script_name --force --yes      # Force symlinks, auto-confirm removals"
     echo "  $script_name --os windows       # Use dotfiles/windows as the source"
+    echo "  $script_name -p micro --full    # Stow micro and run its .setup.sh script"
+    echo "  $script_name -p micro nano w3m  # Stow multiple packages"
 }
 
 # Function to stow packages
@@ -161,9 +165,9 @@ stow_packages() {
         fi
         
         if (( DRY_RUN )); then
-            $STOW_CMD $dry_run_flag -d "$DOTFILES_DIR" -t "$TARGET_DIR" "$package"
+            $STOW_CMD $dry_run_flag $STOW_IGNORE -d "$DOTFILES_DIR" -t "$TARGET_DIR" "$package"
         else
-            if $STOW_CMD $dry_run_flag -d "$DOTFILES_DIR" -t "$TARGET_DIR" "$package"; then
+            if $STOW_CMD $dry_run_flag $STOW_IGNORE -d "$DOTFILES_DIR" -t "$TARGET_DIR" "$package"; then
                 print_success "Successfully stowed: $package"
             else
                 print_error "Failed to stow: $package"
@@ -341,7 +345,7 @@ main() {
     # Parse command line arguments using zparseopts
     local -A opts
     local -a args
-    local -a help dry_run clean restow list package force yes os
+    local -a help dry_run clean restow list packages force yes os full
     
     # Define option specifications for zparseopts
     # Format: -o shortopt --longopt:description
@@ -351,10 +355,11 @@ main() {
         c=clean -clean=clean \
         r=restow -restow=restow \
         l=list -list=list \
-        p:=package -package:=package \
+        p=packages -packages=packages \
         f=force -force=force \
         y=yes -yes=yes \
-        o:=os -os:=os
+        o:=os -os:=os \
+        -full=full
     
     # Check for help option
     if (( ${#help[@]} > 0 )); then
@@ -369,13 +374,15 @@ main() {
     LIST=$(( ${#list[@]} > 0 ))
     FORCE=$(( ${#force[@]} > 0 ))
     ASSUME_YES=$(( ${#yes[@]} > 0 ))
+    FULL=$(( ${#full[@]} > 0 ))
     
-    # Extract package name if provided
-    SPECIFIC_PACKAGE=""
-    if (( ${#package[@]} > 0 )); then
-        # package array contains both the option and the value
-        # The value is at index 1 (index 0 is the option itself)
-        SPECIFIC_PACKAGE="${package[2]}"
+    # Extract package names if -p flag is provided
+    SPECIFIC_PACKAGES=()
+    PACKAGE_MODE=$(( ${#packages[@]} > 0 ))
+    if (( PACKAGE_MODE )); then
+        # Remaining arguments after zparseopts are the package names
+        SPECIFIC_PACKAGES=("$@")
+        set --  # Clear positional parameters since we've consumed them
     fi
 
     # Resolve OS selection (default: mac)
@@ -410,6 +417,33 @@ main() {
     if (( ! DRY_RUN )); then
         setup_private_file
     fi
+
+    # Function to run .setup.sh scripts for packages
+    run_setup_scripts() {
+        local packages=("$@")
+
+        if [ ${#packages[@]} -eq 0 ]; then
+            packages=($(get_packages | xargs -I {} basename {}))
+        fi
+
+        for package in "${packages[@]}"; do
+            local setup_script="$DOTFILES_DIR/$package/.setup.sh"
+
+            if [ -f "$setup_script" ]; then
+                print_status "Running setup script for: $package"
+                if (( DRY_RUN )); then
+                    print_status "DRY RUN: Would run: zsh $setup_script"
+                else
+                    if (cd "$DOTFILES_DIR/$package" && zsh .setup.sh); then
+                        print_success "Successfully ran setup script for: $package"
+                    else
+                        print_error "Failed to run setup script for: $package"
+                        return 1
+                    fi
+                fi
+            fi
+        done
+    }
     
     # Handle different modes
     if (( LIST )); then
@@ -418,31 +452,43 @@ main() {
     fi
     
     if (( CLEAN )); then
-        if [ -n "$SPECIFIC_PACKAGE" ]; then
-            clean_packages "$SPECIFIC_PACKAGE"
+        if (( ${#SPECIFIC_PACKAGES[@]} > 0 )); then
+            clean_packages "${SPECIFIC_PACKAGES[@]}"
         else
             clean_packages
         fi
         exit 0
     fi
-    
+
     if (( RESTOW )); then
         print_status "Restowing packages (clean + stow)"
-        if [ -n "$SPECIFIC_PACKAGE" ]; then
-            clean_packages "$SPECIFIC_PACKAGE"
-            stow_packages "$SPECIFIC_PACKAGE"
+        if (( ${#SPECIFIC_PACKAGES[@]} > 0 )); then
+            clean_packages "${SPECIFIC_PACKAGES[@]}"
+            stow_packages "${SPECIFIC_PACKAGES[@]}"
+            if (( FULL )); then
+                run_setup_scripts "${SPECIFIC_PACKAGES[@]}"
+            fi
         else
             clean_packages
             stow_packages
+            if (( FULL )); then
+                run_setup_scripts
+            fi
         fi
         exit 0
     fi
-    
+
     # Default: stow packages
-    if [ -n "$SPECIFIC_PACKAGE" ]; then
-        stow_packages "$SPECIFIC_PACKAGE"
+    if (( ${#SPECIFIC_PACKAGES[@]} > 0 )); then
+        stow_packages "${SPECIFIC_PACKAGES[@]}"
+        if (( FULL )); then
+            run_setup_scripts "${SPECIFIC_PACKAGES[@]}"
+        fi
     else
         stow_packages
+        if (( FULL )); then
+            run_setup_scripts
+        fi
     fi
     
     print_success "Dotfiles setup complete!"
