@@ -1,4 +1,4 @@
-VERSION = "0.5.0"
+VERSION = "0.6.0"
 
 -- luacheck . --globals import VERSION preQuit onAnyEvent init --ignore 212 542 611 612 613 614
 
@@ -11,16 +11,16 @@ local strings = import("strings")
 
 local config = import("micro/config")
 local fmt = import('fmt')
-package.path = fmt.Sprintf('%s;%s/plug/MicroOmni/?.lua', package.path, config.ConfigDir)
+package.path = fmt.Sprintf('%s;%s/plug/?.lua', package.path, config.ConfigDir)
 
-local Common = require("Common")
-local Search = require("Search")
-local History = require("History")
-local WordJump = require("WordJump")
-local Highlight = require("Highlight")
-local Diff = require("Diff")
-local Minimap = require("Minimap")
-local Session = require("Session")
+local Common = require("MicroOmni.Common")
+local Search = require("MicroOmni.Search")
+local History = require("MicroOmni.History")
+local WordJump = require("MicroOmni.WordJump")
+local Highlight = require("MicroOmni.Highlight")
+local Diff = require("MicroOmni.Diff")
+local Minimap = require("MicroOmni.Minimap")
+local Session = require("MicroOmni.Session")
 
 local OmniCursorSelectMarks = {}
 
@@ -505,7 +505,8 @@ function preQuit(bp)
 end
 
 function onAnyEvent()
-    -- micro.Log("onAnyEvent called")
+    -- micro.Log("onAnyEvent starts")
+    
     local bpToCenter = Diff.UpdateDiffView()
     if bpToCenter ~= nil then
         OmniCenter(bpToCenter)
@@ -515,7 +516,20 @@ function onAnyEvent()
     
     -- Add auto-save check
     Session.CheckAutoSave()
+    
+    -- micro.Log("onAnyEvent ends")
+    return true
 end
+
+function onFindNext()
+    Highlight.OmniOnNextFind()
+end
+
+function onFindPrevious()
+    Highlight.OmniOnPrevFind()
+end
+
+local InitErrorMsg = ""
 
 function preinit()
     config.MakeCommand("OmniGlobalSearch", Search.OmniContent, config.NoComplete)
@@ -542,6 +556,8 @@ function preinit()
     config.MakeCommand("OmniNewTabLeft", OmniNewTabLeft, config.NoComplete)
 
     config.MakeCommand("OmniDiff", Diff.OmniDiff, config.NoComplete)
+    config.MakeCommand("OmniMapSideBySide", Diff.OmniMapSideBySide, config.NoComplete)
+    config.MakeCommand("OmniUnmapSideBySide", Diff.OmniUnmapSideBySide, config.NoComplete)
     
     config.MakeCommand("OmniMinimap", Minimap.OmniMinimap, config.NoComplete)
     
@@ -601,8 +617,13 @@ function preinit()
             end
         end
         
-        micro.InfoBar():Error(  missingCommandsString..
-                                "are missing. Some functionalities might not work")
+        InitErrorMsg = missingCommandsString.."are missing. Some functionalities might not work"
     end
 
+end
+
+function init()
+    if string.len(InitErrorMsg) ~= 0 then
+        micro.InfoBar():Error(InitErrorMsg)
+    end
 end

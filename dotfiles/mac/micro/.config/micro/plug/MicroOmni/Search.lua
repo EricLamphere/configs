@@ -6,12 +6,11 @@ local config = import("micro/config")
 local buffer = import("micro/buffer")
 
 
-local os = import("os")
 local runtime = import("runtime")
 local fmt = import('fmt')
 
-package.path = fmt.Sprintf('%s;%s/plug/MicroOmni/?.lua', package.path, config.ConfigDir)
-local Common = require("Common")
+package.path = fmt.Sprintf('%s;%s/plug/?.lua', package.path, config.ConfigDir)
+local Common = require("MicroOmni.Common")
 
 
 local OmniContentFindPath = ""
@@ -22,7 +21,7 @@ local Self = {}
 -- NOTE: lineNum is string
 local function fzfParseOutput(output, bp, lineNum, gotoLineIfExists)
     micro.Log("fzfParseOutput called")
-    if output ~= "" then
+    if output ~= "" and output ~= nil then
         local file = string.gsub(output, "[\n\r]", "")
         if file == nil then
             return
@@ -79,17 +78,16 @@ local function FindContent(str, searchLoc)
         finalCmd =  finalCmd .. " -F -i -uu -n '\\''" .. firstWord .. "'\\'' | " .. 
                     config.GetGlobalOption("MicroOmni.FzfCmd") .. " " .. fzfArgs ..
                     " -q '\\''" .. selectedText .. "'\\''"
-    else
+    elseif currentOS == "Windows" then
         selectedText = selectedText:gsub("'", '"')
         firstWord = firstWord:gsub("'", '""')
         fzfArgs = config.GetGlobalOption("MicroOmni.GlobalSearchArgs"):gsub("'", '"')
         finalCmd =  "rg --glob=!.git/ -F -i "
         
         for _, loc in ipairs(locations) do
+            loc = loc:gsub("\\", "/")
             if string.len(loc) ~= 0 then
-                if loc:sub(-1, -1) == "\\" then
-                    loc = loc:sub(1, -2) .. "/"
-                elseif loc:sub(-1, -1) ~= "/" then
+                if loc:sub(-1, -1) ~= "/" then
                     loc = loc .. "/"
                 end
                 finalCmd = finalCmd .. "\"--glob=" .. loc .. "**\" "
@@ -151,7 +149,8 @@ function Self.OmniContent(bp)
         OmniSearchText = util.String(OmniSearchText)
     end
     
-    micro.InfoBar():Prompt( "Search Directories (use ',' to separate, {fileDir} for current file dir, prefix '!' to exclude) > ", 
+    micro.InfoBar():Prompt( "Search Directories (use ',' to separate, {fileDir} for current " ..
+                            "file dir, prefix '!' to exclude) > ", 
                             "", 
                             "", 
                             nil, 

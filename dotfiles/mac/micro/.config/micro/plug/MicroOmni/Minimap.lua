@@ -5,8 +5,8 @@ local buffer = import("micro/buffer")
 local strings = import("strings")
 
 local fmt = import('fmt')
-package.path = fmt.Sprintf('%s;%s/plug/MicroOmni/?.lua', package.path, config.ConfigDir)
-local Common = require("Common")
+package.path = fmt.Sprintf('%s;%s/plug/?.lua', package.path, config.ConfigDir)
+local Common = require("MicroOmni.Common")
 
 local Self = {}
 
@@ -265,7 +265,7 @@ function Self.OmniMinimap(bp)
     
     -- Output minimap
     local outputStr = util.String({})
-    for i, line in ipairs(outputLines) do
+    for _, line in ipairs(outputLines) do
         local currentLineBytes = { string.byte(line .. "\n", 1, -1) }
         local currentLineStr = util.String(currentLineBytes)
         outputStr = strings.Join({outputStr, currentLineStr}, "")

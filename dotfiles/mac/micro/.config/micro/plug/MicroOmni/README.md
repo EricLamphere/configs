@@ -20,10 +20,12 @@ List of features:
     - [💾 Session Management](#-session-management)
 - 📜 Buffers Actions:
     - [🧦 Diff View](#-diff-view)
+    - [🧲 Side By Side View](#-side-by-side-view)
     - [🔦 Highlight Only (Before finding next)](#-highlight-only-before-finding-next)
     - [↗️ Resize Split With Keyboard](#%EF%B8%8F-resize-split-with-keyboard)
     - [📁 Copy Current File Path](#-copy-current-file-path)
     - [🗺️ Minimap](#%EF%B8%8F-minimap)
+- (WIP) Command mode
 - (WIP) Bracket jumping without on top of it
 - (WIP) Content selection within brackets
 
@@ -433,12 +435,30 @@ None (Invoke it in command pane)
 
 ---
 
+## 🧲 Side By Side View
+Similar to diff view, you can synchronize scrolling of two splits when you just want to have a side
+by side view by launching the `OmniMapSideBySide` command.
+
+To unmap side by side, launching the `OmniUnmapSideBySide` command.
+
+![Side By Side Gif](./Resources/MapScroll.gif)
+
+Recommended binding:
+
+None (Invoke it in command pane)
+
+---
+
 ## 🔦 Highlight Only (Before finding next)
 To highlight anything without going to it, launch the `OmniHighlightOnly` command.
 
 This shows the number of matches which you can go to with the `FindNext` and `FindPrevious` keybinds.
 
 ![Highlight Gif](./Resources/Highlight.gif)
+
+It now shows which occurrence you are currently at.
+
+![Occurrence Count Gif](./Resources/OccurrenceCount.png)
 
 Recommended binding:
 ```json
