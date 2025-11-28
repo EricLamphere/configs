@@ -6,5 +6,7 @@
     "Alt-B": "lua:bounce.bounce",
     "CtrlLeft": "lua:bounce.smartHome",
     "CtrlRight": "EndOfLine",
-    "CtrlUnderscore": "lua:comment.comment"
+    "CtrlUnderscore": "lua:comment.comment",
+    "MouseLeft": "MousePress,lua:shiftclick.setAnchor",
+    "Shift-MouseLeft": "MousePress,lua:shiftclick.shiftClickSelect"
 }

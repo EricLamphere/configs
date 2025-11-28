@@ -1,10 +1,11 @@
 {
+    "MicroOmni.AutoSaveEnabled": false,
     "colorscheme": "github-dark-dimmed",
     "hlsearch": true,
-    "scrollbar": true,
-    "softwrap": true,
-    "wordwrap": true,
     "pluginrepos": [
         "https://raw.githubusercontent.com/Neko-Box-Coder/MicroOmni/master/repo.json"
-    ]
+    ],
+    "scrollbar": true,
+    "softwrap": true,
+    "wordwrap": true
 }

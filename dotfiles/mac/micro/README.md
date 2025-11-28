@@ -25,11 +25,7 @@ You can run this command to install plugins
 micro --plugin install <plugin>
 ```
 
-These are the plugins I've installed
-* [manipulator](https://github.com/NicolaiSoeborg/manipulator-plugin)
-* [filemanager](https://github.com/NicolaiSoeborg/filemanager-plugin)
-* [bounce](https://github.com/sparques/micro-bounce)
-* [bookmark](https://github.com/haqk/micro-bookmark) - I heavily modified this so that it adds bookmarks automatically
+The plugins I have installed should always be added to the `.setup.sh` file.
 
 
 ## Helpful Links
@@ -37,4 +33,5 @@ These are the plugins I've installed
 	* [All built-in colorschemes](https://github.com/zyedidia/micro/tree/master/runtime/colorschemes)
 * [Plugins](https://micro-editor.github.io/plugins.html)
 * Guarda Linux: [Mastering the Micro Text Editor](https://forum.garudalinux.org/t/mastering-the-micro-text-editor/32889)
+* [MicroOmni plugin](https://github.com/Neko-Box-Coder/MicroOmni)
 
