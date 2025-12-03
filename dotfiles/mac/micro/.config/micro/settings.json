@@ -3,7 +3,8 @@
     "colorscheme": "github-dark-dimmed",
     "hlsearch": true,
     "pluginrepos": [
-        "https://raw.githubusercontent.com/Neko-Box-Coder/MicroOmni/master/repo.json"
+        "https://raw.githubusercontent.com/Neko-Box-Coder/MicroOmni/master/repo.json",
+        "https://raw.githubusercontent.com/EricLamphere/micro-shift-click/main/repo.json"
     ],
     "scrollbar": true,
     "softwrap": true,
