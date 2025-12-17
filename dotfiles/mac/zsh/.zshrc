@@ -60,7 +60,7 @@ COMPLETION_WAITING_DOTS="true"
 
 # Which plugins would you like to load? Standard plugins at $ZSH/plugins/ Custom plugins at $ZSH_CUSTOM/plugins/. 
 # Example format: plugins=(rails git textmate ruby lighthouse)
-plugins=(git-open)
+plugins=(git-open git aliases docker command-not-found aws web-search)
 
 source $ZSH/oh-my-zsh.sh
 
