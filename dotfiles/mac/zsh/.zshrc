@@ -71,6 +71,7 @@ plugins=(
 	aws # aws aliases
 	web-search # enables web_search command
 	jira # enables jira commands
+	task # go-task completion
 )
 
 source $ZSH/oh-my-zsh.sh
