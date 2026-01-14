@@ -60,7 +60,8 @@ COMPLETION_WAITING_DOTS="true"
 
 # Which plugins would you like to load? Standard plugins at $ZSH/plugins/ Custom plugins at $ZSH_CUSTOM/plugins/. 
 # Example format: plugins=(rails git textmate ruby lighthouse)
-# UPDATE plugins with `upgrade_oh_my_zsh`
+# Find list of plugins here: https://github.com/ohmyzsh/ohmyzsh/wiki/plugins
+# Update plugins with `upgrade_oh_my_zsh`
 plugins=(
 	git-open # enables `git open` command to open git url
 	aliases # enables `als` command
