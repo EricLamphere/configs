@@ -10,6 +10,7 @@
 	br = branch
 	st = status
 	sw = switch
+	swlr = !git switch $(git latestrelease)
 	ad = add -A
 	cm = commit -m
 	lg = log --graph --decorate --oneline --all
