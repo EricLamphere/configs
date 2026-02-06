@@ -60,7 +60,19 @@ COMPLETION_WAITING_DOTS="true"
 
 # Which plugins would you like to load? Standard plugins at $ZSH/plugins/ Custom plugins at $ZSH_CUSTOM/plugins/. 
 # Example format: plugins=(rails git textmate ruby lighthouse)
-plugins=(git-open)
+# Find list of plugins here: https://github.com/ohmyzsh/ohmyzsh/wiki/plugins
+# Update plugins with `upgrade_oh_my_zsh`
+plugins=(
+	git-open # enables `git open` command to open git url
+	aliases # enables `als` command
+	git # git aliases
+	docker # docker aliases
+	command-not-found # recommends packages when command isn't found
+	aws # aws aliases
+	web-search # enables web_search command
+	jira # enables jira commands
+	task # go-task completion
+)
 
 source $ZSH/oh-my-zsh.sh
 
@@ -94,5 +106,6 @@ typeset -g POWERLEVEL9K_INSTANT_PROMPT=quiet
 
 # print out todo list
 catodo
+
 
 

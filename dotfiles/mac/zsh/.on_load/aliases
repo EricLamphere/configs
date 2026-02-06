@@ -5,9 +5,6 @@
 #######################################################################################
 
 alias chrome="open -a 'Google Chrome'"
-alias tube="open -a 'Google Chrome' --new --args --incognito 'https://www.youtube.com/'"
-alias twit="open -a 'Google Chrome' --new --args --incognito 'https://www.twitch.tv/'"
-alias kick="open -a 'Google Chrome' --new --args --incognito 'https://kick.com/'"
 alias finder="open -a Finder"
 alias rstudio="open -a RStudio"
 alias spotify="open -a Spotify"
