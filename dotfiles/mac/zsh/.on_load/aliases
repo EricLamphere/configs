@@ -229,6 +229,7 @@ amazon() {
         [dev]=224391273786 
         [staging]=053659339701 
         [production]=227301701583
+        [sit]=636185082007
     )
     aws_base_env
 
@@ -244,9 +245,13 @@ amazon() {
     elif [[ $stage == 'sand' ]]
     then
         stage='sandbox'
+    elif [[ stage='preprod' ]]
+    then
+    	stage='sit'
     elif [[ $stage == 'all' ]]
     then
         amazon production $access
+        amazon sit $access
         amazon staging $access
         amazon sandbox $access
         amazon dev $access
