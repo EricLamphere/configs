@@ -245,7 +245,7 @@ amazon() {
     elif [[ $stage == 'sand' ]]
     then
         stage='sandbox'
-    elif [[ stage='preprod' ]]
+    elif [[ $stage == 'preprod' ]]
     then
     	stage='sit'
     elif [[ $stage == 'all' ]]
