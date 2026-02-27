@@ -124,3 +124,9 @@ typeset -g POWERLEVEL9K_INSTANT_PROMPT=quiet
 
 
 
+# Added by dbt Fusion extension (ensure dbt binary dir on PATH)
+if [[ ":$PATH:" != *":/Users/eric/.local/bin:"* ]]; then
+  export PATH=/Users/eric/.local/bin:"$PATH"
+fi
+# Added by dbt Fusion extension
+alias dbtf=/Users/eric/.local/bin/dbt

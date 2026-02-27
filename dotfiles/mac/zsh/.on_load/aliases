@@ -27,6 +27,18 @@ if [[ -f "$HOME/.duckdb.ini" ]]; then
 	alias awsduck='duckdb --init ~/.duckdb.ini'
 fi
 
+
+dbeaver() {
+	stage=$1
+
+	if [[ -z $stage ]]; then
+		stage="${STAGE:-dev}"
+	fi
+
+	AWS_DEFAULT_PROFILE=platform-$stage-admin /Applications/DBeaver.app/Contents/MacOS/dbeaver &> /dev/null &
+}
+
+
 app() {
     open -a $@
 }
