@@ -20,7 +20,8 @@ export POSITRON_PATH="/Applications/Positron.app"
 export PATH="$PATH:$POSITRON_PATH"
 
 # misc
-PATH=$HOME/bin:$PATH
+export PATH=$HOME/bin:$PATH
+export PATH=$HOME/.local/bin:$PATH
 # ----------------- PATH END -----------------
 
 
