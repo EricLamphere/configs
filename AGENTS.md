@@ -13,7 +13,7 @@ This is a personal dotfiles configuration management repository that uses GNU St
 
 ```
 /Users/ericlamphere/Personal/configs/
-├── .claude/                    # Claude Code agent configurations
+├── .claude/                    # Claude Code agent configurations (for this repo only)
 │   ├── agents/                 # Custom agent definitions
 │   └── settings.local.json     # Local Claude settings
 ├── .git/                       # Git version control
@@ -26,6 +26,7 @@ This is a personal dotfiles configuration management repository that uses GNU St
 │   └── iTerm2/                 # iTerm2 terminal configurations
 └── dotfiles/                   # All managed dotfiles
     ├── mac/                    # macOS-specific configurations
+    │   ├── claude/             # Claude Code global configuration (~/.claude/)
     │   ├── duckdb/             # DuckDB database configuration
     │   ├── git/                # Git configuration and aliases
     │   ├── github/             # GitHub CLI configuration
@@ -121,6 +122,28 @@ Comprehensive documentation for AI agents working with this repository, includin
 - Common workflows
 
 ## Dotfiles Packages (macOS)
+
+### Claude Code
+
+#### `claude/` - Claude Code Global Configuration
+**Files:**
+- `.claude/settings.json` - Application settings (plugin config, thinking mode)
+- `.claude/agents/personal-assistant.md` - Personal productivity agent definition
+- `.claude/agents/research-assistant.md` - Research and fact-checking agent definition
+- `.claude/rules/common/*.md` - Global coding rules loaded into every project
+- `.claude/rules/python/*.md` - Python-specific coding rules (applied when editing .py files)
+
+**Symlink behavior:** Because `~/.claude` already exists as a real directory (Claude Code writes runtime data there), stow creates individual symlinks for the managed files/subdirectories rather than symlinking the whole `.claude` directory. The three symlinks created are:
+- `~/.claude/settings.json` → repo
+- `~/.claude/agents` → repo (entire directory symlinked)
+- `~/.claude/rules` → repo (entire directory symlinked)
+
+**What is NOT tracked (runtime/ephemeral):**
+- `~/.claude/settings.local.json` - Session-specific permission allowlists
+- `~/.claude/agent-memory/` - Runtime agent memory written during sessions
+- `~/.claude/projects/`, `debug/`, `cache/`, `backups/`, `file-history/` - Runtime data
+- `~/.claude/plugins/` - Downloaded plugin cache (auto-managed by Claude Code)
+- `~/.claude.json` - Root-level auth/session state (contains tokens)
 
 ### Shell & Terminal
 
@@ -563,6 +586,8 @@ git config --list --show-origin | grep include
 All dotfiles are symlinked to: `/Users/ericlamphere/` (user home directory)
 
 Example: `/Users/ericlamphere/Personal/configs/dotfiles/mac/git/.gitconfig` → `/Users/ericlamphere/.gitconfig`
+
+Note: The `claude` package is a special case — stow creates symlinks for managed files/subdirs *inside* the existing `~/.claude` real directory rather than symlinking `.claude` itself.
 
 ## Recent Changes (Git History)
 
