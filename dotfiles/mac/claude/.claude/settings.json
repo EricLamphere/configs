@@ -1,4 +1,7 @@
 {
+  "enabledPlugins": {
+    "everything-claude-code@everything-claude-code": true
+  },
   "extraKnownMarketplaces": {
     "everything-claude-code": {
       "source": {
@@ -7,8 +10,5 @@
       }
     }
   },
-  "alwaysThinkingEnabled": false,
-  "enabledPlugins": {
-    "everything-claude-code@everything-claude-code": true
-  }
+  "alwaysThinkingEnabled": false
 }
