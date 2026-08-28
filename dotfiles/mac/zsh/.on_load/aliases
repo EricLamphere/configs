@@ -28,6 +28,7 @@ if [[ -f "$HOME/.duckdb.ini" ]]; then
 fi
 
 
+
 dbeaver() {
 	stage=$1
 
@@ -38,6 +39,9 @@ dbeaver() {
 	AWS_DEFAULT_PROFILE=platform-$stage-admin /Applications/DBeaver.app/Contents/MacOS/dbeaver &> /dev/null &
 }
 
+cdl() {
+	cd "$1" && ls;
+}
 
 app() {
     open -a $@
@@ -435,5 +439,75 @@ fargatelocal_term() {
         $RUN_IMAGE
 }
 
+atlas_common_metrics() {
+  aws ecr get-login-password --region us-east-1 | docker login --username AWS --password-stdin ${AWS_ACCOUNT_ID}.dkr.ecr.us-east-1.amazonaws.com
+  if [ ! -f "deployment.yml" ]; then
+    echo "Error: File 'deployment.yml' not found is current directory." >&2
+  else
+    docker run -it \
+    -v ./deployment.yml:/tmp/deployment.yaml \
+    -v $HOME/.aws/:/root/.aws/ \
+    -v ./deployment_log/:/tmp/deployment_log/ \
+    -e AWS_DEFAULT_PROFILE=$AWS_DEFAULT_PROFILE \
+    -e AWS_PROFILE=$AWS_PROFILE \
+    -e DSMODELS_TEST_TENANT_OVERRIDE=$DSMODELS_TEST_TENANT_OVERRIDE \
+    --platform=linux/amd64 \
+    ${AWS_ACCOUNT_ID}.dkr.ecr.us-east-1.amazonaws.com/serverless-atlas-custom-metrics-${STAGE}:engine -f /tmp/deployment.yaml \
+    $@
+  fi
+}
+
+atlas_common_metrics.update() {
+  if [[ -z $AWS_ACCOUNT_ID ]]; then
+    echo "Error: please authenticate with an AWS environment first" >&2
+    exit 1
+  fi
+  aws ecr get-login-password --region us-east-1 | docker login --username AWS --password-stdin ${AWS_ACCOUNT_ID}.dkr.ecr.us-east-1.amazonaws.com
+  docker pull ${AWS_ACCOUNT_ID}.dkr.ecr.us-east-1.amazonaws.com/serverless-atlas-custom-metrics-${STAGE}:engine
+}
 
 
+
+get_commit_sha() {
+  local dir="$PWD"
+  local git_dir=""
+
+  while [[ "$dir" != "/" ]]; do
+    if [[ -d "$dir/.git" ]]; then
+      git_dir="$dir/.git"
+      break
+    elif [[ -f "$dir/.git" ]]; then
+      # handles git worktrees, where .git is a file containing "gitdir: <path>"
+      local gitdir_line
+      gitdir_line=$(<"$dir/.git")
+      git_dir="${gitdir_line#gitdir: }"
+      break
+    fi
+    dir="$(dirname "$dir")"
+  done
+
+  if [[ -z "$git_dir" ]]; then
+    echo "Error: this directory is not tracked in git" >&2
+    unset DBT_COMMIT_SHA
+    return 1
+  fi
+
+  local head_content
+  head_content=$(<"$git_dir/HEAD")
+
+  local sha
+  if [[ "$head_content" == ref:* ]]; then
+    local ref_path="${head_content#ref: }"
+    ref_path="${ref_path// /}"
+    if [[ -f "$git_dir/$ref_path" ]]; then
+      sha=$(<"$git_dir/$ref_path")
+    else
+      sha=$(grep "refs/heads/${ref_path#refs/heads/}" "$git_dir/packed-refs" | awk '{print $1}')
+    fi
+  else
+    sha="$head_content"
+  fi
+
+  # export DBT_COMMIT_SHA="$sha"
+  echo "$sha"
+}

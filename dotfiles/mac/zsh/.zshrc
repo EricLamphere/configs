@@ -115,3 +115,12 @@ if [[ ":$PATH:" != *":/Users/eric/.local/bin:"* ]]; then
 fi
 # Added by dbt Fusion extension
 alias dbtf=/Users/eric/.local/bin/dbt
+
+# added by dae-tools installer
+if [[ -f /Users/eric/.dae-deploy-scripts/zshrc-helper/zshrc-helper.zsh ]]; then
+	source /Users/eric/.dae-deploy-scripts/zshrc-helper/zshrc-helper.zsh
+fi
+
+
+# Added by dbt installer
+export PATH="$PATH:/Users/eric/.local/bin"
