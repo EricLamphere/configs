@@ -10,6 +10,7 @@ alias rstudio="open -a RStudio"
 alias spotify="open -a Spotify"
 alias slack="open -a Slack"
 alias zoom="open -a zoom.us"
+alias sync-meeting-notes="$HOME/.on_load/sync-meeting-notes"
 
 alias g="git"
 alias lg="lazygit"
