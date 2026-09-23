@@ -162,11 +162,144 @@ catodo() {
     fi
 }
 
+# Pretty-print Cursor agent stream-json events (used by sync-meeting-notes -v).
+_sync_meeting_notes_log() {
+    python3 -u -c '
+import json, sys
+
+def tool_info(tc):
+    if not isinstance(tc, dict) or not tc:
+        return "tool", {}
+    if "function" in tc and isinstance(tc["function"], dict):
+        fn = tc["function"]
+        args = fn.get("arguments") or fn.get("args") or {}
+        if isinstance(args, str):
+            try:
+                args = json.loads(args)
+            except Exception:
+                args = {"_": args}
+        return fn.get("name") or "function", args if isinstance(args, dict) else {}
+    name, body = next(iter(tc.items()))
+    body = body or {}
+    label = name.replace("ToolCall", "")
+    return label, body.get("args") or {}
+
+def summarize_args(args):
+    if not args:
+        return ""
+    for key in ("path", "query", "q", "pattern", "glob", "time_range", "command", "uri"):
+        if key in args and args[key] not in (None, ""):
+            val = args[key]
+            if isinstance(val, list):
+                val = ", ".join(str(x) for x in val[:4])
+            text = str(val).replace("\n", " ")
+            return text[:160] + ("…" if len(text) > 160 else "")
+    if "meeting_ids" in args:
+        ids = args["meeting_ids"]
+        if isinstance(ids, list):
+            return str(len(ids)) + " meeting(s)"
+    return ""
+
+def summarize_result(body):
+    if not isinstance(body, dict):
+        return ""
+    result = body.get("result")
+    if not isinstance(result, dict):
+        return ""
+    success = result.get("success")
+    if isinstance(success, dict):
+        bits = []
+        if "totalLines" in success:
+            bits.append(str(success["totalLines"]) + " lines")
+        if "linesCreated" in success:
+            bits.append(str(success["linesCreated"]) + " lines written")
+        if "path" in success:
+            bits.append(str(success["path"]))
+        return "  ".join(bits)
+    if "error" in result:
+        err = result["error"]
+        if isinstance(err, dict):
+            return str(err.get("message") or err)[:160]
+        return str(err)[:160]
+    return ""
+
+seen_assistant = False
+need_nl = False
+for line in sys.stdin:
+    line = line.strip()
+    if not line:
+        continue
+    try:
+        ev = json.loads(line)
+    except json.JSONDecodeError:
+        print(line, flush=True)
+        continue
+    kind = ev.get("type")
+    if kind == "system" and ev.get("subtype") == "init":
+        model = ev.get("model") or "unknown model"
+        cwd = ev.get("cwd") or ""
+        print(f"[agent] {model}  {cwd}", flush=True)
+    elif kind == "assistant":
+        ts, mid = ev.get("timestamp_ms"), ev.get("model_call_id")
+        if mid or (ts is None and seen_assistant):
+            continue
+        content = ev.get("message", {}).get("content") or []
+        text = "".join(block.get("text", "") for block in content if isinstance(block, dict))
+        if text:
+            seen_assistant = True
+            print(text, end="" if ts else "\n", flush=True)
+            need_nl = bool(ts) and not text.endswith("\n")
+    elif kind == "tool_call":
+        if need_nl:
+            print(flush=True)
+            need_nl = False
+        name, args = tool_info(ev.get("tool_call"))
+        detail = summarize_args(args)
+        arrow = "→" if ev.get("subtype") == "started" else "✓"
+        msg = f"{arrow} {name}"
+        if detail:
+            msg += f"  {detail}"
+        if ev.get("subtype") == "completed":
+            extra = summarize_result(next(iter((ev.get("tool_call") or {}).values()), {}))
+            if extra:
+                msg += f"  ({extra})"
+        print(msg, flush=True)
+    elif kind == "result":
+        ms = ev.get("duration_ms")
+        if ms is not None:
+            print(f"[agent] done in {ms/1000:.1f}s", flush=True)
+    elif kind in ("user",):
+        continue
+'
+}
+
 # Headless Cursor agent that follows the sync-meeting-notes skill and the
 # ops-stack rule in ~/.cursor to write meeting notes into the daily note.
+# Usage: sync-meeting-notes [-v|--verbose] [prompt...]
 sync-meeting-notes() {
     local vault="${SYNC_MEETING_NOTES_VAULT:-$(notes_root)/notes}"
     local agent_bin="${SYNC_MEETING_NOTES_AGENT:-$HOME/.local/bin/agent}"
+    local verbose=0
+    local -a prompt_parts=()
+
+    while (( $# )); do
+        case "$1" in
+            -v|--verbose) verbose=1; shift ;;
+            -h|--help)
+                print "Usage: sync-meeting-notes [-v|--verbose] [prompt...]"
+                print "  -v, --verbose   stream tool calls and progress as the agent runs"
+                print "With no prompt, syncs today's unsynced meeting notes."
+                return 0
+                ;;
+            --) shift; prompt_parts+=("$@"); break ;;
+            -*)
+                print -u2 "sync-meeting-notes: unknown flag $1"
+                print -u2 "Usage: sync-meeting-notes [-v|--verbose] [prompt...]"
+                return 1
+                ;;
+            *) prompt_parts+=("$1"); shift ;;
+        esac
+    done
 
     if [[ ! -x $agent_bin ]]; then
         print -u2 "sync-meeting-notes: Cursor agent not found at $agent_bin"
@@ -179,20 +312,41 @@ sync-meeting-notes() {
         return 1
     fi
 
-    local user_prompt="${*:-Sync my meeting notes.}"
+    local user_prompt
+    if (( ${#prompt_parts[@]} )); then
+        user_prompt="${prompt_parts[*]}"
+    else
+        user_prompt="Sync my meeting notes."
+    fi
 
-    "$agent_bin" \
-        -p \
-        --trust \
-        --force \
-        --approve-mcps \
-        --sandbox disabled \
-        --workspace "$vault" \
-        -- "Follow the sync-meeting-notes skill and the ops-stack user rule.
+    local -a agent_args=(
+        -p
+        --trust
+        --force
+        --approve-mcps
+        --sandbox disabled
+        --workspace "$vault"
+    )
+
+    if (( verbose )); then
+        agent_args+=(--output-format stream-json --stream-partial-output)
+    fi
+
+    if (( verbose )); then
+        setopt local_options pipefail
+        "$agent_bin" "${agent_args[@]}" -- "Follow the sync-meeting-notes skill and the ops-stack user rule.
+
+${user_prompt}
+
+Workspace is the Obsidian vault. Never run git. Do not commit or push." \
+            | _sync_meeting_notes_log
+    else
+        "$agent_bin" "${agent_args[@]}" -- "Follow the sync-meeting-notes skill and the ops-stack user rule.
 
 ${user_prompt}
 
 Workspace is the Obsidian vault. Never run git. Do not commit or push."
+    fi
 }
 
 ixtall_py() {
