@@ -22,6 +22,9 @@ export PATH="$PATH:$POSITRON_PATH"
 # misc
 export PATH=$HOME/bin:$PATH
 export PATH=$HOME/.local/bin:$PATH
+
+# rust / cargo
+. "$HOME/.cargo/env"
 # ----------------- PATH END -----------------
 
 
