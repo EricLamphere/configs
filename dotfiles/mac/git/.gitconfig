@@ -1,9 +1,9 @@
 [includeIf "gitdir:~/Personal/"]
     path = ~/.gitconfig-personal
 [includeIf "gitdir:~/Projects/"]
-    path = ~/.gitconfig-work
+    path = ~/.gitconfig-personal
 [includeIf "gitdir:~/vaults/"]
-    path = ~/.gitconfig-work
+    path = ~/.gitconfig-personal
 [core]
     excludesfile = /Users/eric/.gitignore_global
 [alias]
