@@ -22,6 +22,30 @@ echo "----- Installing Utils -----"
 brew install mdcat tree ddgr w3m lazygit lazydocker
 
 
+echo "----- Installing Xcode -----"
+# Full Xcode (not just Command Line Tools) is required to build VoiceInk.
+# mas installs from the Mac App Store; you must be signed into the App Store.
+XCODE_APP_STORE_ID=497799835
+brew install mas
+if [[ ! -d /Applications/Xcode.app ]]; then
+  mas install $XCODE_APP_STORE_ID
+fi
+sudo xcode-select -s /Applications/Xcode.app/Contents/Developer
+sudo xcodebuild -license accept
+sudo xcodebuild -runFirstLaunch
+xcodebuild -downloadComponent MetalToolchain
+
+
+echo "----- Building VoiceInk (local dictation, from source) -----"
+VOICEINK_DIR=~/Projects/VoiceInk
+brew install cmake
+mkdir -p ~/Projects
+if [[ ! -d $VOICEINK_DIR ]]; then
+  git clone https://github.com/Beingpax/VoiceInk.git $VOICEINK_DIR
+fi
+(cd $VOICEINK_DIR && make local && mv ~/Downloads/VoiceInk.app /Applications/)
+
+
 echo "----- Installing Micro -----"
 brew install micro fzf ripgrep bat
 

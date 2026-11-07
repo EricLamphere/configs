@@ -56,6 +56,7 @@ Initial system setup script that installs packages and tools on a fresh macOS ma
 2. Installs GUI applications: iTerm2, Sublime Text, Google Chrome, Spotify
 3. Installs coding tools: VS Code, R, RStudio, GitHub CLI, Docker, Python, DuckDB
 4. Installs utilities: mdcat, micro, tree, ddgr, w3m
+   - Installs Xcode (via `mas`) plus the Metal Toolchain, then builds VoiceInk (local dictation) from source into /Applications
 5. Installs Oh My Zsh framework
 6. Installs Powerlevel10k theme for ZSH
 7. Installs git-open plugin
