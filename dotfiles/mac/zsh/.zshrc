@@ -71,7 +71,6 @@ plugins=(
 	aliases # enables `als` command
 	git # git aliases
 	docker # docker aliases
-	command-not-found # recommends packages when command isn't found
 	aws # aws aliases
 	web-search # enables web_search command
 	jira # enables jira commands
