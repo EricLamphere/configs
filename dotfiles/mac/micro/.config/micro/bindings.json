@@ -1,5 +1,8 @@
 {
-    "\u001bctrlback": "SelectToStartOfLine,Delete",
+    "OldBackspace": "SelectToStartOfLine,Backspace",
+    "CtrlU": "SelectToStartOfLine,Backspace",
+    "Alt-z": "Undo",
+    "Alt-Z": "Redo",
     "Alt-,": "command:OmniPreviousHistory",
     "Alt-.": "command:OmniNextHistory",
     "Alt-/": "lua:comment.comment",

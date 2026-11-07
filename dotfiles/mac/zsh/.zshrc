@@ -97,6 +97,18 @@ source ~/.private-env
 
 
 
+# ----------------- KEYBINDINGS -----------------
+# Herdr (keys.json) maps Cmd shortcuts to these sequences
+
+bindkey '^U' backward-kill-line   # Cmd+Backspace: delete to start of line
+bindkey '^[z' undo                # Cmd+Z
+bindkey '^[Z' redo                # Cmd+Shift+Z
+
+# ----------------- KEYBINDINGS END -----------------
+
+
+
+
 # ----------------- P10k -----------------
 
 # To customize prompt, run `p10k configure` or edit ~/.p10k.zsh.

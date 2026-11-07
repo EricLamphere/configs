@@ -111,7 +111,7 @@
                 "pane": {
                   "gap": 8,
                   "radius": 10,
-                  "background": "background",
+                  "background": { "gradient": ["#1a9e9e", "#0b2a57"], "angle": 165 },
                   "lone": true,
                   "border": {
                     "width": 1,

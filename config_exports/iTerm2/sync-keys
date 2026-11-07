@@ -1,0 +1,102 @@
+#!/bin/zsh
+########
+# Sync the "Keyboard Map" from iterm2_default.json into iTerm2's live profiles.
+#
+# Usage: ./sync-keys [--dry-run] [profile ...]
+#   profile   iTerm2 profile name(s) to update (default: the export's "Name")
+#   --dry-run show what would change without writing anything
+#
+# iTerm2 must be quit first (it overwrites its prefs on save), so run this
+# from another terminal (e.g. Herdr), not from inside iTerm2.
+########
+set -e
+
+SCRIPT_DIR="${0:A:h}"
+EXPORT_FILE="$SCRIPT_DIR/iterm2_default.json"
+PLIST="$HOME/Library/Preferences/com.googlecode.iterm2.plist"
+
+RED='\033[0;31m'
+GREEN='\033[0;32m'
+NC='\033[0m'
+
+error() { echo -e "${RED}error:${NC} $1" >&2; exit 1; }
+info() { echo -e "${GREEN}==>${NC} $1"; }
+
+dry_run=false
+profiles=()
+for arg in "$@"; do
+  case "$arg" in
+    --dry-run) dry_run=true ;;
+    -h|--help) sed -n '3,10p' "$0" | sed 's/^# \{0,1\}//'; exit 0 ;;
+    -*) error "unknown option: $arg" ;;
+    *) profiles+=("$arg") ;;
+  esac
+done
+
+[[ -f "$EXPORT_FILE" ]] || error "export not found: $EXPORT_FILE"
+[[ -f "$PLIST" ]] || error "iTerm2 preferences not found: $PLIST"
+if [[ "$dry_run" == false ]] && pgrep -x iTerm2 &> /dev/null; then
+  error "iTerm2 is running. Quit it (Cmd+Q) and run this from another terminal."
+fi
+
+if [[ "$dry_run" == false ]]; then
+  backup="$PLIST.bak-$(date +%Y%m%d%H%M%S)"
+  cp "$PLIST" "$backup"
+  info "backed up preferences to $backup"
+fi
+
+python3 -I - "$EXPORT_FILE" "$PLIST" "$dry_run" "${profiles[@]}" <<'EOF'
+import json
+import plistlib
+import sys
+
+export_path, plist_path, dry_run, *wanted = sys.argv[1:]
+dry_run = dry_run == "true"
+
+with open(export_path) as f:
+    export = json.load(f)
+keymap = export.get("Keyboard Map")
+if not isinstance(keymap, dict):
+    sys.exit(f"error: no 'Keyboard Map' in {export_path}")
+wanted = wanted or [export.get("Name")]
+
+with open(plist_path, "rb") as f:
+    prefs = plistlib.load(f)
+bookmarks = prefs.get("New Bookmarks", [])
+
+def describe_changes(old, new):
+    keys = sorted(set(old) | set(new))
+    return [
+        f"  {'+' if k not in old else '-' if k not in new else '~'} {k}"
+        for k in keys
+        if old.get(k) != new.get(k)
+    ]
+
+found = {b.get("Name") for b in bookmarks}
+missing = [name for name in wanted if name not in found]
+if missing:
+    sys.exit(f"error: no iTerm2 profile named: {', '.join(missing)}")
+
+updated = [
+    {**b, "Keyboard Map": keymap} if b.get("Name") in wanted else b
+    for b in bookmarks
+]
+for old, new in zip(bookmarks, updated):
+    if old is new:
+        continue
+    changes = describe_changes(old.get("Keyboard Map", {}), keymap)
+    print(f"{old['Name']}: {len(changes) or 'no'} change(s)")
+    print("\n".join(changes)) if changes else None
+
+if not dry_run:
+    with open(plist_path, "wb") as f:
+        plistlib.dump({**prefs, "New Bookmarks": updated}, f, fmt=plistlib.FMT_BINARY)
+EOF
+
+if [[ "$dry_run" == true ]]; then
+  info "dry run: nothing written"
+else
+  # Drop the cached prefs so iTerm2 reads the new file on next launch
+  killall cfprefsd 2> /dev/null || true
+  info "done. Reopen iTerm2 to use the new key mappings."
+fi
