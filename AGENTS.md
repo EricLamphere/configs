@@ -30,6 +30,7 @@ This is a personal dotfiles configuration management repository that uses GNU St
     │   ├── duckdb/             # DuckDB database configuration
     │   ├── git/                # Git configuration and aliases
     │   ├── github/             # GitHub CLI configuration
+    │   ├── herdr/              # Herdr (coding agent runtime) app configuration
     │   ├── micro/              # Micro text editor (primary editor)
     │   ├── nano/               # Nano text editor with improved syntax
     │   ├── powerlevel10k/      # Powerlevel10k ZSH theme configuration
@@ -206,6 +207,19 @@ Comprehensive documentation for AI agents working with this repository, includin
 - `.config/gh/` - GitHub CLI configuration directory
 
 **Purpose:** GitHub CLI (gh) settings and authentication
+
+#### `herdr/` - Herdr App
+**Files:**
+- `.config/herdr-app/settings.json` - General app settings
+- `.config/herdr-app/keys.json` - Keybindings
+- `.config/herdr-app/themes/*.json` - Themes
+- `.config/herdr-app/layouts/*` - Layouts
+
+**Symlink behavior:** `~/.config/herdr-app/` is a real directory (the app writes runtime data there), so stow links individual files, including inside `themes/` and `layouts/`.
+
+**What is NOT tracked (runtime/app-managed):** `data/`, `telemetry/`, `mods/`, `icons/`, `layouts/.state/`, `view.json`, `window.json`, `seen.json`, `shared.json`, `installed.json`, `herdr-app.sock`, `*.d.ts`, `AGENTS.md`
+
+**Note:** The running app recreates `settings.json`/`keys.json` if they go missing. If stow reports a conflict on those files, delete the regenerated copies and restow immediately.
 
 ### Text Editors
 
