@@ -7,6 +7,10 @@
     16
   ],
   "background": "canvas",
+  "colors": {
+    "accent": "#1a9e9e"
+  },
+  "terminal_opacity": 0.85,
   "terminal_padding": [
     14,
     12
@@ -118,7 +122,7 @@
                     "color": "border"
                   },
                   "focus": {
-                    "width": 1,
+                    "width": 2,
                     "color": "accent"
                   },
                   "header": {
