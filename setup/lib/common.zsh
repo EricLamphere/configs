@@ -1,5 +1,5 @@
 #!/bin/zsh
-# Shared helpers for ./install, ./setup and ./macos. Source this file, don't run it.
+# Shared helpers for setup/install, setup/setup and setup/macos. Source this file, don't run it.
 #
 # Expects (optionally) these globals from the caller:
 #   DRY_RUN     1 = print side effects instead of running them

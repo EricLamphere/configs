@@ -2,17 +2,18 @@
 # Install system packages and tools on macOS, then link the dotfiles.
 #
 # Safe to re-run: every step checks whether it's already done first, so if a
-# step fails you can fix the problem and run ./install again.
+# step fails you can fix the problem and run setup/install again.
 #
-# On a brand-new Mac, use ./bootstrap (it clones this repo, then runs this).
+# On a brand-new Mac, use setup/bootstrap (it clones this repo, then runs this).
 
 set -euo pipefail
 
-REPO_DIR=${0:A:h}
+SETUP_DIR=${0:A:h}
+REPO_DIR=${SETUP_DIR:h}
 SCRIPT_NAME=${0:t}
-source "$REPO_DIR/lib/common.zsh"
+source "$SETUP_DIR/lib/common.zsh"
 
-BREWFILE="$REPO_DIR/Brewfile"
+BREWFILE="$SETUP_DIR/Brewfile"
 OMZ_DIR="$HOME/.oh-my-zsh"
 OMZ_INSTALL_URL="https://raw.githubusercontent.com/ohmyzsh/ohmyzsh/master/tools/install.sh"
 HOMEBREW_INSTALL_URL="https://raw.githubusercontent.com/Homebrew/install/HEAD/install.sh"
@@ -37,15 +38,15 @@ show_help() {
     cat <<EOF
 Usage: $SCRIPT_NAME [OPTIONS]
 
-Install packages and tools on macOS, then link the dotfiles with ./setup.
+Install packages and tools on macOS, then link the dotfiles with setup/setup.
 
 Options:
   -h, --help           Show this help
   -n, --dry-run        Show what would happen without changing anything
-  -y, --yes            Auto-confirm prompts (passed through to ./setup)
+  -y, --yes            Auto-confirm prompts (passed through to setup/setup)
       --only STEPS     Run only these steps (comma-separated)
       --skip STEPS     Skip these steps (comma-separated)
-      --with-macos     Also apply macOS settings (./macos)
+      --with-macos     Also apply macOS settings (setup/macos)
   -l, --list           List the steps
 
 Steps: ${DEFAULT_STEPS[*]} | optional: ${OPTIONAL_STEPS[*]}
@@ -138,7 +139,7 @@ install_ohmyzsh() {
     installer=$(mktemp)
     curl -fsSL "$OMZ_INSTALL_URL" -o "$installer"
     # Don't switch shells or start a new zsh (that would stop this script), and
-    # leave ~/.zshrc for ./setup to manage.
+    # leave ~/.zshrc for setup/setup to manage.
     RUNZSH=no CHSH=no KEEP_ZSHRC=yes sh "$installer" --unattended
     rm -f "$installer"
 }
@@ -172,7 +173,7 @@ step_dotfiles() {
     local -a args=(--force --full)
     (( DRY_RUN )) && args+=(--dry-run)
     (( ASSUME_YES )) && args+=(--yes)
-    "$REPO_DIR/setup" "${args[@]}"
+    "$SETUP_DIR/setup" "${args[@]}"
 }
 
 step_github() {
@@ -191,7 +192,7 @@ step_github() {
 step_macos() {
     local -a args=()
     (( DRY_RUN )) && args+=(--dry-run)
-    "$REPO_DIR/macos" "${args[@]}"
+    "$SETUP_DIR/macos" "${args[@]}"
 }
 
 ########################################
@@ -250,7 +251,7 @@ print_next_steps() {
      turn off the Ctrl+Arrow shortcuts so they reach the terminal
   3. Fill in machine-specific values in ~/.private-env
   4. Sign in to the apps (Chrome, Slack, Spotify, Obsidian, OpenWhispr...)
-  5. Open a new terminal, then run: $REPO_DIR/setup --doctor
+  5. Open a new terminal, then run: $SETUP_DIR/setup --doctor
 EOF
 }
 

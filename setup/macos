@@ -5,13 +5,14 @@
 # current Mac (captured 2026-11-08). The commented-out ones are popular extras
 # worth considering. Some settings only apply after logging out and back in.
 #
-#   ./macos            # apply
-#   ./macos --dry-run  # show what would change
+#   setup/macos            # apply
+#   setup/macos --dry-run  # show what would change
 
 set -euo pipefail
 
-REPO_DIR=${0:A:h}
-source "$REPO_DIR/lib/common.zsh"
+SETUP_DIR=${0:A:h}
+REPO_DIR=${SETUP_DIR:h}
+source "$SETUP_DIR/lib/common.zsh"
 
 DRY_RUN=0
 APPS_TO_RESTART=(Finder Dock SystemUIServer)

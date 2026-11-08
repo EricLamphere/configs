@@ -1,15 +1,15 @@
-# Homebrew packages installed by ./install (via `brew bundle`).
+# Homebrew packages installed by setup/install (via `brew bundle`).
 #
 #   brew bundle --file=Brewfile          # install anything missing
 #   brew bundle check --file=Brewfile    # list what's missing, change nothing
 #
 # Things that don't come from Homebrew (herdr, Oh My Zsh, zsh plugins) are
-# installed by separate steps in ./install.
+# installed by separate steps in setup/install.
 
 ########################################
-######## Required by ./setup and the shell config
+######## Required by setup/setup and the shell config
 ########################################
-brew "stow"                       # symlinks the dotfiles (./setup)
+brew "stow"                       # symlinks the dotfiles (setup/setup)
 brew "micro"                      # $EDITOR / $VISUAL
 brew "mdcat"                      # `catodo` prints the urgent todo list on shell start
 cask "font-meslo-lg-nerd-font"    # glyphs for the powerlevel10k prompt (pick it in iTerm2)

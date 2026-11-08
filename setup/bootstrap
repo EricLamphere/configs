@@ -1,11 +1,11 @@
 #!/bin/zsh
 # Set up a brand-new Mac with one command:
 #
-#   curl -fsSL https://raw.githubusercontent.com/EricLamphere/configs/main/bootstrap | zsh
+#   curl -fsSL https://raw.githubusercontent.com/EricLamphere/configs/main/setup/bootstrap | zsh
 #
 # Installs the Xcode Command Line Tools (for git), clones this repo over HTTPS
-# (no GitHub login needed) and runs ./install. Any arguments are passed to
-# ./install, e.g.  ... | zsh -s -- --with-macos
+# (no GitHub login needed) and runs setup/install. Any arguments are passed to
+# setup/install, e.g.  ... | zsh -s -- --with-macos
 #
 # Environment overrides:
 #   CONFIGS_DIR     where to clone (default: ~/Personal/configs)
@@ -49,4 +49,4 @@ fi
 
 say "Running install"
 # stdin is this script when piped from curl, so give the installers the terminal
-exec "$CONFIGS_DIR/install" "$@" < /dev/tty
+exec "$CONFIGS_DIR/setup/install" "$@" < /dev/tty

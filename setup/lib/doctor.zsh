@@ -1,15 +1,15 @@
 #!/bin/zsh
-# `./setup --doctor`: check the dotfiles are linked and the tools they rely on
+# `setup/setup --doctor`: check the dotfiles are linked and the tools they rely on
 # are installed. Changes nothing. Source this file, don't run it.
 #
-# Expects these globals/functions from ./setup and lib/:
-#   REPO_DIR, DOTFILES_DIR, TARGET_DIR, REAL_DIRS, SKIP_PACKAGES,
+# Expects these globals/functions from setup/setup and lib/:
+#   REPO_DIR, SETUP_DIR, DOTFILES_DIR, TARGET_DIR, REAL_DIRS, SKIP_PACKAGES,
 #   package_files, find_blocker, is_linked, is_ignored_path
 
 # Commands the shell config needs: "command|why"
 DOCTOR_COMMANDS=(
     "brew|Homebrew"
-    "stow|./setup"
+    "stow|setup/setup"
     "git|everything"
     "micro|\$EDITOR"
     "mdcat|catodo on shell start"
@@ -48,9 +48,9 @@ doctor_check_links() {
         fi
         blocker=$(find_blocker "$pkg" "$rel")
         if [[ -n "$blocker" ]]; then
-            doctor_fail "$pkg: ~/$rel is blocked by ~/$blocker (run ./setup --force $pkg)"
+            doctor_fail "$pkg: ~/$rel is blocked by ~/$blocker (run setup/setup --force $pkg)"
         else
-            doctor_fail "$pkg: ~/$rel is not linked (run ./setup $pkg)"
+            doctor_fail "$pkg: ~/$rel is not linked (run setup/setup $pkg)"
         fi
         (( missing++ )) || true
     done
@@ -63,7 +63,7 @@ doctor_check_real_dirs() {
     for dir in "${REAL_DIRS[@]}"; do
         target="$TARGET_DIR/$dir"
         if [[ -L "$target" && "${target:A}" == "${REPO_DIR:A}"/* ]]; then
-            doctor_fail "~/$dir links into the repo, so app data will be written there. Run ./setup --restow"
+            doctor_fail "~/$dir links into the repo, so app data will be written there. Run setup/setup --restow"
         fi
     done
 }
@@ -103,9 +103,9 @@ doctor_check_tools() {
         why=${path_entry#*|}
         [[ -e "$target" ]] || doctor_fail "Missing: $target ($why)"
     done
-    [[ -f "$TARGET_DIR/.private-env" ]] || doctor_fail "Missing: ~/.private-env (run ./setup to copy the template)"
-    if have brew && ! brew bundle check --no-upgrade --file="$REPO_DIR/Brewfile" &>/dev/null; then
-        doctor_fail "Some Brewfile packages are missing (run: brew bundle check --no-upgrade --file=$REPO_DIR/Brewfile --verbose)"
+    [[ -f "$TARGET_DIR/.private-env" ]] || doctor_fail "Missing: ~/.private-env (run setup/setup to copy the template)"
+    if have brew && ! brew bundle check --no-upgrade --file="$SETUP_DIR/Brewfile" &>/dev/null; then
+        doctor_fail "Some Brewfile packages are missing (run: brew bundle check --no-upgrade --file=$SETUP_DIR/Brewfile --verbose)"
     fi
 }
 

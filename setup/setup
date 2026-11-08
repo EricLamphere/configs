@@ -2,15 +2,16 @@
 # Link the dotfiles into $HOME with GNU Stow.
 #
 # Each folder in dotfiles/<os>/ is a "package" whose contents mirror $HOME.
-# Run ./setup --help for options.
+# Run setup/setup --help for options.
 
 set -euo pipefail
 
-REPO_DIR=${0:A:h}
+SETUP_DIR=${0:A:h}
+REPO_DIR=${SETUP_DIR:h}
 SCRIPT_NAME=${0:t}
-source "$REPO_DIR/lib/common.zsh"
-source "$REPO_DIR/lib/conflicts.zsh"
-source "$REPO_DIR/lib/doctor.zsh"
+source "$SETUP_DIR/lib/common.zsh"
+source "$SETUP_DIR/lib/conflicts.zsh"
+source "$SETUP_DIR/lib/doctor.zsh"
 
 ########################################
 ######## Configuration

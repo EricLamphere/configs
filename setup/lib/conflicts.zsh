@@ -2,7 +2,7 @@
 # Find and back up files that would block `stow` from linking a package.
 # Source this file, don't run it.
 #
-# Expects these globals from ./setup:
+# Expects these globals from setup/setup:
 #   DOTFILES_DIR, TARGET_DIR, BACKUP_DIR, STOW_IGNORE_REGEXES, DRY_RUN
 
 # True if a path inside a package is ignored by stow (any part matches)
