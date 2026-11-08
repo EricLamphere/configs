@@ -8,12 +8,12 @@ Only handle notes directly (without the note-taker agent) if the task is a trivi
 
 ## Accessing Obsidian Notes
 
-ALWAYS use the Obsidian CLI (`obsidian`) to access the user's Obsidian notes. Never browse the vault directory directly with file tools when the Obsidian CLI can accomplish the task.
+The vault is plain Markdown files on disk:
 
-Use the CLI for:
-- Reading notes
-- Searching notes
-- Creating or updating notes
-- Navigating the vault
+`~/Library/Mobile Documents/iCloud~md~obsidian/Documents/notes`
 
-If the `obsidian` CLI cannot accomplish a task, ask the user for permission before using direct file tools.
+Read, search, create and edit notes directly with normal file tools (Read, Grep, Glob, Edit, Write, or short scripts). Do NOT use the `obsidian` CLI.
+
+- Read a note before changing it, and add to it rather than rewriting existing content unless asked.
+- Never run git commands in the vault; a cron job handles syncing.
+- Don't touch `.obsidian/`.

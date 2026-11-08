@@ -56,7 +56,7 @@ Initial system setup script that installs packages and tools on a fresh macOS ma
 2. Installs GUI applications: iTerm2, Sublime Text, Google Chrome, Spotify
 3. Installs coding tools: VS Code, R, RStudio, GitHub CLI, Docker, Python, DuckDB
 4. Installs utilities: mdcat, micro, tree, ddgr, w3m
-   - Installs Xcode (via `mas`) plus the Metal Toolchain, then builds VoiceInk (local dictation) from source into /Applications
+   - Installs OpenWhispr (local dictation & meeting transcription) via Homebrew cask
 5. Installs Oh My Zsh framework
 6. Installs Powerlevel10k theme for ZSH
 7. Installs git-open plugin
@@ -134,11 +134,13 @@ Comprehensive documentation for AI agents working with this repository, includin
 - `.claude/agents/research-assistant.md` - Research and fact-checking agent definition
 - `.claude/rules/common/*.md` - Global coding rules loaded into every project
 - `.claude/rules/python/*.md` - Python-specific coding rules (applied when editing .py files)
+- `.claude/skills/sync-meeting-notes/` - Skill that syncs OpenWhispr meeting summaries into the Obsidian daily journal (scripts + pytest tests)
 
-**Symlink behavior:** Because `~/.claude` already exists as a real directory (Claude Code writes runtime data there), stow creates individual symlinks for the managed files/subdirectories rather than symlinking the whole `.claude` directory. The three symlinks created are:
+**Symlink behavior:** Because `~/.claude` already exists as a real directory (Claude Code writes runtime data there), stow creates individual symlinks for the managed files/subdirectories rather than symlinking the whole `.claude` directory. The symlinks created are:
 - `~/.claude/settings.json` → repo
 - `~/.claude/agents` → repo (entire directory symlinked)
 - `~/.claude/rules` → repo (entire directory symlinked)
+- `~/.claude/skills/<name>` → repo (one symlink per skill; `~/.claude/skills` itself is a real directory that also holds Claude-managed `learned/` and `synced/` skills)
 
 **What is NOT tracked (runtime/ephemeral):**
 - `~/.claude/settings.local.json` - Session-specific permission allowlists
