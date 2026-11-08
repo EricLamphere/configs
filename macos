@@ -1,0 +1,134 @@
+#!/bin/zsh
+# Apply macOS system settings with `defaults write`.
+#
+# The active settings are the ones that differ from macOS defaults on my
+# current Mac (captured 2026-11-08). The commented-out ones are popular extras
+# worth considering. Some settings only apply after logging out and back in.
+#
+#   ./macos            # apply
+#   ./macos --dry-run  # show what would change
+
+set -euo pipefail
+
+REPO_DIR=${0:A:h}
+source "$REPO_DIR/lib/common.zsh"
+
+DRY_RUN=0
+APPS_TO_RESTART=(Finder Dock SystemUIServer)
+
+# Each entry: "domain|key|type|value"
+SETTINGS=(
+    # Appearance
+    "NSGlobalDomain|AppleInterfaceStyle|string|Dark"
+
+    # Typing: no auto-correct / auto-capitalise / double-space period
+    "NSGlobalDomain|NSAutomaticSpellingCorrectionEnabled|bool|false"
+    "NSGlobalDomain|NSAutomaticCapitalizationEnabled|bool|false"
+    "NSGlobalDomain|NSAutomaticPeriodSubstitutionEnabled|bool|false"
+
+    # Trackpad: turn off "natural" scrolling, enable tap to click
+    "NSGlobalDomain|com.apple.swipescrolldirection|bool|false"
+    "com.apple.AppleMultitouchTrackpad|Clicking|bool|true"
+    "com.apple.driver.AppleBluetoothMultitouch.trackpad|Clicking|bool|true"
+
+    # Dock: smaller icons, no "recent apps" section
+    "com.apple.dock|tilesize|int|40"
+    "com.apple.dock|show-recents|bool|false"
+
+    ######## Suggestions (uncomment to use) ########
+    # Faster key repeat, and hold-to-repeat instead of the accent popup
+    # "NSGlobalDomain|KeyRepeat|int|2"
+    # "NSGlobalDomain|InitialKeyRepeat|int|15"
+    # "NSGlobalDomain|ApplePressAndHoldEnabled|bool|false"
+    # No smart quotes/dashes (they break code pasted from notes)
+    # "NSGlobalDomain|NSAutomaticQuoteSubstitutionEnabled|bool|false"
+    # "NSGlobalDomain|NSAutomaticDashSubstitutionEnabled|bool|false"
+    # Finder: file extensions, path bar, status bar, search this folder, folders first
+    # "NSGlobalDomain|AppleShowAllExtensions|bool|true"
+    # "com.apple.finder|ShowPathbar|bool|true"
+    # "com.apple.finder|ShowStatusBar|bool|true"
+    # "com.apple.finder|FXDefaultSearchScope|string|SCcf"
+    # "com.apple.finder|_FXSortFoldersFirst|bool|true"
+    # Don't litter network/USB drives with .DS_Store files
+    # "com.apple.desktopservices|DSDontWriteNetworkStores|bool|true"
+    # "com.apple.desktopservices|DSDontWriteUSBStores|bool|true"
+    # Don't reorder Spaces based on recent use
+    # "com.apple.dock|mru-spaces|bool|false"
+)
+
+show_help() {
+    cat <<EOF
+Usage: ${0:t} [OPTIONS]
+
+Apply the macOS settings listed in this script.
+
+Options:
+  -h, --help     Show this help
+  -n, --dry-run  Show what would change without changing anything
+EOF
+}
+
+# Print the current value, or nothing if it isn't set
+current_value() {
+    local domain="$1" key="$2"
+    defaults read "$domain" "$key" 2>/dev/null || true
+}
+
+# `defaults read` shows booleans as 1/0
+normalise_value() {
+    local type="$1" value="$2"
+    if [[ "$type" == bool ]]; then
+        [[ "$value" == true ]] && print 1 || print 0
+    else
+        print -r -- "$value"
+    fi
+}
+
+apply_setting() {
+    local domain="$1" key="$2" type="$3" value="$4"
+    local wanted current
+    wanted=$(normalise_value "$type" "$value")
+    current=$(current_value "$domain" "$key")
+
+    if [[ "$current" == "$wanted" ]]; then
+        log_success "$domain $key = $value"
+        return 1   # unchanged
+    fi
+    log_info "$domain $key: '${current:-<unset>}' -> '$value'"
+    run defaults write "$domain" "$key" "-$type" "$value" || die "Failed to write $domain $key"
+}
+
+main() {
+    while (( $# > 0 )); do
+        case "$1" in
+            -h|--help) show_help; exit 0 ;;
+            -n|--dry-run) DRY_RUN=1 ;;
+            *) log_error "Unknown argument: $1"; show_help; exit 1 ;;
+        esac
+        shift
+    done
+
+    [[ "$(uname -s)" == "Darwin" ]] || die "${0:t} only supports macOS"
+
+    local entry changed=0
+    local -a parts
+    for entry in "${SETTINGS[@]}"; do
+        parts=("${(@s:|:)entry}")
+        (( ${#parts} == 4 )) || die "Bad setting (want domain|key|type|value): $entry"
+        if apply_setting "${parts[@]}"; then
+            changed=1
+        fi
+    done
+
+    if (( ! changed )); then
+        log_success "No macOS settings to change"
+    elif (( DRY_RUN )); then
+        log_info "Dry run - the settings above were not changed"
+    else
+        log_info "Restarting ${APPS_TO_RESTART[*]} to apply changes"
+        killall "${APPS_TO_RESTART[@]}" &>/dev/null || true
+        log_success "macOS settings applied (some need a log out to take effect)"
+    fi
+}
+
+main "$@"

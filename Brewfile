@@ -1,0 +1,55 @@
+# Homebrew packages installed by ./install (via `brew bundle`).
+#
+#   brew bundle --file=Brewfile          # install anything missing
+#   brew bundle check --file=Brewfile    # list what's missing, change nothing
+#
+# Things that don't come from Homebrew (herdr, Oh My Zsh, zsh plugins) are
+# installed by separate steps in ./install.
+
+########################################
+######## Required by ./setup and the shell config
+########################################
+brew "stow"                       # symlinks the dotfiles (./setup)
+brew "micro"                      # $EDITOR / $VISUAL
+brew "mdcat"                      # `catodo` prints the urgent todo list on shell start
+cask "font-meslo-lg-nerd-font"    # glyphs for the powerlevel10k prompt (pick it in iTerm2)
+
+########################################
+######## Apps
+########################################
+cask "iterm2"
+cask "sublime-text"
+cask "google-chrome"
+cask "spotify"
+cask "openwhispr"                 # local dictation & meeting transcription
+cask "obsidian"                   # notes vault (catodo, Claude note skills)
+cask "slack"                      # `slack` alias
+cask "zoom"                       # `zoom` alias
+cask "raycast"
+cask "discord"
+
+########################################
+######## Coding tools
+########################################
+cask "visual-studio-code"
+cask "claude-code"                # dotfiles/mac/claude configures it
+brew "r"
+cask "rstudio"
+brew "gh"
+cask "docker-desktop"             # engine + docker CLI (replaces the docker formula)
+brew "python"
+brew "duckdb"
+brew "cmake"
+
+########################################
+######## Command-line utilities
+########################################
+brew "fzf"
+brew "ripgrep"
+brew "bat"
+brew "tree"
+brew "ddgr"
+brew "w3m"
+brew "lazygit"
+brew "lazydocker"
+brew "mas"

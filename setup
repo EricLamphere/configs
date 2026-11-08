@@ -1,498 +1,340 @@
 #!/bin/zsh
+# Link the dotfiles into $HOME with GNU Stow.
+#
+# Each folder in dotfiles/<os>/ is a "package" whose contents mirror $HOME.
+# Run ./setup --help for options.
 
-# GNU Stow dotfiles management script
-# This script uses GNU Stow to symlink all dotfiles from the dotfiles directory
+set -euo pipefail
 
-set -e  # Exit on any error
+REPO_DIR=${0:A:h}
+SCRIPT_NAME=${0:t}
+source "$REPO_DIR/lib/common.zsh"
+source "$REPO_DIR/lib/conflicts.zsh"
+source "$REPO_DIR/lib/doctor.zsh"
 
-# Capture script name for help function
-SCRIPT_NAME="${0##*/}"
+########################################
+######## Configuration
+########################################
 
-# Configuration
-BASE_DOTFILES_DIR="$HOME/Personal/configs/dotfiles"
-DOTFILES_DIR="$BASE_DOTFILES_DIR"
-TARGET_DIR="$HOME"
-STOW_CMD="stow"
-STOW_IGNORE="--ignore='\.setup\.sh'"
-PRIORITY_PACKAGES=("stow")
+BASE_DOTFILES_DIR="$REPO_DIR/dotfiles"
+# DOTFILES_TARGET lets you try everything against a scratch folder
+TARGET_DIR="${DOTFILES_TARGET:-$HOME}"
+BACKUP_DIR="${DOTFILES_BACKUP_DIR:-$HOME/.dotfiles-backup}/$(date +%Y%m%d-%H%M%S)"
+PRIVATE_TEMPLATE_PACKAGE="private"
+PRIVATE_FILE=".private-env"
+SETUP_SCRIPT_NAME=".setup.sh"
 
-# Colors for output
-RED='\033[0;31m'
-GREEN='\033[0;32m'
-YELLOW='\033[1;33m'
-BLUE='\033[0;34m'
-NC='\033[0m' # No Color
+# Stowed first (holds the global ignore rules); never stowed (handled separately)
+PRIORITY_PACKAGES=(stow)
+SKIP_PACKAGES=("$PRIVATE_TEMPLATE_PACKAGE")
 
-# Function to print colored output
-print_status() {
-    echo -e "${BLUE}[INFO]${NC} $1"
+# Never linked, matched against each part of a path (same rules as .stow-global-ignore)
+STOW_IGNORE_REGEXES=('^\.setup\.sh$' '^\.DS_Store$' '^README.*')
+
+# Folders apps write their own data into. They're created as real folders
+# before stowing so stow links the files inside them instead of linking the
+# whole folder (which would make the app write runtime data into this repo).
+REAL_DIRS=(
+    .config
+    .config/micro
+    .config/herdr-app
+    .config/herdr-app/layouts
+    .config/herdr-app/themes
+    .claude
+    .claude/skills
+    .w3m
+    "Library/Application Support/Code"
+    "Library/Application Support/Code/User"
+)
+
+DRY_RUN=0
+ASSUME_YES=0
+FORCE=0
+FULL=0
+SELECTED_OS="mac"
+DOTFILES_DIR=""
+
+########################################
+######## Help
+########################################
+
+show_help() {
+    cat <<EOF
+Usage: $SCRIPT_NAME [OPTIONS] [PACKAGE...]
+
+Link dotfiles into ~ with GNU Stow. With no packages, every package is used.
+
+Modes (default: link):
+  -c, --clean        Remove the links instead
+  -r, --restow       Remove and re-create the links (picks up renamed/deleted files)
+      --doctor       Check links and required tools; change nothing
+  -l, --list         List packages
+
+Options:
+  -n, -d, --dry-run  Show what would happen without changing anything
+  -f, --force        Move files that are in the way to ~/.dotfiles-backup/<time>/
+                     (asks first unless --yes; nothing is ever deleted)
+  -y, --yes          Don't ask before moving files
+      --full         Also run each package's $SETUP_SCRIPT_NAME after linking
+  -o, --os OS        mac (default) or windows
+  -p, --package(s)   Optional; the package names can follow it or stand alone
+  -h, --help         Show this help
+
+Examples:
+  $SCRIPT_NAME --dry-run           # preview
+  $SCRIPT_NAME                     # link everything
+  $SCRIPT_NAME git zsh             # link just git and zsh
+  $SCRIPT_NAME --force             # back up anything in the way, then link
+  $SCRIPT_NAME --restow micro      # re-link micro
+  $SCRIPT_NAME micro --full        # link micro and install its plugins
+  $SCRIPT_NAME --doctor            # health check
+EOF
 }
 
-print_success() {
-    echo -e "${GREEN}[SUCCESS]${NC} $1"
+########################################
+######## Packages
+########################################
+
+all_packages() {
+    local dir
+    for dir in "$DOTFILES_DIR"/*(/N); do
+        print -r -- "${dir:t}"
+    done
 }
 
-print_warning() {
-    echo -e "${YELLOW}[WARNING]${NC} $1"
+# Priority packages first, then the rest in the given order
+order_packages() {
+    local -a given=("$@")
+    local -a first=(${given:*PRIORITY_PACKAGES})
+    local -a rest=(${given:|PRIORITY_PACKAGES})
+    print -rl -- "${first[@]}" "${rest[@]}"
 }
 
-print_error() {
-    echo -e "${RED}[ERROR]${NC} $1"
+validate_packages() {
+    local pkg
+    for pkg in "$@"; do
+        [[ -d "$DOTFILES_DIR/$pkg" ]] || die "Unknown package '$pkg' (see $SCRIPT_NAME --list)"
+    done
 }
 
-# Prompt helper that reads from the controlling terminal, not stdin of pipelines
-prompt_confirm() {
-    local message="$1"
-    local reply
-    printf "%s [y/N] " "$message" > /dev/tty
-    # Read from the terminal explicitly so prompts work inside pipelines
-    read -r reply < /dev/tty
-    if [[ "$reply" =~ ^[Yy](es)?$ ]]; then
+list_packages() {
+    log_info "Packages in $DOTFILES_DIR:"
+    local pkg note
+    for pkg in $(all_packages); do
+        note=""
+        (( ${SKIP_PACKAGES[(Ie)$pkg]} )) && note=" (template, copied not linked)"
+        [[ -f "$DOTFILES_DIR/$pkg/$SETUP_SCRIPT_NAME" ]] && note+=" (has $SETUP_SCRIPT_NAME)"
+        print -r -- "  - $pkg$note"
+    done
+}
+
+########################################
+######## Stow
+########################################
+
+stow_cmd() {
+    local -a ignore_opts=()
+    local regex
+    for regex in "${STOW_IGNORE_REGEXES[@]}"; do
+        ignore_opts+=("--ignore=$regex")
+    done
+    local -a dry_opts=()
+    (( DRY_RUN )) && dry_opts=(--no --verbose=1)
+    stow "${dry_opts[@]}" "${ignore_opts[@]}" --dir="$DOTFILES_DIR" --target="$TARGET_DIR" "$@"
+}
+
+# Create REAL_DIRS this package has, so stow can't fold them into links
+prepare_real_dirs() {
+    local pkg="$1"
+    local dir target
+    for dir in "${REAL_DIRS[@]}"; do
+        [[ -d "$DOTFILES_DIR/$pkg/$dir" ]] || continue
+        target="$TARGET_DIR/$dir"
+        [[ -d "$target" && ! -L "$target" ]] && continue
+        if [[ -L "$target" ]]; then
+            # Folded link from an older setup: unstow so it can become a real dir
+            log_info "~/$dir is a link; re-linking '$pkg' file by file"
+            if (( DRY_RUN )); then continue; fi
+            stow_cmd --delete "$pkg" || { log_error "Couldn't unlink '$pkg'"; return 1; }
+        fi
+        run mkdir -p "$target" || { log_error "Couldn't create ~/$dir"; return 1; }
+    done
+}
+
+stow_package() {
+    local pkg="$1"
+
+    if (( FORCE )); then
+        backup_conflicts "$pkg" || true
+    fi
+    prepare_real_dirs "$pkg" || return 1
+
+    if stow_cmd "$pkg"; then
+        (( DRY_RUN )) || log_success "Linked: $pkg"
         return 0
-    else
+    fi
+    if (( DRY_RUN && FORCE )); then
+        log_warn "$pkg: the conflicts above would be backed up first"
+        return 0
+    fi
+    log_error "Couldn't link '$pkg'. Re-run with --force to back up files in the way."
+    return 1
+}
+
+unstow_package() {
+    local pkg="$1"
+    if stow_cmd --delete "$pkg"; then
+        (( DRY_RUN )) || log_success "Removed links: $pkg"
+        return 0
+    fi
+    log_error "Couldn't remove links for '$pkg'"
+    return 1
+}
+
+########################################
+######## Extras
+########################################
+
+setup_private_file() {
+    local private_file="$TARGET_DIR/$PRIVATE_FILE"
+    local template="$DOTFILES_DIR/$PRIVATE_TEMPLATE_PACKAGE/$PRIVATE_FILE"
+
+    if [[ -f "$private_file" ]]; then
+        log_success "~/$PRIVATE_FILE already exists"
+        return 0
+    fi
+    if [[ ! -f "$template" ]]; then
+        log_warn "No template at $template; skipping ~/$PRIVATE_FILE"
+        return 0
+    fi
+    if [[ -L "$private_file" ]]; then
+        log_info "Removing broken link ~/$PRIVATE_FILE"
+        run rm "$private_file"
+    fi
+    run cp "$template" "$private_file"
+    (( DRY_RUN )) || log_success "Created ~/$PRIVATE_FILE from the template - fill in its values"
+}
+
+run_setup_script() {
+    local pkg="$1"
+    local script="$DOTFILES_DIR/$pkg/$SETUP_SCRIPT_NAME"
+    [[ -f "$script" ]] || return 0
+
+    log_info "Running $SETUP_SCRIPT_NAME for $pkg"
+    if (( DRY_RUN )); then
+        log_info "[dry-run] (cd $DOTFILES_DIR/$pkg && zsh $SETUP_SCRIPT_NAME)"
+        return 0
+    fi
+    if ( cd "$DOTFILES_DIR/$pkg" && zsh "$SETUP_SCRIPT_NAME" ); then
+        log_success "Ran $SETUP_SCRIPT_NAME for $pkg"
+        return 0
+    fi
+    log_error "$SETUP_SCRIPT_NAME failed for $pkg"
+    return 1
+}
+
+########################################
+######## Main
+########################################
+
+# Run an action for each package; keep going on failure, report at the end
+for_each_package() {
+    local action="$1"
+    shift
+    local -a failed=()
+    local pkg
+    for pkg in "$@"; do
+        (( ${SKIP_PACKAGES[(Ie)$pkg]} )) && continue
+        log_step "$pkg"
+        "$action" "$pkg" || failed+=("$pkg")
+    done
+    if (( ${#failed} )); then
+        log_error "Failed: ${failed[*]}"
         return 1
     fi
 }
 
-# Function to check if stow is installed
-check_stow() {
-    if ! command -v $STOW_CMD &> /dev/null; then
-        print_error "GNU Stow is not installed!"
-        print_status "Please install it using:"
-        print_status "  macOS: brew install stow"
-        print_status "  Ubuntu/Debian: sudo apt install stow"
-        print_status "  CentOS/RHEL: sudo yum install stow"
-        exit 1
-    fi
-    print_success "GNU Stow is installed"
-}
-
-# Function to check if dotfiles directory exists
-check_dotfiles_dir() {
-    if [ ! -d "$DOTFILES_DIR" ]; then
-        print_error "Dotfiles directory not found: $DOTFILES_DIR"
-        exit 1
-    fi
-    print_success "Dotfiles directory found: $DOTFILES_DIR"
-}
-
-# Function to get list of packages
-get_packages() {
-    find "$DOTFILES_DIR" -maxdepth 1 -type d -not -name ".*" -not -path "$DOTFILES_DIR" | sort
-}
-
-# Function to show help
-show_help() {
-    local script_name="${1:-setup.sh}"
-    echo "Usage: $script_name [OPTIONS]"
-    echo ""
-    echo "Options:"
-    echo "  -h, --help     Show this help message"
-    echo "  -d, --dry-run  Show what would be done without making changes"
-    echo "  -c, --clean    Remove existing symlinks before stowing"
-    echo "  -r, --restow   Restow packages (clean + stow)"
-    echo "  -l, --list     List available packages"
-    echo "  -p, --packages Stow specific packages (remaining args are package names)"
-    echo "  -f, --force    Force symlinks even if files already exist"
-    echo "  -y, --yes      Auto-confirm removals when using --force"
-    echo "  -o, --os       Target OS: mac (default) or windows"
-    echo "  --full         Also run .setup.sh scripts for packages after stowing"
-    echo ""
-    echo "Examples:"
-    echo "  $script_name                    # Stow all packages"
-    echo "  $script_name --dry-run          # Preview what would be done"
-    echo "  $script_name --clean            # Remove all symlinks"
-    echo "  $script_name -p git zsh         # Stow only git and zsh packages"
-    echo "  $script_name --restow           # Clean and restow all packages"
-    echo "  $script_name --force            # Force symlinks, prompt before removal"
-    echo "  $script_name --force --yes      # Force symlinks, auto-confirm removals"
-    echo "  $script_name --os windows       # Use dotfiles/windows as the source"
-    echo "  $script_name -p micro --full    # Stow micro and run its .setup.sh script"
-    echo "  $script_name -p micro nano w3m  # Stow multiple packages"
-}
-
-# Function to stow packages
-stow_packages() {
-    local packages=("$@")
-    local dry_run_flag=""
-    local force_flag=""
-    
-    if (( DRY_RUN )); then
-        dry_run_flag="-n"
-        print_status "DRY RUN MODE - No changes will be made"
-    fi
-    
-    if (( FORCE )); then
-        print_status "FORCE MODE - Will overwrite existing files with symlinks"
-    fi
-    
-    if [ ${#packages[@]} -eq 0 ]; then
-        packages=($(get_packages | xargs -I {} basename {}))
-    fi
-
-    # Sort packages with priority packages first
-    sorted_packages=()
-    remaining_packages=()
-    for pkg in "${packages[@]}"; do
-        if [[ " ${PRIORITY_PACKAGES[*]} " =~ " $pkg " ]]; then
-            sorted_packages+=("$pkg")
-        else
-            remaining_packages+=("$pkg")
-        fi
-    done
-    packages=("${sorted_packages[@]}" "${remaining_packages[@]}")
-
-    print_status "Stowing packages: ${packages[*]}"
-    
-    for package in "${packages[@]}"; do
-        if [ "$package" = "private" ]; then
-            print_status "Skipping private package"
-            continue
-        fi
-
-        local package_path="$DOTFILES_DIR/$package"
-        
-        if [ ! -d "$package_path" ]; then
-            print_warning "Package '$package' not found, skipping..."
-            continue
-        fi
-        
-        print_status "Stowing package: $package"
-        
-        # If force is enabled, remove existing files/directories that would conflict
-        if (( FORCE )) && (( ! DRY_RUN )); then
-            remove_conflicting_files "$package"
-        fi
-        
-        if (( DRY_RUN )); then
-            $STOW_CMD $dry_run_flag $STOW_IGNORE -d "$DOTFILES_DIR" -t "$TARGET_DIR" "$package"
-        else
-            if $STOW_CMD $dry_run_flag $STOW_IGNORE -d "$DOTFILES_DIR" -t "$TARGET_DIR" "$package"; then
-                print_success "Successfully stowed: $package"
-            else
-                print_error "Failed to stow: $package"
-                return 1
-            fi
-        fi
-    done
-}
-
-# Function to clean packages
-clean_packages() {
-    local packages=("$@")
-    
-    if [ ${#packages[@]} -eq 0 ]; then
-        packages=($(get_packages | xargs -I {} basename {}))
-    fi
-
-    # Sort packages with priority packages first
-    sorted_packages=()
-    remaining_packages=()
-    for pkg in "${packages[@]}"; do
-        if [[ " ${PRIORITY_PACKAGES[*]} " =~ " $pkg " ]]; then
-            sorted_packages+=("$pkg")
-        else
-            remaining_packages+=("$pkg")
-        fi
-    done
-    packages=("${sorted_packages[@]}" "${remaining_packages[@]}")
-
-    print_status "Cleaning packages: ${packages[*]}"
-    
-    for package in "${packages[@]}"; do
-        local package_path="$DOTFILES_DIR/$package"
-        
-        if [ ! -d "$package_path" ]; then
-            print_warning "Package '$package' not found, skipping..."
-            continue
-        fi
-        
-        print_status "Cleaning package: $package"
-        
-        if $STOW_CMD -D -d "$DOTFILES_DIR" -t "$TARGET_DIR" "$package"; then
-            print_success "Successfully cleaned: $package"
-        else
-            print_warning "Failed to clean: $package (may not exist)"
-        fi
-    done
-}
-
-# Function to list packages
-list_packages() {
-    print_status "Available packages:"
-    for package in $(get_packages | xargs -I {} basename {}); do
-        echo "  - $package"
-    done
-}
-
-# Function to handle private environment file
-setup_private_file() {
-    local private_file="$HOME/.private-env"
-    local private_template="$DOTFILES_DIR/private/.private-env"
-    
-    # Check if file exists and is readable (not a broken symlink)
-    if [ -f "$private_file" ] && [ -r "$private_file" ]; then
-        print_status "$private_file file already exists"
-    else
-        # Remove broken symlink if it exists
-        if [ -L "$private_file" ]; then
-            print_status "Removing broken symlink: $private_file"
-            rm "$private_file"
-        fi
-        
-        print_status "Private file not found: $private_file"
-        if [ -f "$private_template" ]; then
-            print_status "Copying template $private_template file to $private_file"
-            cp "$private_template" "$private_file"
-            print_success "Created $private_file from template"
-        else
-            print_warning "Private template file not found: $private_template"
-        fi
-    fi
-}
-
-# Function to remove conflicting files/directories for force mode
-remove_conflicting_files() {
-    local package="$1"
-    local package_path="$DOTFILES_DIR/$package"
-    print_status "[force] Inspecting conflicts for package: $package"
-    print_status "[force] Package path: $package_path"
-    
-    # Find all files in the package that would be stowed
-    print_status "[force] Scanning files under: $package_path"
-    find "$package_path" -type f | while read -r file; do
-        print_status "[force:file] Consider: $file"
-        # Calculate the target path by removing the package path and dotfiles path
-        local relative_path="${file#$package_path/}"
-        local target_path="$TARGET_DIR/$relative_path"
-        print_status "[force:file] Relative path: $relative_path"
-        print_status "[force:file] Target path: $target_path"
-        
-        # Check if target exists and is not already a symlink
-        if [ -e "$target_path" ] && [ ! -L "$target_path" ]; then
-            print_warning "[force:file] Target exists and is not a symlink"
-            if [ "$ASSUME_YES" = 1 ]; then
-                print_status "Removing conflicting file: $target_path"
-                rm -rf "$target_path"
-            else
-                if prompt_confirm "Conflict: $target_path exists. Remove it?"; then
-                    print_status "Removing conflicting file: $target_path"
-                    rm -rf "$target_path"
-                else
-                    print_warning "Skipped removing: $target_path"
-                fi
-            fi
-        else
-            if [ -L "$target_path" ]; then
-                print_status "[force:file] Target is already a symlink, skipping removal: $target_path"
-            else
-                print_status "[force:file] Target does not exist, no conflict: $target_path"
-            fi
-        fi
-    done
-    
-    # Also check for conflicting directories
-    print_status "[force] Scanning directories under: $package_path"
-    find "$package_path" -type d | while read -r dir; do
-        print_status "[force:dir] Consider: $dir"
-        local relative_path="${dir#$package_path/}"
-        local target_path="$TARGET_DIR/$relative_path"
-        print_status "[force:dir] Relative path: $relative_path"
-        print_status "[force:dir] Target path: $target_path"
-        
-        # Check if target directory exists and is not already a symlink
-        if [ -d "$target_path" ] && [ ! -L "$target_path" ]; then
-            # Check if directory is empty or contains only files that would be replaced
-            local has_conflicts=false
-            find "$target_path" -type f 2>/dev/null | while read -r existing_file; do
-                local existing_relative="${existing_file#$TARGET_DIR/}"
-                local package_file="$package_path/$existing_relative"
-                if [ ! -f "$package_file" ]; then
-                    has_conflicts=true
-                    break
-                fi
-            done
-            
-            if [ "$has_conflicts" = false ]; then
-                print_status "[force:dir] Directory contains only replacable files"
-                if [ "$ASSUME_YES" = 1 ]; then
-                    print_status "Removing conflicting directory: $target_path"
-                    rm -rf "$target_path"
-                else
-                    if prompt_confirm "Conflict: directory $target_path exists. Remove it?"; then
-                        print_status "Removing conflicting directory: $target_path"
-                        rm -rf "$target_path"
-                    else
-                        print_warning "Skipped removing directory: $target_path"
-                    fi
-                fi
-            else
-                print_warning "[force:dir] Directory has files that are not part of package; skipping removal: $target_path"
-            fi
-        else
-            if [ -L "$target_path" ]; then
-                print_status "[force:dir] Target directory path is a symlink, skipping removal: $target_path"
-            else
-                print_status "[force:dir] Target directory does not exist, no conflict: $target_path"
-            fi
-        fi
-    done
-    print_success "[force] Conflict inspection complete for: $package"
-}
-
-# Main function
 main() {
-    # Parse command line arguments using zparseopts
-    local -A opts
-    local -a args
-    local -a help dry_run clean restow list packages force yes os full
-    
-    # Define option specifications for zparseopts
-    # Format: -o shortopt --longopt:description
-    zparseopts -D -E -A opts -M \
-        h=help -help=help \
-        d=dry_run -dry-run=dry_run \
-        c=clean -clean=clean \
-        r=restow -restow=restow \
-        l=list -list=list \
-        p=packages -packages=packages \
-        f=force -force=force \
-        y=yes -yes=yes \
-        o:=os -os:=os \
-        -full=full
-    
-    # Check for help option
-    if (( ${#help[@]} > 0 )); then
-        show_help "$SCRIPT_NAME"
-        exit 0
-    fi
-    
-    # Set boolean flags based on parsed options
-    DRY_RUN=$(( ${#dry_run[@]} > 0 ))
-    CLEAN=$(( ${#clean[@]} > 0 ))
-    RESTOW=$(( ${#restow[@]} > 0 ))
-    LIST=$(( ${#list[@]} > 0 ))
-    FORCE=$(( ${#force[@]} > 0 ))
-    ASSUME_YES=$(( ${#yes[@]} > 0 ))
-    FULL=$(( ${#full[@]} > 0 ))
-    
-    # Extract package names if -p flag is provided
-    SPECIFIC_PACKAGES=()
-    PACKAGE_MODE=$(( ${#packages[@]} > 0 ))
-    if (( PACKAGE_MODE )); then
-        # Remaining arguments after zparseopts are the package names
-        SPECIFIC_PACKAGES=("$@")
-        set --  # Clear positional parameters since we've consumed them
-    fi
+    local mode="stow"
+    local -a packages=()
 
-    # Resolve OS selection (default: mac)
-    SELECTED_OS="mac"
-    if (( ${#os[@]} > 0 )); then
-        SELECTED_OS="${os[2]}"
-    fi
+    while (( $# > 0 )); do
+        case "$1" in
+            -h|--help) show_help; exit 0 ;;
+            -n|-d|--dry-run) DRY_RUN=1 ;;
+            -f|--force) FORCE=1 ;;
+            -y|--yes) ASSUME_YES=1 ;;
+            --full) FULL=1 ;;
+            -c|--clean) mode="clean" ;;
+            -r|--restow) mode="restow" ;;
+            -l|--list) mode="list" ;;
+            --doctor) mode="doctor" ;;
+            -p|--package|--packages) ;;   # package names are plain arguments
+            -o|--os) [[ -n "${2:-}" ]] || die "--os needs a value"; SELECTED_OS="$2"; shift ;;
+            --os=*) SELECTED_OS="${1#*=}" ;;
+            -*) log_error "Unknown option: $1"; print ""; show_help; exit 1 ;;
+            *) packages+=("$1") ;;
+        esac
+        shift
+    done
+
     case "$SELECTED_OS" in
-        mac|windows)
-            ;;
-        *)
-            print_error "Invalid --os value: $SELECTED_OS (expected 'mac' or 'windows')"
-            exit 1
-            ;;
+        mac|windows) ;;
+        *) die "Invalid --os '$SELECTED_OS' (expected mac or windows)" ;;
     esac
     DOTFILES_DIR="$BASE_DOTFILES_DIR/$SELECTED_OS"
-    print_status "Using OS: $SELECTED_OS"
-    print_status "Dotfiles dir: $DOTFILES_DIR"
-    
-    # Check for unknown arguments
-    if (( $# > 0 )); then
-        print_error "Unknown arguments: $*"
-        show_help
-        exit 1
-    fi
-    
-    # Check prerequisites
-    check_stow
-    check_dotfiles_dir
-    
-    # Setup private file (always run this, but respect dry run)
-    if (( ! DRY_RUN )); then
-        setup_private_file
-    fi
+    [[ -d "$DOTFILES_DIR" ]] || die "Dotfiles folder not found: $DOTFILES_DIR"
 
-    # Function to run .setup.sh scripts for packages
-    run_setup_scripts() {
-        local packages=("$@")
-
-        if [ ${#packages[@]} -eq 0 ]; then
-            packages=($(get_packages | xargs -I {} basename {}))
-        fi
-
-        for package in "${packages[@]}"; do
-            local setup_script="$DOTFILES_DIR/$package/.setup.sh"
-
-            if [ -f "$setup_script" ]; then
-                print_status "Running setup script for: $package"
-                if (( DRY_RUN )); then
-                    print_status "DRY RUN: Would run: zsh $setup_script"
-                else
-                    if (cd "$DOTFILES_DIR/$package" && zsh .setup.sh); then
-                        print_success "Successfully ran setup script for: $package"
-                    else
-                        print_error "Failed to run setup script for: $package"
-                        return 1
-                    fi
-                fi
-            fi
-        done
-    }
-    
-    # Handle different modes
-    if (( LIST )); then
+    if [[ "$mode" == list ]]; then
         list_packages
         exit 0
     fi
-    
-    if (( CLEAN )); then
-        if (( ${#SPECIFIC_PACKAGES[@]} > 0 )); then
-            clean_packages "${SPECIFIC_PACKAGES[@]}"
-        else
-            clean_packages
-        fi
-        exit 0
+
+    (( ${#packages} )) || packages=($(all_packages))
+    validate_packages "${packages[@]}"
+    packages=($(order_packages "${packages[@]}"))
+
+    if [[ "$mode" == doctor ]]; then
+        run_doctor "${packages[@]}"
+        exit $?
     fi
 
-    if (( RESTOW )); then
-        print_status "Restowing packages (clean + stow)"
-        if (( ${#SPECIFIC_PACKAGES[@]} > 0 )); then
-            clean_packages "${SPECIFIC_PACKAGES[@]}"
-            stow_packages "${SPECIFIC_PACKAGES[@]}"
-            if (( FULL )); then
-                run_setup_scripts "${SPECIFIC_PACKAGES[@]}"
-            fi
-        else
-            clean_packages
-            stow_packages
-            if (( FULL )); then
-                run_setup_scripts
-            fi
-        fi
-        exit 0
-    fi
+    have stow || die "GNU Stow isn't installed. Install it with: brew install stow"
+    (( DRY_RUN )) && log_warn "DRY RUN - nothing will be changed"
+    log_info "Packages: ${DOTFILES_DIR#$REPO_DIR/}  Target: $TARGET_DIR"
 
-    # Default: stow packages
-    if (( ${#SPECIFIC_PACKAGES[@]} > 0 )); then
-        stow_packages "${SPECIFIC_PACKAGES[@]}"
+    local rc=0
+    case "$mode" in
+        clean)
+            for_each_package unstow_package "${packages[@]}" || rc=1
+            ;;
+        restow)
+            for_each_package unstow_package "${packages[@]}" || rc=1
+            for_each_package stow_package "${packages[@]}" || rc=1
+            ;;
+        stow)
+            for_each_package stow_package "${packages[@]}" || rc=1
+            ;;
+    esac
+
+    if [[ "$mode" != clean ]]; then
+        log_step "Private env file"
+        setup_private_file
         if (( FULL )); then
-            run_setup_scripts "${SPECIFIC_PACKAGES[@]}"
+            log_step "Package setup scripts"
+            for_each_package run_setup_script "${packages[@]}" || rc=1
         fi
+    fi
+
+    print ""
+    if (( rc )); then
+        log_error "Finished with errors (see above)"
+    elif [[ -d "$BACKUP_DIR" ]]; then
+        log_success "Done. Files that were in the way are in $BACKUP_DIR"
     else
-        stow_packages
-        if (( FULL )); then
-            run_setup_scripts
-        fi
+        log_success "Done"
     fi
-    
-    print_success "Dotfiles setup complete!"
+    return $rc
 }
 
-# Run main function with all arguments
 main "$@"

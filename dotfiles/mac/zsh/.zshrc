@@ -24,7 +24,7 @@ export PATH=$HOME/bin:$PATH
 export PATH=$HOME/.local/bin:$PATH
 
 # rust / cargo
-. "$HOME/.cargo/env"
+[[ -f "$HOME/.cargo/env" ]] && . "$HOME/.cargo/env"
 # ----------------- PATH END -----------------
 
 
@@ -90,7 +90,7 @@ source $ZSH/oh-my-zsh.sh
 
 source ~/.on_load/aliases
 source ~/.on_load/env
-source ~/.private-env
+[[ -f ~/.private-env ]] && source ~/.private-env
 
 # ----------------- UTIL CONFIG FILES END -----------------
 
@@ -120,7 +120,7 @@ typeset -g POWERLEVEL9K_INSTANT_PROMPT=quiet
 # ----------------- P10k -----------------
 
 # print out todo list
-catodo
+(( $+functions[catodo] )) && catodo
 
 
 

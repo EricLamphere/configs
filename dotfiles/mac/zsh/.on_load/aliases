@@ -141,7 +141,9 @@ catodo() {
     root=$(notes_root)
     file=${root}/notes/todo/Urgent\ TODO.md
 
-    if grep -q "\\* \\[ \\]" $file; then
+    # Vault may not be synced yet on a new machine
+    [[ -f "$file" ]] || return 0
+    if grep -q "\\* \\[ \\]" "$file"; then
         mdcat $file $@
     fi
 }

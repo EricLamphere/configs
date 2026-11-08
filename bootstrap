@@ -1,0 +1,52 @@
+#!/bin/zsh
+# Set up a brand-new Mac with one command:
+#
+#   curl -fsSL https://raw.githubusercontent.com/EricLamphere/configs/main/bootstrap | zsh
+#
+# Installs the Xcode Command Line Tools (for git), clones this repo over HTTPS
+# (no GitHub login needed) and runs ./install. Any arguments are passed to
+# ./install, e.g.  ... | zsh -s -- --with-macos
+#
+# Environment overrides:
+#   CONFIGS_DIR     where to clone (default: ~/Personal/configs)
+#   CONFIGS_BRANCH  branch to check out (default: main)
+#
+# Kept standalone on purpose (no lib/ imports): it runs before the repo exists.
+
+set -euo pipefail
+
+REPO_URL="https://github.com/EricLamphere/configs.git"
+CONFIGS_DIR="${CONFIGS_DIR:-$HOME/Personal/configs}"
+CONFIGS_BRANCH="${CONFIGS_BRANCH:-main}"
+XCODE_WAIT_SECONDS=5
+
+say()  { print -r -- $'\033[1m==> '"$*"$'\033[0m'; }
+fail() { print -r -- $'\033[0;31m[ERROR]\033[0m '"$*" >&2; exit 1; }
+
+[[ "$(uname -s)" == "Darwin" ]] || fail "This bootstrap only supports macOS"
+[[ -r /dev/tty ]] || fail "Run this from an interactive terminal (installers need to ask for your password)"
+
+say "Xcode Command Line Tools"
+if xcode-select -p &>/dev/null; then
+    print "Already installed"
+else
+    xcode-select --install || true
+    print "Finish the installer window that just opened; waiting for it..."
+    until xcode-select -p &>/dev/null; do
+        sleep "$XCODE_WAIT_SECONDS"
+    done
+fi
+
+say "Cloning configs into $CONFIGS_DIR"
+if [[ -d "$CONFIGS_DIR/.git" ]]; then
+    print "Already cloned - leaving it as is"
+elif [[ -e "$CONFIGS_DIR" ]]; then
+    fail "$CONFIGS_DIR exists but isn't a git repo; move it aside and re-run"
+else
+    mkdir -p "${CONFIGS_DIR:h}"
+    git clone --branch "$CONFIGS_BRANCH" "$REPO_URL" "$CONFIGS_DIR"
+fi
+
+say "Running install"
+# stdin is this script when piped from curl, so give the installers the terminal
+exec "$CONFIGS_DIR/install" "$@" < /dev/tty
