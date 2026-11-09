@@ -88,9 +88,20 @@ for old, new in zip(bookmarks, updated):
     print(f"{old['Name']}: {len(changes) or 'no'} change(s)")
     print("\n".join(changes)) if changes else None
 
+# Global key bindings win over profile ones, so drop any that clash
+global_map = prefs.get("GlobalKeyMap", {})
+clashing = sorted(k for k in global_map if k in keymap)
+if clashing:
+    print(f"global key bindings: removing {len(clashing)} that override the profile")
+    print("\n".join(f"  - {k}" for k in clashing))
+new_global = {k: v for k, v in global_map.items() if k not in keymap}
+
 if not dry_run:
+    new_prefs = {**prefs, "New Bookmarks": updated}
+    if "GlobalKeyMap" in prefs:
+        new_prefs = {**new_prefs, "GlobalKeyMap": new_global}
     with open(plist_path, "wb") as f:
-        plistlib.dump({**prefs, "New Bookmarks": updated}, f, fmt=plistlib.FMT_BINARY)
+        plistlib.dump(new_prefs, f, fmt=plistlib.FMT_BINARY)
 EOF
 
 if [[ "$dry_run" == true ]]; then

@@ -68,6 +68,8 @@
     "alt-backspace": "send:\u001b\u007f",
     "cmd-left": "send:\u001bOH",
     "cmd-right": "send:\u001bOF",
+    "cmd-shift-left": "send:\u001b[1;2H",
+    "cmd-shift-right": "send:\u001b[1;2F",
     "cmd-backspace": "send:\u0015",
     "cmd-z": "send:\u001bz",
     "cmd-shift-z": "send:\u001bZ",

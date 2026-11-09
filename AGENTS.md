@@ -305,7 +305,7 @@ Exported iTerm2 terminal emulator preferences and profiles.
 
 **Files:**
 - `iterm2_default.json` - Exported profile (colors, fonts, key mappings)
-- `sync-keys` - Copies the export's `Keyboard Map` into iTerm2's live profiles (`./sync-keys [--dry-run] [profile ...]`, default profile is the export's `Name`). Backs up the prefs plist first; iTerm2 must be quit, so run it from another terminal.
+- `sync-keys` - Copies the export's `Keyboard Map` into iTerm2's live profiles (`./sync-keys [--dry-run] [profile ...]`, default profile is the export's `Name`). Also removes global key bindings that clash with the export (they override profile ones). Backs up the prefs plist first; iTerm2 must be quit, so run it from another terminal.
 
 ## Git Configuration
 

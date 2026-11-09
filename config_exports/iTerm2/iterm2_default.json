@@ -135,6 +135,20 @@
       "Text" : "OH",
       "Escaping" : 2
     },
+    "0xf702-0x320000-0x7b" : {
+      "Version" : 2,
+      "Apply Mode" : 0,
+      "Action" : 10,
+      "Text" : "[1;2H",
+      "Escaping" : 2
+    },
+    "0xf703-0x320000-0x7c" : {
+      "Version" : 2,
+      "Apply Mode" : 0,
+      "Action" : 10,
+      "Text" : "[1;2F",
+      "Escaping" : 2
+    },
     "0x5a-0x120000-0x6" : {
       "Version" : 2,
       "Apply Mode" : 0,
