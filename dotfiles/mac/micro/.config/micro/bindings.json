@@ -12,5 +12,6 @@
     "CtrlUnderscore": "lua:comment.comment",
     "MouseLeft": "MousePress,lua:shiftclick.setAnchor",
     "Shift-MouseLeft": "MousePress,lua:shiftclick.shiftClickSelect",
-    "Alt-MouseLeft":   "MouseMultiCursor"
+    "Alt-MouseLeft":   "MouseMultiCursor",
+    "Alt-j": "command:textfilter jq ."
 }
