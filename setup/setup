@@ -1,0 +1,341 @@
+#!/bin/zsh
+# Link the dotfiles into $HOME with GNU Stow.
+#
+# Each folder in dotfiles/<os>/ is a "package" whose contents mirror $HOME.
+# Run setup/setup --help for options.
+
+set -euo pipefail
+
+SETUP_DIR=${0:A:h}
+REPO_DIR=${SETUP_DIR:h}
+SCRIPT_NAME=${0:t}
+source "$SETUP_DIR/lib/common.zsh"
+source "$SETUP_DIR/lib/conflicts.zsh"
+source "$SETUP_DIR/lib/doctor.zsh"
+
+########################################
+######## Configuration
+########################################
+
+BASE_DOTFILES_DIR="$REPO_DIR/dotfiles"
+# DOTFILES_TARGET lets you try everything against a scratch folder
+TARGET_DIR="${DOTFILES_TARGET:-$HOME}"
+BACKUP_DIR="${DOTFILES_BACKUP_DIR:-$HOME/.dotfiles-backup}/$(date +%Y%m%d-%H%M%S)"
+PRIVATE_TEMPLATE_PACKAGE="private"
+PRIVATE_FILE=".private-env"
+SETUP_SCRIPT_NAME=".setup.sh"
+
+# Stowed first (holds the global ignore rules); never stowed (handled separately)
+PRIORITY_PACKAGES=(stow)
+SKIP_PACKAGES=("$PRIVATE_TEMPLATE_PACKAGE")
+
+# Never linked, matched against each part of a path (same rules as .stow-global-ignore)
+STOW_IGNORE_REGEXES=('^\.setup\.sh$' '^\.DS_Store$' '^README.*')
+
+# Folders apps write their own data into. They're created as real folders
+# before stowing so stow links the files inside them instead of linking the
+# whole folder (which would make the app write runtime data into this repo).
+REAL_DIRS=(
+    .config
+    .config/micro
+    .config/herdr-app
+    .config/herdr-app/layouts
+    .config/herdr-app/themes
+    .claude
+    .claude/skills
+    .w3m
+    "Library/Application Support/Code"
+    "Library/Application Support/Code/User"
+)
+
+DRY_RUN=0
+ASSUME_YES=0
+FORCE=0
+FULL=0
+SELECTED_OS="mac"
+DOTFILES_DIR=""
+
+########################################
+######## Help
+########################################
+
+show_help() {
+    cat <<EOF
+Usage: $SCRIPT_NAME [OPTIONS] [PACKAGE...]
+
+Link dotfiles into ~ with GNU Stow. With no packages, every package is used.
+
+Modes (default: link):
+  -c, --clean        Remove the links instead
+  -r, --restow       Remove and re-create the links (picks up renamed/deleted files)
+      --doctor       Check links and required tools; change nothing
+  -l, --list         List packages
+
+Options:
+  -n, -d, --dry-run  Show what would happen without changing anything
+  -f, --force        Move files that are in the way to ~/.dotfiles-backup/<time>/
+                     (asks first unless --yes; nothing is ever deleted)
+  -y, --yes          Don't ask before moving files
+      --full         Also run each package's $SETUP_SCRIPT_NAME after linking
+  -o, --os OS        mac (default) or windows
+  -p, --package(s)   Optional; the package names can follow it or stand alone
+  -h, --help         Show this help
+
+Examples:
+  $SCRIPT_NAME --dry-run           # preview
+  $SCRIPT_NAME                     # link everything
+  $SCRIPT_NAME git zsh             # link just git and zsh
+  $SCRIPT_NAME --force             # back up anything in the way, then link
+  $SCRIPT_NAME --restow micro      # re-link micro
+  $SCRIPT_NAME micro --full        # link micro and install its plugins
+  $SCRIPT_NAME --doctor            # health check
+EOF
+}
+
+########################################
+######## Packages
+########################################
+
+all_packages() {
+    local dir
+    for dir in "$DOTFILES_DIR"/*(/N); do
+        print -r -- "${dir:t}"
+    done
+}
+
+# Priority packages first, then the rest in the given order
+order_packages() {
+    local -a given=("$@")
+    local -a first=(${given:*PRIORITY_PACKAGES})
+    local -a rest=(${given:|PRIORITY_PACKAGES})
+    print -rl -- "${first[@]}" "${rest[@]}"
+}
+
+validate_packages() {
+    local pkg
+    for pkg in "$@"; do
+        [[ -d "$DOTFILES_DIR/$pkg" ]] || die "Unknown package '$pkg' (see $SCRIPT_NAME --list)"
+    done
+}
+
+list_packages() {
+    log_info "Packages in $DOTFILES_DIR:"
+    local pkg note
+    for pkg in $(all_packages); do
+        note=""
+        (( ${SKIP_PACKAGES[(Ie)$pkg]} )) && note=" (template, copied not linked)"
+        [[ -f "$DOTFILES_DIR/$pkg/$SETUP_SCRIPT_NAME" ]] && note+=" (has $SETUP_SCRIPT_NAME)"
+        print -r -- "  - $pkg$note"
+    done
+}
+
+########################################
+######## Stow
+########################################
+
+stow_cmd() {
+    local -a ignore_opts=()
+    local regex
+    for regex in "${STOW_IGNORE_REGEXES[@]}"; do
+        ignore_opts+=("--ignore=$regex")
+    done
+    local -a dry_opts=()
+    (( DRY_RUN )) && dry_opts=(--no --verbose=1)
+    stow "${dry_opts[@]}" "${ignore_opts[@]}" --dir="$DOTFILES_DIR" --target="$TARGET_DIR" "$@"
+}
+
+# Create REAL_DIRS this package has, so stow can't fold them into links
+prepare_real_dirs() {
+    local pkg="$1"
+    local dir target
+    for dir in "${REAL_DIRS[@]}"; do
+        [[ -d "$DOTFILES_DIR/$pkg/$dir" ]] || continue
+        target="$TARGET_DIR/$dir"
+        [[ -d "$target" && ! -L "$target" ]] && continue
+        if [[ -L "$target" ]]; then
+            # Folded link from an older setup: unstow so it can become a real dir
+            log_info "~/$dir is a link; re-linking '$pkg' file by file"
+            if (( DRY_RUN )); then continue; fi
+            stow_cmd --delete "$pkg" || { log_error "Couldn't unlink '$pkg'"; return 1; }
+        fi
+        run mkdir -p "$target" || { log_error "Couldn't create ~/$dir"; return 1; }
+    done
+}
+
+stow_package() {
+    local pkg="$1"
+
+    if (( FORCE )); then
+        backup_conflicts "$pkg" || true
+    fi
+    prepare_real_dirs "$pkg" || return 1
+
+    if stow_cmd "$pkg"; then
+        (( DRY_RUN )) || log_success "Linked: $pkg"
+        return 0
+    fi
+    if (( DRY_RUN && FORCE )); then
+        log_warn "$pkg: the conflicts above would be backed up first"
+        return 0
+    fi
+    log_error "Couldn't link '$pkg'. Re-run with --force to back up files in the way."
+    return 1
+}
+
+unstow_package() {
+    local pkg="$1"
+    if stow_cmd --delete "$pkg"; then
+        (( DRY_RUN )) || log_success "Removed links: $pkg"
+        return 0
+    fi
+    log_error "Couldn't remove links for '$pkg'"
+    return 1
+}
+
+########################################
+######## Extras
+########################################
+
+setup_private_file() {
+    local private_file="$TARGET_DIR/$PRIVATE_FILE"
+    local template="$DOTFILES_DIR/$PRIVATE_TEMPLATE_PACKAGE/$PRIVATE_FILE"
+
+    if [[ -f "$private_file" ]]; then
+        log_success "~/$PRIVATE_FILE already exists"
+        return 0
+    fi
+    if [[ ! -f "$template" ]]; then
+        log_warn "No template at $template; skipping ~/$PRIVATE_FILE"
+        return 0
+    fi
+    if [[ -L "$private_file" ]]; then
+        log_info "Removing broken link ~/$PRIVATE_FILE"
+        run rm "$private_file"
+    fi
+    run cp "$template" "$private_file"
+    (( DRY_RUN )) || log_success "Created ~/$PRIVATE_FILE from the template - fill in its values"
+}
+
+run_setup_script() {
+    local pkg="$1"
+    local script="$DOTFILES_DIR/$pkg/$SETUP_SCRIPT_NAME"
+    [[ -f "$script" ]] || return 0
+
+    log_info "Running $SETUP_SCRIPT_NAME for $pkg"
+    if (( DRY_RUN )); then
+        log_info "[dry-run] (cd $DOTFILES_DIR/$pkg && zsh $SETUP_SCRIPT_NAME)"
+        return 0
+    fi
+    if ( cd "$DOTFILES_DIR/$pkg" && zsh "$SETUP_SCRIPT_NAME" ); then
+        log_success "Ran $SETUP_SCRIPT_NAME for $pkg"
+        return 0
+    fi
+    log_error "$SETUP_SCRIPT_NAME failed for $pkg"
+    return 1
+}
+
+########################################
+######## Main
+########################################
+
+# Run an action for each package; keep going on failure, report at the end
+for_each_package() {
+    local action="$1"
+    shift
+    local -a failed=()
+    local pkg
+    for pkg in "$@"; do
+        (( ${SKIP_PACKAGES[(Ie)$pkg]} )) && continue
+        log_step "$pkg"
+        "$action" "$pkg" || failed+=("$pkg")
+    done
+    if (( ${#failed} )); then
+        log_error "Failed: ${failed[*]}"
+        return 1
+    fi
+}
+
+main() {
+    local mode="stow"
+    local -a packages=()
+
+    while (( $# > 0 )); do
+        case "$1" in
+            -h|--help) show_help; exit 0 ;;
+            -n|-d|--dry-run) DRY_RUN=1 ;;
+            -f|--force) FORCE=1 ;;
+            -y|--yes) ASSUME_YES=1 ;;
+            --full) FULL=1 ;;
+            -c|--clean) mode="clean" ;;
+            -r|--restow) mode="restow" ;;
+            -l|--list) mode="list" ;;
+            --doctor) mode="doctor" ;;
+            -p|--package|--packages) ;;   # package names are plain arguments
+            -o|--os) [[ -n "${2:-}" ]] || die "--os needs a value"; SELECTED_OS="$2"; shift ;;
+            --os=*) SELECTED_OS="${1#*=}" ;;
+            -*) log_error "Unknown option: $1"; print ""; show_help; exit 1 ;;
+            *) packages+=("$1") ;;
+        esac
+        shift
+    done
+
+    case "$SELECTED_OS" in
+        mac|windows) ;;
+        *) die "Invalid --os '$SELECTED_OS' (expected mac or windows)" ;;
+    esac
+    DOTFILES_DIR="$BASE_DOTFILES_DIR/$SELECTED_OS"
+    [[ -d "$DOTFILES_DIR" ]] || die "Dotfiles folder not found: $DOTFILES_DIR"
+
+    if [[ "$mode" == list ]]; then
+        list_packages
+        exit 0
+    fi
+
+    (( ${#packages} )) || packages=($(all_packages))
+    validate_packages "${packages[@]}"
+    packages=($(order_packages "${packages[@]}"))
+
+    if [[ "$mode" == doctor ]]; then
+        run_doctor "${packages[@]}"
+        exit $?
+    fi
+
+    have stow || die "GNU Stow isn't installed. Install it with: brew install stow"
+    (( DRY_RUN )) && log_warn "DRY RUN - nothing will be changed"
+    log_info "Packages: ${DOTFILES_DIR#$REPO_DIR/}  Target: $TARGET_DIR"
+
+    local rc=0
+    case "$mode" in
+        clean)
+            for_each_package unstow_package "${packages[@]}" || rc=1
+            ;;
+        restow)
+            for_each_package unstow_package "${packages[@]}" || rc=1
+            for_each_package stow_package "${packages[@]}" || rc=1
+            ;;
+        stow)
+            for_each_package stow_package "${packages[@]}" || rc=1
+            ;;
+    esac
+
+    if [[ "$mode" != clean ]]; then
+        log_step "Private env file"
+        setup_private_file
+        if (( FULL )); then
+            log_step "Package setup scripts"
+            for_each_package run_setup_script "${packages[@]}" || rc=1
+        fi
+    fi
+
+    print ""
+    if (( rc )); then
+        log_error "Finished with errors (see above)"
+    elif [[ -d "$BACKUP_DIR" ]]; then
+        log_success "Done. Files that were in the way are in $BACKUP_DIR"
+    else
+        log_success "Done"
+    fi
+    return $rc
+}
+
+main "$@"

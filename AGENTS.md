@@ -13,22 +13,29 @@ This is a personal dotfiles configuration management repository that uses GNU St
 
 ```
 /Users/ericlamphere/Personal/configs/
-├── .claude/                    # Claude Code agent configurations
+├── .claude/                    # Claude Code agent configurations (for this repo only)
 │   ├── agents/                 # Custom agent definitions
 │   └── settings.local.json     # Local Claude settings
 ├── .git/                       # Git version control
 ├── .gitignore                  # Git ignore patterns
 ├── AGENTS.md                   # This file - agent instructions
 ├── README.md                   # User-facing documentation
-├── install                     # Initial system setup script (macOS only)
-├── setup                       # GNU Stow-based dotfiles installer
+├── setup/                      # Machine setup scripts
+│   ├── bootstrap               # One-command fresh-Mac setup (curl | zsh)
+│   ├── install                 # Package/tool installer (macOS only)
+│   ├── Brewfile                # Homebrew packages for install
+│   ├── setup                   # GNU Stow-based dotfiles linker
+│   ├── macos                   # macOS defaults
+│   └── lib/                    # Shared zsh helpers for the scripts
 ├── config_exports/             # Exported application configurations
 │   └── iTerm2/                 # iTerm2 terminal configurations
 └── dotfiles/                   # All managed dotfiles
     ├── mac/                    # macOS-specific configurations
+    │   ├── claude/             # Claude Code global configuration (~/.claude/)
     │   ├── duckdb/             # DuckDB database configuration
     │   ├── git/                # Git configuration and aliases
     │   ├── github/             # GitHub CLI configuration
+    │   ├── herdr/              # Herdr (coding agent runtime) app configuration
     │   ├── micro/              # Micro text editor (primary editor)
     │   ├── nano/               # Nano text editor with improved syntax
     │   ├── powerlevel10k/      # Powerlevel10k ZSH theme configuration
@@ -44,68 +51,40 @@ This is a personal dotfiles configuration management repository that uses GNU St
 
 ## Key Files and Scripts
 
-### Root-Level Scripts
+### Setup Scripts (`setup/`)
 
-#### `install` (macOS only)
-Initial system setup script that installs packages and tools on a fresh macOS machine.
+All scripts live in `setup/`, are zsh, macOS-only (except `setup --os windows`), safe to re-run, and support `--help` and `--dry-run`. Shared helpers (logging, `run` for dry-run, `prompt_confirm`, Homebrew detection) live in `setup/lib/common.zsh`. Each script sets `SETUP_DIR` (its own folder) and `REPO_DIR` (the repo root, its parent), so they work from any cwd.
 
-**What it does:**
-1. Installs Homebrew package manager
-2. Installs GUI applications: iTerm2, Sublime Text, Google Chrome, Spotify
-3. Installs coding tools: VS Code, R, RStudio, GitHub CLI, Docker, Python, DuckDB
-4. Installs utilities: mdcat, micro, tree, ddgr, w3m
-5. Installs Oh My Zsh framework
-6. Installs Powerlevel10k theme for ZSH
-7. Installs git-open plugin
-8. Authenticates with GitHub via gh CLI
-9. Clones this configs repository to ~/Personal/configs
-10. Runs the setup script
+| File | Purpose |
+|---|---|
+| `bootstrap` | Fresh-Mac entry point: `curl -fsSL https://raw.githubusercontent.com/EricLamphere/configs/main/setup/bootstrap \| zsh`. Installs Xcode CLT, clones the repo over HTTPS to `~/Personal/configs` (`CONFIGS_DIR`/`CONFIGS_BRANCH` override), then runs `setup/install`. Standalone (no `lib/` imports). |
+| `install` | Runs named steps in order, each skipped if already done: `xcode homebrew packages herdr ohmyzsh zsh_plugins dotfiles github` (+ optional `macos`). Flags: `--only`, `--skip`, `--with-macos`, `--list`, `-y`. Each step runs in a subshell with errexit; on failure it stops and tells you to re-run. |
+| `Brewfile` | All Homebrew formulae/casks, installed with `brew bundle --no-upgrade`. Add apps here, not to `install`. |
+| `setup` | GNU Stow linker (details below). |
+| `macos` | `defaults write` settings as `domain\|key\|type\|value` entries; only writes values that differ, restarts Finder/Dock. |
+| `lib/conflicts.zsh` | Finds paths that block stow and moves them to a backup folder for `setup --force`. |
+| `lib/doctor.zsh` | `setup --doctor` health checks. |
 
-**Usage:** `./install`
+#### `setup/setup`
 
-#### `setup` (Cross-platform)
-GNU Stow-based dotfiles management script that creates symlinks from the dotfiles directory to the home directory.
-
-**Key Features:**
-- Uses GNU Stow for symlink management
-- OS-specific dotfiles support (--os mac|windows)
-- Dry-run mode to preview changes
-- Force mode to overwrite existing files
-- Package-specific installation
-- Priority package handling (stow package first)
-- Colored output for status messages
-- Interactive prompts when removing conflicting files
-
-**Usage Examples:**
 ```bash
-./setup                         # Install all macOS dotfiles
-./setup --dry-run               # Preview what would be installed
-./setup --os mac                # Explicitly use macOS dotfiles
-./setup --os windows            # Use Windows dotfiles
-./setup --package git           # Install only git package
-./setup --force                 # Overwrite existing files (prompts)
-./setup --force --yes           # Overwrite existing files (no prompts)
-./setup --clean                 # Remove all symlinks
-./setup --restow                # Clean and reinstall all packages
-./setup --list                  # List available packages
+setup/setup [OPTIONS] [PACKAGE...]   # no packages = all
+setup/setup --dry-run                # -n / -d
+setup/setup git zsh                  # -p/--package/--packages is accepted but optional
+setup/setup --force [--yes]          # move conflicts to ~/.dotfiles-backup/<timestamp>/, then link
+setup/setup --restow | --clean | --list | --doctor
+setup/setup micro --full             # also run the package's .setup.sh
+setup/setup --os windows
 ```
 
-**How it works:**
-1. Checks for GNU Stow installation
-2. Validates dotfiles directory exists
-3. Handles private environment file setup (copies template if missing)
-4. For each package in dotfiles/mac/ or dotfiles/windows/:
-   - Skips "private" package (handled separately)
-   - Uses stow to create symlinks from package contents to $HOME
-   - In force mode: removes conflicting files/directories before stowing
-5. Processes "stow" package first (priority package)
-6. Creates symlinks maintaining the exact directory structure
-
-**Important Behaviors:**
-- Symlinks are created in $HOME (~)
-- Files/directories in each package are named exactly as they should appear in $HOME
-- Private environment file is copied (not symlinked) from template
-- Broken symlinks are automatically removed before creating new ones
+**Behaviour:**
+- Repo location is derived from the script path (not hardcoded); the target is `$HOME` unless `DOTFILES_TARGET` is set (use a scratch dir to test). `DOTFILES_BACKUP_DIR` overrides the backup root.
+- `stow` package goes first (`PRIORITY_PACKAGES`); `private` is never stowed. `~/.private-env` is copied from its template if missing.
+- `STOW_IGNORE_REGEXES` (`.setup.sh`, `.DS_Store`, `README*`) are passed to stow and used by conflict/doctor checks.
+- `REAL_DIRS` (`~/.config`, `~/.claude`, `~/.claude/skills`, `~/.config/micro`, `~/.config/herdr-app{,/layouts,/themes}`, `~/.w3m`, VS Code's `User` dir) are created as real directories before stowing so stow never folds them into links (which would make apps write runtime data into the repo). Add to this list when a package targets a folder an app writes into.
+- `--force` never deletes: it checks parent paths first (never follows a symlinked directory), treats correctly-pointing relative links as fine, and moves anything else (files, foreign or absolute links) to the backup folder after asking (or automatically with `--yes`).
+- Unknown options and unknown package names are errors. Each package is attempted; failures are summarised and give exit status 1.
+- `--doctor` reports unlinked/blocked files, `REAL_DIRS` that are links into the repo, broken or stow-ignored links into the repo, missing commands (`brew stow git micro mdcat gh`), missing Oh My Zsh/powerlevel10k/git-open/`~/.private-env`, and missing Brewfile packages.
 
 ### Configuration Documentation
 
@@ -121,6 +100,30 @@ Comprehensive documentation for AI agents working with this repository, includin
 - Common workflows
 
 ## Dotfiles Packages (macOS)
+
+### Claude Code
+
+#### `claude/` - Claude Code Global Configuration
+**Files:**
+- `.claude/settings.json` - Application settings (plugin config, thinking mode)
+- `.claude/agents/personal-assistant.md` - Personal productivity agent definition
+- `.claude/agents/research-assistant.md` - Research and fact-checking agent definition
+- `.claude/rules/common/*.md` - Global coding rules loaded into every project
+- `.claude/rules/python/*.md` - Python-specific coding rules (applied when editing .py files)
+- `.claude/skills/sync-meeting-notes/` - Skill that syncs OpenWhispr meeting summaries into the Obsidian daily journal (scripts + pytest tests)
+
+**Symlink behavior:** Because `~/.claude` already exists as a real directory (Claude Code writes runtime data there), stow creates individual symlinks for the managed files/subdirectories rather than symlinking the whole `.claude` directory. The symlinks created are:
+- `~/.claude/settings.json` → repo
+- `~/.claude/agents` → repo (entire directory symlinked)
+- `~/.claude/rules` → repo (entire directory symlinked)
+- `~/.claude/skills/<name>` → repo (one symlink per skill; `~/.claude/skills` itself is a real directory that also holds Claude-managed `learned/` and `synced/` skills)
+
+**What is NOT tracked (runtime/ephemeral):**
+- `~/.claude/settings.local.json` - Session-specific permission allowlists
+- `~/.claude/agent-memory/` - Runtime agent memory written during sessions
+- `~/.claude/projects/`, `debug/`, `cache/`, `backups/`, `file-history/` - Runtime data
+- `~/.claude/plugins/` - Downloaded plugin cache (auto-managed by Claude Code)
+- `~/.claude.json` - Root-level auth/session state (contains tokens)
 
 ### Shell & Terminal
 
@@ -183,6 +186,19 @@ Comprehensive documentation for AI agents working with this repository, includin
 - `.config/gh/` - GitHub CLI configuration directory
 
 **Purpose:** GitHub CLI (gh) settings and authentication
+
+#### `herdr/` - Herdr App
+**Files:**
+- `.config/herdr-app/settings.json` - General app settings
+- `.config/herdr-app/keys.json` - Keybindings
+- `.config/herdr-app/themes/*.json` - Themes
+- `.config/herdr-app/layouts/*` - Layouts
+
+**Symlink behavior:** `~/.config/herdr-app/` is a real directory (the app writes runtime data there), so stow links individual files, including inside `themes/` and `layouts/`.
+
+**What is NOT tracked (runtime/app-managed):** `data/`, `telemetry/`, `mods/`, `icons/`, `layouts/.state/`, `view.json`, `window.json`, `seen.json`, `shared.json`, `installed.json`, `herdr-app.sock`, `*.d.ts`, `AGENTS.md`
+
+**Note:** The running app recreates `settings.json`/`keys.json` if they go missing. If stow reports a conflict on those files, delete the regenerated copies and restow immediately.
 
 ### Text Editors
 
@@ -287,6 +303,10 @@ Exported iTerm2 terminal emulator preferences and profiles.
 
 **Purpose:** Backup of iTerm2 settings that can be imported on new machines
 
+**Files:**
+- `iterm2_default.json` - Exported profile (colors, fonts, key mappings)
+- `sync-keys` - Copies the export's `Keyboard Map` into iTerm2's live profiles (`./sync-keys [--dry-run] [profile ...]`, default profile is the export's `Name`). Backs up the prefs plist first; iTerm2 must be quit, so run it from another terminal.
+
 ## Git Configuration
 
 ### `.gitignore`
@@ -302,36 +322,30 @@ Excludes from version control:
 ## Installation Workflow
 
 ### Fresh macOS Machine Setup
-1. Run `./install` to install all packages and tools
-   - Installs Homebrew, apps, coding tools, utilities
-   - Sets up Oh My Zsh and Powerlevel10k
-   - Authenticates with GitHub
-   - Clones this repository
-   - Automatically runs ./setup
+1. Run the bootstrap one-liner (see `README.md`). It installs Xcode CLT, clones this repo and runs `setup/install`, which:
+   - Installs Homebrew and everything in the `Brewfile`
+   - Installs herdr, Oh My Zsh (unattended, keeps `~/.zshrc`), powerlevel10k and git-open
+   - Runs `setup/setup --force --full` (conflicts are backed up, micro plugins installed)
+   - Logs in to GitHub with `gh auth login`
 
-2. Manual steps after installation:
-   - Configure iTerm2 keybindings (disable Option+arrows, Ctrl+arrows system shortcuts)
-   - Import iTerm2 configuration from config_exports/
-   - Run `p10k configure` to customize Powerlevel10k prompt
-   - Edit ~/.private-env with machine-specific values
-   - Review and customize any application-specific settings
+2. Follow the "Manual steps left" the installer prints (iTerm2 profile/font, Ctrl+Arrow shortcuts, `~/.private-env`, app sign-ins), then run `setup/setup --doctor`.
 
 ### Updating Existing Installation
 ```bash
 cd ~/Personal/configs
 git pull
-./setup --restow  # Clean and reinstall all packages
+setup/setup --restow  # Clean and reinstall all packages
 ```
 
 ### Installing Specific Packages
 ```bash
-./setup --package git       # Install only git dotfiles
-./setup --package micro     # Install only micro editor config
+setup/setup git                 # Install only git dotfiles
+setup/setup micro               # Install only micro editor config
 ```
 
 ### Testing Changes Before Applying
 ```bash
-./setup --dry-run           # See what would change
+setup/setup --dry-run           # See what would change
 ```
 
 ## Code Style Guidelines
@@ -385,8 +399,8 @@ dotfiles/mac/zsh/
 ### Adding a New Dotfile
 1. Determine which package it belongs to (or create new package)
 2. Place file in correct location within package directory
-3. Run `./setup --dry-run` to verify symlink location
-4. Run `./setup --package <package_name>` to install
+3. Run `setup/setup --dry-run` to verify symlink location
+4. Run `setup/setup <package_name>` to install
 5. Commit changes to git
 
 ### Modifying Existing Dotfile
@@ -398,39 +412,39 @@ dotfiles/mac/zsh/
 1. Create directory in `dotfiles/mac/` with descriptive name
 2. Add files in exact structure they should appear in $HOME
 3. Optional: Add README.md to package (will be ignored by stow)
-4. Run `./setup --package <new_package>` to test
+4. Run `setup/setup <new_package>` to test
 5. Commit to git
 
 ### Updating from Remote
 ```bash
 cd ~/Personal/configs
 git pull
-./setup --restow  # Reapply all symlinks
+setup/setup --restow  # Reapply all symlinks
 ```
 
 ### Handling Conflicts
 ```bash
 # Preview conflicts
-./setup --dry-run
+setup/setup --dry-run
 
-# Force overwrite with prompts
-./setup --force
+# Back up conflicting files (asks for each), then link
+setup/setup --force
 
-# Force overwrite without prompts (dangerous)
-./setup --force --yes
+# Same, without asking (files are moved to ~/.dotfiles-backup, never deleted)
+setup/setup --force --yes
 ```
 
 ## Validation & Testing
 
 ### Before Making Changes
 ```bash
-./setup --dry-run  # Preview what would change
+setup/setup --dry-run  # Preview what would change
 ```
 
 ### After Making Changes
 ```bash
-./setup --package <modified_package> --dry-run  # Preview specific package
-./setup --package <modified_package>             # Apply specific package
+setup/setup <modified_package> --dry-run  # Preview specific package
+setup/setup <modified_package>             # Apply specific package
 ```
 
 ### Verifying Symlinks
@@ -440,7 +454,7 @@ ls -la ~/.<config_file>  # Check if symlink points to correct location
 
 ### Testing New Configurations
 1. Modify dotfile in repository
-2. Run `./setup --package <name> --restow`
+2. Run `setup/setup --restow <name>`
 3. Test the configuration in application
 4. If broken, edit and restow again
 5. Commit when working correctly
@@ -478,7 +492,7 @@ ls -la ~/.<config_file>  # Check if symlink points to correct location
 - Git - Version control
 - ZSH - Shell (default on modern macOS)
 
-### Optional (installed by ./install script)
+### Optional (installed by setup/install script)
 - Homebrew - Package manager for macOS
 - Oh My Zsh - ZSH framework
 - Powerlevel10k - ZSH theme
@@ -492,20 +506,20 @@ ls -la ~/.<config_file>  # Check if symlink points to correct location
 If stow reports conflicts about existing files:
 ```bash
 # Option 1: Preview what's conflicting
-./setup --dry-run
+setup/setup --dry-run
 
 # Option 2: Force overwrite with confirmation
-./setup --force
+setup/setup --force
 
 # Option 3: Remove specific conflicting file manually
 rm ~/.conflicting_file
-./setup
+setup/setup
 ```
 
 ### Broken Symlinks
 ```bash
 # Setup script automatically removes broken symlinks
-./setup --restow
+setup/setup --restow
 
 # Or manually find broken symlinks
 find ~ -maxdepth 1 -type l ! -exec test -e {} \; -print
@@ -515,7 +529,7 @@ find ~ -maxdepth 1 -type l ! -exec test -e {} \; -print
 ```bash
 # If ~/.private-env is broken or missing
 rm ~/.private-env  # Remove if exists
-./setup           # Will copy template automatically
+setup/setup           # Will copy template automatically
 ```
 
 ### Git Config Not Working
@@ -530,21 +544,21 @@ git config --list --show-origin | grep include
 ## Build/Lint/Test Commands
 
 ### Setup Commands
-- `./install` - Install system packages and tools (Homebrew, apps, coding tools)
-- `./setup` - Setup dotfiles using GNU Stow (creates symlinks)
-- `./setup --dry-run` - Preview what setup will do without making changes
-- `./setup --force` - Force setup, overwriting existing files
-- `./setup --clean` - Remove existing symlinks
-- `./setup --restow` - Clean and restow all packages
-- `./setup --package <name>` - Setup specific package only
-- `./setup --list` - List available packages
-- `./setup --os mac` - Use macOS dotfiles (default)
-- `./setup --os windows` - Use Windows dotfiles
+- `setup/install` - Install system packages and tools (Homebrew, apps, coding tools)
+- `setup/setup` - Setup dotfiles using GNU Stow (creates symlinks)
+- `setup/setup --dry-run` - Preview what setup will do without making changes
+- `setup/setup --force` - Force setup, overwriting existing files
+- `setup/setup --clean` - Remove existing symlinks
+- `setup/setup --restow` - Clean and restow all packages
+- `setup/setup <name>` - Setup specific package only
+- `setup/setup --list` - List available packages
+- `setup/setup --os mac` - Use macOS dotfiles (default)
+- `setup/setup --os windows` - Use Windows dotfiles
 
 ### Validation
 - No automated linting/formatting tools configured
 - No test framework (this is configuration files, not application code)
-- Manual validation: run `./setup --dry-run` to verify changes
+- Manual validation: run `setup/setup --dry-run` to verify changes
 - Visual inspection of symlinks: `ls -la ~/.<file>`
 
 ## File Locations (Absolute Paths)
@@ -556,13 +570,15 @@ git config --list --show-origin | grep include
 - Dotfiles source: `/Users/ericlamphere/Personal/configs/dotfiles/mac/`
 - Windows dotfiles: `/Users/ericlamphere/Personal/configs/dotfiles/windows/`
 - Config exports: `/Users/ericlamphere/Personal/configs/config_exports/`
-- Install script: `/Users/ericlamphere/Personal/configs/install`
-- Setup script: `/Users/ericlamphere/Personal/configs/setup`
+- Install script: `/Users/ericlamphere/Personal/configs/setup/install`
+- Setup script: `/Users/ericlamphere/Personal/configs/setup/setup`
 
 ### Symlink Targets
 All dotfiles are symlinked to: `/Users/ericlamphere/` (user home directory)
 
 Example: `/Users/ericlamphere/Personal/configs/dotfiles/mac/git/.gitconfig` → `/Users/ericlamphere/.gitconfig`
+
+Note: The `claude` package is a special case — stow creates symlinks for managed files/subdirs *inside* the existing `~/.claude` real directory rather than symlinking `.claude` itself.
 
 ## Recent Changes (Git History)
 
@@ -578,7 +594,7 @@ Recent commits focus on micro editor enhancements:
 When working with this repository, agents should:
 
 1. **Understand Structure**: Know that dotfiles/mac/ contains packages that mirror $HOME structure
-2. **Use Setup Script**: Always use `./setup` script, never manually create symlinks
+2. **Use Setup Script**: Always use `setup/setup` script, never manually create symlinks
 3. **Test First**: Use `--dry-run` before applying changes
 4. **Preserve Format**: Maintain exact indentation and formatting in configs
 5. **Document Changes**: Update README.md or package-specific README.md files when adding features

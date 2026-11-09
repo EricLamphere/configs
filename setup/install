@@ -1,0 +1,300 @@
+#!/bin/zsh
+# Install system packages and tools on macOS, then link the dotfiles.
+#
+# Safe to re-run: every step checks whether it's already done first, so if a
+# step fails you can fix the problem and run setup/install again.
+#
+# On a brand-new Mac, use setup/bootstrap (it clones this repo, then runs this).
+
+set -euo pipefail
+
+SETUP_DIR=${0:A:h}
+REPO_DIR=${SETUP_DIR:h}
+SCRIPT_NAME=${0:t}
+source "$SETUP_DIR/lib/common.zsh"
+
+BREWFILE="$SETUP_DIR/Brewfile"
+OMZ_DIR="$HOME/.oh-my-zsh"
+OMZ_INSTALL_URL="https://raw.githubusercontent.com/ohmyzsh/ohmyzsh/master/tools/install.sh"
+HOMEBREW_INSTALL_URL="https://raw.githubusercontent.com/Homebrew/install/HEAD/install.sh"
+HERDR_INSTALL_URL="https://releases.herdr.dev/app/install.sh"
+HERDR_APP="$HOME/Applications/Herdr.app"
+XCODE_WAIT_SECONDS=5
+
+# Steps run in this order. "macos" only runs with --with-macos or --only macos.
+DEFAULT_STEPS=(xcode homebrew packages herdr ohmyzsh zsh_plugins dotfiles github)
+OPTIONAL_STEPS=(macos)
+
+# Extra zsh plugins/themes cloned into Oh My Zsh's custom folder: "subdir url"
+ZSH_CUSTOM_REPOS=(
+    "plugins/git-open https://github.com/paulirish/git-open.git"
+    "themes/powerlevel10k https://github.com/romkatv/powerlevel10k.git"
+)
+
+DRY_RUN=0
+ASSUME_YES=0
+
+show_help() {
+    cat <<EOF
+Usage: $SCRIPT_NAME [OPTIONS]
+
+Install packages and tools on macOS, then link the dotfiles with setup/setup.
+
+Options:
+  -h, --help           Show this help
+  -n, --dry-run        Show what would happen without changing anything
+  -y, --yes            Auto-confirm prompts (passed through to setup/setup)
+      --only STEPS     Run only these steps (comma-separated)
+      --skip STEPS     Skip these steps (comma-separated)
+      --with-macos     Also apply macOS settings (setup/macos)
+  -l, --list           List the steps
+
+Steps: ${DEFAULT_STEPS[*]} | optional: ${OPTIONAL_STEPS[*]}
+
+Examples:
+  $SCRIPT_NAME                      # full install
+  $SCRIPT_NAME --dry-run            # preview
+  $SCRIPT_NAME --only packages      # just run brew bundle
+  $SCRIPT_NAME --skip herdr,github  # everything except those
+EOF
+}
+
+########################################
+######## Steps
+########################################
+
+step_xcode() {
+    if xcode-select -p &>/dev/null; then
+        log_success "Xcode Command Line Tools already installed"
+        return 0
+    fi
+    run xcode-select --install
+    (( DRY_RUN )) && return 0
+    log_info "Finish the Command Line Tools installer window; waiting for it..."
+    until xcode-select -p &>/dev/null; do
+        sleep "$XCODE_WAIT_SECONDS"
+    done
+    log_success "Xcode Command Line Tools installed"
+}
+
+install_homebrew() {
+    /bin/bash -c "$(curl -fsSL "$HOMEBREW_INSTALL_URL")"
+}
+
+step_homebrew() {
+    if brew_bin &>/dev/null; then
+        log_success "Homebrew already installed"
+    else
+        run install_homebrew
+    fi
+    load_brew_env
+
+    local brew shellenv_line
+    if ! brew=$(brew_bin); then
+        (( DRY_RUN )) || die "brew not found after installing Homebrew"
+        return 0
+    fi
+    shellenv_line="eval \"\$($brew shellenv)\""
+    if [[ -f "$HOME/.zprofile" ]] && grep -qF "$shellenv_line" "$HOME/.zprofile"; then
+        log_success "~/.zprofile already loads Homebrew"
+    else
+        log_info "Adding Homebrew to ~/.zprofile"
+        (( DRY_RUN )) || print -r -- "$shellenv_line" >> "$HOME/.zprofile"
+    fi
+}
+
+step_packages() {
+    if ! have brew; then
+        (( DRY_RUN )) || die "Homebrew is required (run the homebrew step)"
+        log_info "[dry-run] brew bundle --file=$BREWFILE"
+        return 0
+    fi
+
+    if brew bundle check --no-upgrade --file="$BREWFILE" &>/dev/null; then
+        log_success "Everything in the Brewfile is installed"
+        return 0
+    fi
+    if (( DRY_RUN )); then
+        log_info "Missing from the Brewfile:"
+        brew bundle check --no-upgrade --file="$BREWFILE" --verbose || true
+        return 0
+    fi
+    brew bundle --no-upgrade --file="$BREWFILE"
+}
+
+install_herdr() {
+    curl -fsSL "$HERDR_INSTALL_URL" | sh
+}
+
+step_herdr() {
+    if [[ -d "$HERDR_APP" ]]; then
+        log_success "herdr already installed"
+        return 0
+    fi
+    run install_herdr
+}
+
+install_ohmyzsh() {
+    local installer
+    installer=$(mktemp)
+    curl -fsSL "$OMZ_INSTALL_URL" -o "$installer"
+    # Don't switch shells or start a new zsh (that would stop this script), and
+    # leave ~/.zshrc for setup/setup to manage.
+    RUNZSH=no CHSH=no KEEP_ZSHRC=yes sh "$installer" --unattended
+    rm -f "$installer"
+}
+
+step_ohmyzsh() {
+    if [[ -d "$OMZ_DIR" ]]; then
+        log_success "Oh My Zsh already installed"
+        return 0
+    fi
+    run install_ohmyzsh
+}
+
+step_zsh_plugins() {
+    local zsh_custom="${ZSH_CUSTOM:-$OMZ_DIR/custom}"
+    local entry subdir url dest
+    for entry in "${ZSH_CUSTOM_REPOS[@]}"; do
+        subdir=${entry%% *}
+        url=${entry#* }
+        dest="$zsh_custom/$subdir"
+        if [[ -d "$dest" ]]; then
+            log_success "${subdir:t} already installed"
+        else
+            run git clone --depth=1 "$url" "$dest"
+        fi
+    done
+}
+
+step_dotfiles() {
+    # --force backs up (never deletes) files that are in the way, e.g. the
+    # default ~/.zshrc Oh My Zsh creates. --full runs package setup scripts.
+    local -a args=(--force --full)
+    (( DRY_RUN )) && args+=(--dry-run)
+    (( ASSUME_YES )) && args+=(--yes)
+    "$SETUP_DIR/setup" "${args[@]}"
+}
+
+step_github() {
+    if ! have gh; then
+        (( DRY_RUN )) || die "gh is not installed (run the packages step)"
+        log_info "[dry-run] gh auth login"
+        return 0
+    fi
+    if gh auth status &>/dev/null; then
+        log_success "Already logged in to GitHub"
+        return 0
+    fi
+    run gh auth login
+}
+
+step_macos() {
+    local -a args=()
+    (( DRY_RUN )) && args+=(--dry-run)
+    "$SETUP_DIR/macos" "${args[@]}"
+}
+
+########################################
+######## Runner
+########################################
+
+# Run one step in a subshell with errexit on, so any failing command stops the
+# step. Returns the step's exit status.
+# NOTE: never call this from an if/||/&& - zsh turns errexit off for the whole
+# call chain of a condition, so failures inside the step would be ignored.
+run_step() {
+    setopt localoptions noerrexit
+    local step="$1"
+    log_step "$step"
+    ( setopt errexit; "step_$step" )
+    local rc=$?
+    load_brew_env   # pick up Homebrew if the step just installed it
+    return $rc
+}
+
+# Run steps in order; stop at the first failure
+run_steps() {
+    setopt localoptions noerrexit
+    local step rc
+    for step in "$@"; do
+        run_step "$step"
+        rc=$?
+        if (( rc != 0 )); then
+            log_error "Step '$step' failed. Fix the problem above and re-run $SCRIPT_NAME (finished steps are skipped)."
+            exit $rc
+        fi
+    done
+}
+
+# Turn "a,b" into an array, checking every name is a real step
+parse_steps() {
+    local csv="$1"
+    local -a names=(${(s:,:)csv})
+    local name
+    for name in "${names[@]}"; do
+        if (( ! ${DEFAULT_STEPS[(Ie)$name]} && ! ${OPTIONAL_STEPS[(Ie)$name]} )); then
+            die "Unknown step: '$name' (see --list)"
+        fi
+    done
+    print -r -- "${names[@]}"
+}
+
+print_next_steps() {
+    log_step "Manual steps left"
+    cat <<EOF
+  1. iTerm2: Settings > Profiles > Other Actions > Import JSON Profiles >
+     $REPO_DIR/config_exports/iTerm2/iterm2_default.json
+     (then set the font to "MesloLGS Nerd Font"; quit iTerm2 and run
+     config_exports/iTerm2/sync-keys from another terminal to sync keys)
+  2. System Settings > Keyboard > Keyboard Shortcuts > Mission Control:
+     turn off the Ctrl+Arrow shortcuts so they reach the terminal
+  3. Fill in machine-specific values in ~/.private-env
+  4. Sign in to the apps (Chrome, Slack, Spotify, Obsidian, OpenWhispr...)
+  5. Open a new terminal, then run: $SETUP_DIR/setup --doctor
+EOF
+}
+
+main() {
+    local only="" skip="" with_macos=0
+
+    while (( $# > 0 )); do
+        case "$1" in
+            -h|--help) show_help; exit 0 ;;
+            -n|--dry-run) DRY_RUN=1 ;;
+            -y|--yes) ASSUME_YES=1 ;;
+            -l|--list) print -r -- "Steps: ${DEFAULT_STEPS[*]}"; print -r -- "Optional: ${OPTIONAL_STEPS[*]}"; exit 0 ;;
+            --with-macos) with_macos=1 ;;
+            --only) [[ -n "${2:-}" ]] || die "--only needs a list of steps"; only="$2"; shift ;;
+            --only=*) only="${1#*=}" ;;
+            --skip) [[ -n "${2:-}" ]] || die "--skip needs a list of steps"; skip="$2"; shift ;;
+            --skip=*) skip="${1#*=}" ;;
+            *) log_error "Unknown argument: $1"; show_help; exit 1 ;;
+        esac
+        shift
+    done
+
+    [[ "$(uname -s)" == "Darwin" ]] || die "$SCRIPT_NAME only supports macOS"
+
+    local -a steps skip_steps
+    if [[ -n "$only" ]]; then
+        steps=($(parse_steps "$only"))
+    else
+        steps=("${DEFAULT_STEPS[@]}")
+        (( with_macos )) && steps+=("${OPTIONAL_STEPS[@]}")
+    fi
+    [[ -n "$skip" ]] && skip_steps=($(parse_steps "$skip"))
+    steps=(${steps:|skip_steps})
+
+    (( DRY_RUN )) && log_warn "DRY RUN - nothing will be changed"
+    log_info "Steps: ${steps[*]}"
+    load_brew_env
+
+    run_steps "${steps[@]}"
+
+    log_step "Done"
+    log_success "Install complete"
+    (( DRY_RUN )) || print_next_steps
+}
+
+main "$@"
