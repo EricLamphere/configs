@@ -21,7 +21,7 @@ export PATH="$PATH:$POSITRON_PATH"
 
 # misc
 export PATH=$HOME/bin:$PATH
-export PATH=$HOME/.local/bin:$PATH
+# export PATH=$HOME/.local/bin:$PATH
 
 # rust / cargo
 [[ -f "$HOME/.cargo/env" ]] && . "$HOME/.cargo/env"
@@ -125,9 +125,9 @@ typeset -g POWERLEVEL9K_INSTANT_PROMPT=quiet
 
 
 # Added by dbt Fusion extension (ensure dbt binary dir on PATH)
-if [[ ":$PATH:" != *":/Users/eric/.local/bin:"* ]]; then
-  export PATH=/Users/eric/.local/bin:"$PATH"
-fi
+# if [[ ":$PATH:" != *":/Users/eric/.local/bin:"* ]]; then
+#   export PATH=/Users/eric/.local/bin:"$PATH"
+# fi
 # Added by dbt Fusion extension
 alias dbtf=/Users/eric/.local/bin/dbt
 
@@ -136,6 +136,3 @@ if [[ -f /Users/eric/.dae-deploy-scripts/zshrc-helper/zshrc-helper.zsh ]]; then
 	source /Users/eric/.dae-deploy-scripts/zshrc-helper/zshrc-helper.zsh
 fi
 
-
-# Added by dbt installer
-export PATH="$PATH:/Users/eric/.local/bin"
