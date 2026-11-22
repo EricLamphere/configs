@@ -35,11 +35,18 @@
       }
     }
   },
+  "feedbackDrafts": "notify",
   "alwaysThinkingEnabled": false,
   "awaySummaryEnabled": false,
   "tui": "fullscreen",
+  "prefersReducedMotion": false,
   "autoCompactEnabled": false,
+  "switchModelsOnFlag": false,
   "autoMode": {
+    "soft_deny": [
+      "$defaults",
+      "Bash(git push:*) in lamphere-labs sibling checkout — repo docs state pushing to lamphere-labs main deploys the live marketing site; this repo's own trusted-repo scope does not extend to it"
+    ],
     "environment": [
       "### Org-wide",
       "**Organization**: None configured",
@@ -66,10 +73,6 @@
       "**Trusted repo**: github.com:EricLamphere/wickd.git (this repo, public) — sibling repos `wickd-pro` and `lamphere-labs` are referenced in repo docs (CLAUDE.md, related-repos.md) as private sibling checkouts at `../wickd-pro` and `../lamphere-labs`, but sibling repo docs were NOT GATHERED this run, so their contents/visibility are unverified provenance and are omitted from Trusted repo scope here",
       "**Org-specific CLIs**: None configured — `task` (Taskfile) is the project's own build tool, not an org-specific CLI",
       "routine under this repo's working directory is standard dev activity (backend/, frontend/, docs/, .claude/) per the recon"
-    ],
-    "soft_deny": [
-      "$defaults",
-      "Bash(git push:*) in lamphere-labs sibling checkout — repo docs state pushing to lamphere-labs main deploys the live marketing site; this repo's own trusted-repo scope does not extend to it"
     ]
   }
 }
